@@ -38,9 +38,16 @@ public class FunctionSymbolic  {
     private FunctionSymbolic(iFunctionSymbolic impl){
         this.impl = impl;
     }
-    public void set(String name, List<MultivectorSymbolic> parameters, 
+    public void setSymbolic(String name, List<MultivectorSymbolic> parameters, 
                                          List<MultivectorSymbolic> returns) {
-        impl.set(name, parameters.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)),  
+        impl.setSymbolic(name, parameters.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)),  
+                          returns.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)));
+        this.name = name;
+        this.arity = parameters.size();
+    }
+    public void setNumeric(String name, List<MultivectorSymbolic> parameters, 
+                                         List<MultivectorNumeric> returns) {
+        impl.setSymbolic(name, parameters.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)),  
                           returns.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)));
         this.name = name;
         this.arity = parameters.size();
