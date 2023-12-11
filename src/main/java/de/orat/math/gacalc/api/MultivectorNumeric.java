@@ -15,7 +15,7 @@ public class MultivectorNumeric {
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
-     }
+    }
     
     private MultivectorNumeric(iMultivectorNumeric impl){
         this.impl = impl;
