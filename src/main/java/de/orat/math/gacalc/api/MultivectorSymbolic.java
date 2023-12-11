@@ -120,7 +120,7 @@ public class MultivectorSymbolic {
      * @param b
      * @return a + b
      */
-    public MultivectorSymbolic add(MultivectorSymbolic b) throws Exception {
+    public MultivectorSymbolic add(MultivectorSymbolic b)/* throws Exception */{
         return get(impl.add(b.impl));
     }
 

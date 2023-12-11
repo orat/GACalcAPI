@@ -29,7 +29,7 @@ public class FunctionSymbolic  {
         }
     }
 
-    public static FunctionSymbolic get(iFunctionSymbolic impl) throws Exception {
+    public static FunctionSymbolic get(iFunctionSymbolic impl){ /*throws Exception */
         FunctionSymbolic result = new FunctionSymbolic(impl);
         Callback callback = new Callback(result);
         impl.init(callback);

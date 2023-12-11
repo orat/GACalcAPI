@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface iFunctionSymbolic {
     
-    public void init(Callback callback) throws Exception;
+    public void init(Callback callback)/* throws */;
     public String toString();
     
     public void set(String name, List<iMultivectorSymbolic> parameters, 
