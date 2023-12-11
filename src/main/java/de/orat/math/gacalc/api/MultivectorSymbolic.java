@@ -80,7 +80,7 @@ public class MultivectorSymbolic {
         return get(impl.involute());
     }
     
-    public MultivectorSymbolic op(MultivectorSymbolic b) throws Exception {
+    public MultivectorSymbolic op(MultivectorSymbolic b) {
         return get(impl.op(b.impl));
     }
 
@@ -108,7 +108,7 @@ public class MultivectorSymbolic {
      * @return a | b
      */
     public MultivectorSymbolic dot(MultivectorSymbolic b) throws Exception {
-         return get(impl.dot(b.impl));
+        return get(impl.dot(b.impl));
     }
 
     /**
