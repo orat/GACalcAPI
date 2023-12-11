@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.MultivectorSymbolic.Callback;
+import de.orat.math.sparsematrix.ColumnVectorSparsity;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -10,6 +11,10 @@ public interface iMultivectorSymbolic {
     public void init(Callback callback);
     public String toString();
      
+    public ColumnVectorSparsity getSparsity();
+    
+    // operators
+    
     public iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
     
     public iMultivectorSymbolic reverse();

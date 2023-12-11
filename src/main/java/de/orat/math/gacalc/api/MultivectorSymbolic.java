@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iMultivectorSymbolic;
+import de.orat.math.sparsematrix.ColumnVectorSparsity;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -34,6 +35,9 @@ public class MultivectorSymbolic {
         }
     }
     
+    
+    // operators
+    
     public MultivectorSymbolic gp(MultivectorSymbolic rhs) throws Exception {
         return get(impl.gp(rhs.impl));
     }
@@ -54,7 +58,6 @@ public class MultivectorSymbolic {
         return get(impl.dual());
     }
 
-
     /**
      * Conjugate.
      *
@@ -66,7 +69,6 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic conjugate() throws Exception{
         return get(impl.conjugate());
     }
-
 
     /**
      * Involute.
@@ -83,7 +85,6 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic op(MultivectorSymbolic b) {
         return get(impl.op(b.impl));
     }
-
 
     /**
      * Vee.
@@ -169,6 +170,11 @@ public class MultivectorSymbolic {
         return get(impl.normalized());
     }
     
+    //--------------
+    
+    public ColumnVectorSparsity getSparsity(){
+        return impl.getSparsity();
+    }
     
     @Override
     public String toString() {

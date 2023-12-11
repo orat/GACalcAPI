@@ -2,6 +2,8 @@ package util;
 
 import de.orat.math.ga.matrix.utils.CayleyTable;
 import de.orat.math.sparsematrix.DenseDoubleMatrix;
+import de.orat.math.sparsematrix.MatrixSparsity;
+import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import static java.lang.Math.pow;
 
 /**
@@ -9,14 +11,15 @@ import static java.lang.Math.pow;
  */
 public class OperatorMatrixUtils {
     
-    public static DenseDoubleMatrix createReversionOperatorMatrix(CayleyTable cayleyTable){
+    public static SparseDoubleMatrix createReversionOperatorMatrix(CayleyTable cayleyTable){
         int size = cayleyTable.getBladesCount();
-        DenseDoubleMatrix result = new DenseDoubleMatrix(size, size);
+        MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
+        double[] nonzeros = new double[size];
         for (int i=0;i<size;i++){
             int gradei = cayleyTable.getGrade(i);
             double exp = gradei*(gradei-1)*0.5;
-            result.setValue(i,i, pow(-1d, exp));
+            nonzeros[i] = pow(-1d, exp);
         }
-        return result;
+        return new SparseDoubleMatrix(sparsity, nonzeros);
     }
 }
