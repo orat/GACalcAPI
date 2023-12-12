@@ -1,6 +1,5 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iFunctionSymbolic;
 import de.orat.math.gacalc.spi.iMultivectorNumeric;
 
 /**
@@ -38,9 +37,12 @@ public class MultivectorNumeric {
         
     }
     
+    public double[] elements(){
+        return impl.elements();
+    }
+    
     @Override
     public String toString() {
         return impl.toString();
-        //return this.dm.toString();
     }
 }

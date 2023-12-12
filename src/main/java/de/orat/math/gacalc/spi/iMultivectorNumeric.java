@@ -9,4 +9,6 @@ public interface iMultivectorNumeric {
     
     public void init(Callback callback);
     public String toString();
+    
+    public double[] elements();
 }

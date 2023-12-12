@@ -38,11 +38,11 @@ public class MultivectorSymbolic {
     
     // operators
     
-    public MultivectorSymbolic gp(MultivectorSymbolic rhs) throws Exception {
+    public MultivectorSymbolic gp(MultivectorSymbolic rhs) {
         return get(impl.gp(rhs.impl));
     }
 
-    public MultivectorSymbolic reverse() throws Exception{
+    public MultivectorSymbolic reverse() {
         return get(impl.reverse());
     }
 
