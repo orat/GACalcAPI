@@ -1,5 +1,7 @@
 package util;
 
+import java.util.List;
+
 /**
  *
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -39,7 +41,7 @@ public class Algebra {
               .sort((a,b)=>(a.toString().length==b.toString().length)?(a>b?1:b>a?-1:0):a.toString().length-b.toString().length) // => ["", "1", "2", "3", "12", "13", "23", "123"] (sorted numerically)
               .map(x=>x&&'e'+(x.replace(/./g,x=>('0'+(x.charCodeAt(0)-65)).slice(tot>9?-2:-1) ))||'1')                          // => ["1", "e1", "e2", "e3", "e12", "e13", "e23", "e123"] (converted to commonly used basis names)
     */
-    public String[] createBladeNames(String[] baseNames){
+    public String[] createBladeNames(List<String> baseNames){
         String[] result = new String[(int) Math.pow(2, tot())];
         /*var basis=(options.basis&&(options.basis.length==2**tot||r<0||options.Cayley)&&options.basis)||[...Array(2**tot)]           // => [undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined]
               .map((x,xi)=>(((1<<30)+xi).toString(2)).slice(-tot||-1)                                                           // => ["000", "001", "010", "011", "100", "101", "110", "111"]  (index of array in base 2)

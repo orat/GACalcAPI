@@ -11,8 +11,8 @@ public class FunctionSymbolic  {
 
     final iFunctionSymbolic impl;
     
-    protected String name;
-    protected int arity;
+    final protected String name;
+    final protected int arity;
 
     public static final class Callback {
 
@@ -29,28 +29,23 @@ public class FunctionSymbolic  {
         }
     }
 
-    public static FunctionSymbolic get(iFunctionSymbolic impl){ /*throws Exception */
-        FunctionSymbolic result = new FunctionSymbolic(impl);
+    public static FunctionSymbolic get(iFunctionSymbolic impl, String name, List<MultivectorSymbolic> parameters, 
+                                         List<MultivectorSymbolic> returns){ /*throws Exception */
+        FunctionSymbolic result = new FunctionSymbolic(impl, name, parameters.size());
         Callback callback = new Callback(result);
         impl.init(callback);
+        set(impl, name, parameters, returns);
         return result;
     }
-    private FunctionSymbolic(iFunctionSymbolic impl){
+    private FunctionSymbolic(iFunctionSymbolic impl, String name, int arity){
         this.impl = impl;
+        this.name = name;
+        this.arity = arity;
     }
-    public void setSymbolic(String name, List<MultivectorSymbolic> parameters, 
+    private static void set(iFunctionSymbolic impl, String name, List<MultivectorSymbolic> parameters, 
                                          List<MultivectorSymbolic> returns) {
         impl.set(name, parameters.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)),  
                           returns.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)));
-        this.name = name;
-        this.arity = parameters.size();
-    }
-    public void setNumeric(String name, List<MultivectorSymbolic> parameters, 
-                                         List<MultivectorNumeric> returns) {
-        impl.set(name, parameters.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)),  
-                          returns.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)));
-        this.name = name;
-        this.arity = parameters.size();
     }
 
     public String getName() {

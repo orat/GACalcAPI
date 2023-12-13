@@ -54,7 +54,7 @@ public class MultivectorSymbolic {
      * @param a
      * @return !a
      */
-    public MultivectorSymbolic dual() throws Exception{
+    public MultivectorSymbolic dual() {
         return get(impl.dual());
     }
 
@@ -66,7 +66,7 @@ public class MultivectorSymbolic {
      * @param a
      * @return a.Conjugate()
      */
-    public MultivectorSymbolic conjugate() throws Exception{
+    public MultivectorSymbolic conjugate() {
         return get(impl.conjugate());
     }
 
@@ -78,7 +78,7 @@ public class MultivectorSymbolic {
      * @param a
      * @return a.Involute()
      */
-    public MultivectorSymbolic involute() throws Exception {
+    public MultivectorSymbolic involute()  {
         return get(impl.involute());
     }
     
@@ -95,7 +95,7 @@ public class MultivectorSymbolic {
      * @param b
      * @return a & b
      */
-    public MultivectorSymbolic vee (MultivectorSymbolic b) throws Exception {
+    public MultivectorSymbolic vee (MultivectorSymbolic b)  {
         return get(impl.vee(b.impl));
     }
 
@@ -108,7 +108,7 @@ public class MultivectorSymbolic {
      * @param b
      * @return a | b
      */
-    public MultivectorSymbolic dot(MultivectorSymbolic b) throws Exception {
+    public MultivectorSymbolic dot(MultivectorSymbolic b) {
         return get(impl.dot(b.impl));
     }
 
