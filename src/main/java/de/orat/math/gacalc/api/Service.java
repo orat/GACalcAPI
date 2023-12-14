@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 
 /**
- *
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class Service {
