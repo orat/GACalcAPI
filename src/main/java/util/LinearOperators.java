@@ -1,6 +1,5 @@
 package util;
 
-import de.orat.math.ga.matrix.utils.CayleyTable;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import static java.lang.Math.pow;

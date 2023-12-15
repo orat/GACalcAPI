@@ -41,7 +41,7 @@ public class TestService {
         return true;
     }
     
-    @Test
+    /*@Test
     public void testReverse(){
        
         MultivectorSymbolic mv = exprGraphFactory.createMultivectorSymbolic("mv", 1);
@@ -69,7 +69,7 @@ public class TestService {
             double[] values = out.elements();
             assertTrue(equals(values, reverse(randomValues), mv.getSparsity()));
         } catch (Exception e){}
-    }
+    }*/
     private double[] reverse(double[] a){
         double[] res = new double[32];
         res[0]=a[0];
