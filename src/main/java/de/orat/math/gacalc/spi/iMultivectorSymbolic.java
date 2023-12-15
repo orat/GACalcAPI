@@ -11,7 +11,10 @@ public interface iMultivectorSymbolic {
     public void init(Callback callback);
     public String toString();
      
+    public String getName();
+    
     public ColumnVectorSparsity getSparsity();
+    
     
     // operators
     

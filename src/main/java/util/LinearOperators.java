@@ -4,6 +4,8 @@ import de.orat.math.ga.matrix.utils.CayleyTable;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import static java.lang.Math.pow;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -20,6 +22,28 @@ public class LinearOperators {
             nonzeros[i] = pow(-1d, exp);
         }
         return new SparseDoubleMatrix(sparsity, nonzeros);
+    }
+    
+    public static SparseDoubleMatrix createGradeSelectionOperatorMatrix(CayleyTable cayleyTable, int grade){
+        int size = cayleyTable.getBladesCount();
+        double[] values = new double[size];
+        for (int i=0;i<size;i++){
+            int gradei = cayleyTable.getGrade(i);
+            if (gradei == grade){
+                values[i] = 1;
+            }
+        }
+        MatrixSparsity sparsity = MatrixSparsity.diagonal(values);
+        return new SparseDoubleMatrix(sparsity, nonzeros(values));
+    }
+    private static double[] nonzeros(double[] values){
+        List<Double> nonzeros = new ArrayList<>();
+        for (int i=0;i<values.length;i++){
+            if (values[i] != 0){
+                nonzeros.add(values[i]);
+            }
+        }
+        return nonzeros.stream().mapToDouble(d -> d).toArray();
     }
     
     /**

@@ -134,7 +134,7 @@ public class MultivectorSymbolic {
      * @param b
      * @return a - b
      */
-    public MultivectorSymbolic sub(MultivectorSymbolic b) throws Exception {
+    public MultivectorSymbolic sub(MultivectorSymbolic b) {
         return get(impl.sub(b.impl));
     }
 
@@ -179,5 +179,9 @@ public class MultivectorSymbolic {
     @Override
     public String toString() {
         return impl.toString();
+    }
+    
+    public String getName(){
+        return impl.getName();
     }
 }
