@@ -1,6 +1,5 @@
 package util.cga;
 
-import static util.cga.CGACayleyTable.CGABasisBladeNames;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +9,10 @@ import java.util.List;
  */
 public class CGAMultivectorSparsity extends ColumnVectorSparsity {
     
+    private static CGACayleyTable cgaCayleyTable = CGACayleyTableGeometricProduct.instance();
+    
     public static CGAMultivectorSparsity dense(){
-        return new CGAMultivectorSparsity(createDenseRows(CGABasisBladeNames.length));
+        return new CGAMultivectorSparsity(createDenseRows(cgaCayleyTable.getBladesCount()));
     }
     
     /**
@@ -20,7 +21,7 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
      * @param nonzeros nonzeros indizes of the nonzeros
      */
     public CGAMultivectorSparsity(int[] nonzeros) {
-        super(CGABasisBladeNames.length, nonzeros);
+        super(cgaCayleyTable.getBladesCount(), nonzeros);
     }
     
     public CGAMultivectorSparsity(double[] values) {
@@ -28,14 +29,14 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
     }
     
     public CGAMultivectorSparsity(ColumnVectorSparsity sparsity){
-        super(CGABasisBladeNames.length, sparsity.getrow());
-        if (sparsity.getn_row() != CGACayleyTable.CGABasisBladeNames.length){
+        super(cgaCayleyTable.getBladesCount(), sparsity.getrow());
+        if (sparsity.getn_row() != cgaCayleyTable.getBladesCount()){
             throw new IllegalArgumentException("The column vector sparsity argument has not the needed length to reprsent a CGA multivector!");
         }
     }
      
     public CGAMultivectorSparsity intersect(CGAMultivectorSparsity sparsity){
-        return new CGAMultivectorSparsity(super.intersect(sparsity));
+        return new CGAMultivectorSparsity(super.meet(sparsity));
     }
     public int[] getGrades(){
         List<Integer> grades = new ArrayList<>();

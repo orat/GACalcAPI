@@ -21,7 +21,7 @@ import util.CayleyTable;
  */
 public abstract class CGACayleyTable extends CayleyTable {
  
-    public final static String[] CGABasisBladeNames = new String[]{
+    private final static String[] CGABasisBladeNames = new String[]{
         "1",     "e1",    "e2",    "e3",
         "e4",    "e5",    "e12",   "e13",
         "e14",   "e15",   "e23",   "e24",

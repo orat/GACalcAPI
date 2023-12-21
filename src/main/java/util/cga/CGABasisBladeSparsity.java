@@ -1,7 +1,5 @@
 package util.cga;
 
-import de.orat.math.sparsematrix.ColumnVectorSparsity;
-
 /**
   * @author Oliver Rettig (Oliver.Rettig@orat.de)
   */

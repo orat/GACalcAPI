@@ -1,30 +1,37 @@
 package util.cga;
 
-import util.cga.CGAMultivectorSparsity;
-import util.cga.SparseCGAColumnVector;
-import de.orat.math.gacalc.api.MultivectorNumeric;
 import org.jogamp.vecmath.Point3d;
 import org.jogamp.vecmath.Tuple3d;
 import org.jogamp.vecmath.Vector3d;
 
 /**
- * MultivectorNumeric kann leicht aus SparseCGAColumnVector mt der iExprGraphFactory erzeugt werden
+ * MultivectorNumeric kann leicht aus SparseCGAColumnVector mit der 
+ * iExprGraphFactory erzeugt werden.
  * 
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public class CGAMultivectorNumericFactory {
+public class SparseCGAColumnVectorFactory {
+    
+    private static final CGACayleyTable cgaCayleyTable = CGACayleyTableGeometricProduct.instance();
     
     // aus Arguments class de.dhbw.rahmlab.geomalgelang.api;
     //TODO
-    
+    private static CGAMultivectorSparsity euclideanVectorSparsity = 
+            new CGAMultivectorSparsity(new int[]{
+             cgaCayleyTable.getBasisBladeRow("e1"),
+             cgaCayleyTable.getBasisBladeRow("e2"),
+             cgaCayleyTable.getBasisBladeRow("e3"),
+    });
     public static SparseCGAColumnVector euclidean_vector(Tuple3d tuple3d) {
         // createEx(v.x).add(createEy(v.y)).add(createEz(v.z)
-        CGAMultivectorSparsity sparsity = new CGAMultivectorSparsity(new int[]{1,2,3});
-        return new SparseCGAColumnVector(sparsity, new double[]{tuple3d.x, tuple3d.y, tuple3d.z});
+        return new SparseCGAColumnVector(euclideanVectorSparsity, 
+                new double[]{tuple3d.x, tuple3d.y, tuple3d.z});
     }
 
     public static SparseCGAColumnVector euclidean_bivector(Vector3d v1, Vector3d v2) {
         //var mvec = new CGAEuclideanBivector(v1, v2);
+        //ColumnVectorSparsity sparsity
+        //CGACayleyTable.
         throw new RuntimeException("not yet implemented!");
     }
 
@@ -43,14 +50,23 @@ public class CGAMultivectorNumericFactory {
         //var mvec = new CGABoolean(bool);
         throw new RuntimeException("not yet implemented!");
     }
+    private static CGAMultivectorSparsity roundPointIPNSSparsity = 
+            new CGAMultivectorSparsity(new int[]{
+             cgaCayleyTable.getBasisBladeRow("e1"),
+             cgaCayleyTable.getBasisBladeRow("e2"),
+             cgaCayleyTable.getBasisBladeRow("e3"),
+             cgaCayleyTable.getBasisBladeRow("e4"),
+             cgaCayleyTable.getBasisBladeRow("e5"),
+    });
     public static SparseCGAColumnVector createRoundPointIPNS(Point3d point){
-        throw new RuntimeException("not yet implemented!");
+        CGAMultivectorSparsity sparsity = roundPointIPNSSparsity;
         /*CGAMultivector result = (o
                 .add(createEx(p.x))
                 .add(createEy(p.y))
                 .add(createEz(p.z))
                 .add(createInf(0.5*(p.x*p.x+p.y*p.y+p.z*p.z)))).gp(weight);
         return result;*/
+        throw new RuntimeException("not yet implemented!");
     }
     public static SparseCGAColumnVector round_point_opns(Point3d point) {
         //var mvec = new CGARoundPointOPNS(point);

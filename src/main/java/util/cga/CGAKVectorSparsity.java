@@ -1,6 +1,5 @@
 package util.cga;
 
-import static util.cga.CGACayleyTable.CGABasisBladeNames;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import java.util.ArrayList;
@@ -11,6 +10,8 @@ import java.util.Map;
   * @author Oliver Rettig (Oliver.Rettig@orat.de)
   */
 public class CGAKVectorSparsity extends CGAMultivectorSparsity {
+    
+    private static CGACayleyTable cgaCayleyTable = CGACayleyTableGeometricProduct.instance();
     
     public static Map<Integer, CGAKVectorSparsity> map = new HashMap<>();
     private int grade = -1;
@@ -82,7 +83,7 @@ public class CGAKVectorSparsity extends CGAMultivectorSparsity {
         //super(CGABasisBladeNames.length, 1, new int[]{0,colind(grade)}, rows(CGABasisBladeNames, 
         //      grade, colind(grade)));
         
-        super(rows(CGABasisBladeNames, 
+        super(rows(cgaCayleyTable.getBasisBladeNames(), 
               grade, colind(grade)));
         this.grade = grade;
     }
