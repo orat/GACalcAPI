@@ -18,10 +18,17 @@ public interface iMultivectorSymbolic {
     
     // operators
     
+    public int grade();
+    public iMultivectorSymbolic gradeSelection(int grade);
+    
     public iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
     
     public iMultivectorSymbolic reverse();
+    
+    public iMultivectorSymbolic gradeInversion();
 
+    public iMultivectorSymbolic pseudoscalar();
+    public iMultivectorSymbolic inversePseudoscalar();
 
     /**
      * Dual.
@@ -31,7 +38,9 @@ public interface iMultivectorSymbolic {
      * @param a
      * @return !a
      */
-    public iMultivectorSymbolic dual();
+    default iMultivectorSymbolic dual(){
+        return lc(inversePseudoscalar());
+    }
 
 
     /**
@@ -44,18 +53,27 @@ public interface iMultivectorSymbolic {
      */
     public iMultivectorSymbolic conjugate();
 
-
+    // implementation works only for k-vectors
+    // was tun, wenn die grade-summe größer als max grade/pseuscalar-grade?
+    // max grade so oft abziehen bis < maxgrade erreicht wird, add(grade a, grade b)
+    // in Cayleytable hinzufügen?
+    default iMultivectorSymbolic op(iMultivectorSymbolic b){
+        return gp(b).gradeSelection(grade()+b.grade());
+    }
+    
     /**
-     * Involute.
-     *
-     * Main involution
+     * left contraction.
      *
      * @param a
-     * @return a.Involute()
+     * @param b
+     * @return a | b
      */
-    public iMultivectorSymbolic involute();
-    
-    public iMultivectorSymbolic op(iMultivectorSymbolic b);
+    default iMultivectorSymbolic lc (iMultivectorSymbolic b){
+        return gp(b).gradeSelection(b.grade()-grade());
+    }
+    default iMultivectorSymbolic rc (iMultivectorSymbolic b){
+        return gp(b).gradeSelection(grade()-b.grade());
+    }
 
     /**
      * Vee.
@@ -69,17 +87,6 @@ public interface iMultivectorSymbolic {
     public iMultivectorSymbolic vee (iMultivectorSymbolic b);
 
 
-    /**
-     * Dot.
-     *
-     * The inner product.
-     *
-     * @param a
-     * @param b
-     * @return a | b
-     */
-    public iMultivectorSymbolic dot (iMultivectorSymbolic b);
-    
     /**
      * Add.
      *

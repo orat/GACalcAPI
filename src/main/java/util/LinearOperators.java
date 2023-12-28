@@ -23,6 +23,31 @@ public class LinearOperators {
         return new SparseDoubleMatrix(sparsity, nonzeros);
     }
     
+    // clifford conjugation
+    public static SparseDoubleMatrix createConjugationOperatorMatrix(CayleyTable cayleyTable){
+        int size = cayleyTable.getBladesCount();
+        MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
+        double[] nonzeros = new double[size];
+        for (int i=0;i<size;i++){
+            int gradei = cayleyTable.getGrade(i);
+            double exp = gradei*(gradei+1)*0.5;
+            nonzeros[i] = pow(-1d, exp);
+        }
+        return new SparseDoubleMatrix(sparsity, nonzeros);
+    }
+    
+    // grade involution
+    public static SparseDoubleMatrix createInvolutionOperatorMatrix(CayleyTable cayleyTable){
+        int size = cayleyTable.getBladesCount();
+        MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
+        double[] nonzeros = new double[size];
+        for (int i=0;i<size;i++){
+            int gradei = cayleyTable.getGrade(i);
+            nonzeros[i] = pow(-1d, gradei);
+        }
+        return new SparseDoubleMatrix(sparsity, nonzeros);
+    }
+    
     public static SparseDoubleMatrix createGradeSelectionOperatorMatrix(CayleyTable cayleyTable, int grade){
         int size = cayleyTable.getBladesCount();
         double[] values = new double[size];
@@ -35,6 +60,9 @@ public class LinearOperators {
         MatrixSparsity sparsity = MatrixSparsity.diagonal(values);
         return new SparseDoubleMatrix(sparsity, nonzeros(values));
     }
+    
+    
+    
     private static double[] nonzeros(double[] values){
         List<Double> nonzeros = new ArrayList<>();
         for (int i=0;i<values.length;i++){

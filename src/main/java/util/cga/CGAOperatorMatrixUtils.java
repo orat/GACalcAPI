@@ -13,6 +13,8 @@ public class CGAOperatorMatrixUtils extends LinearOperators {
     
     private final CayleyTable cayleyTable;
     private static SparseDoubleMatrix reversionOperatorMatrix;
+    private static SparseDoubleMatrix involutionOperatorMatrix;
+    private static SparseDoubleMatrix conjugationOperatorMatrix;
     
     public CGAOperatorMatrixUtils(CayleyTable cayleyTable){
         this.cayleyTable = cayleyTable;
@@ -23,5 +25,19 @@ public class CGAOperatorMatrixUtils extends LinearOperators {
             reversionOperatorMatrix = createReversionOperatorMatrix(cayleyTable);
         }
         return reversionOperatorMatrix;
+    }
+    
+    public SparseDoubleMatrix getInvoluteOperatorMatrix(){
+        if (involutionOperatorMatrix == null){
+            involutionOperatorMatrix = createInvolutionOperatorMatrix(cayleyTable);
+        }
+        return involutionOperatorMatrix;
+    }
+    
+    public SparseDoubleMatrix getConjugationOperatorMatrix(){
+        if (conjugationOperatorMatrix == null){
+            conjugationOperatorMatrix = createConjugationOperatorMatrix(cayleyTable);
+        }
+        return conjugationOperatorMatrix;
     }
 }

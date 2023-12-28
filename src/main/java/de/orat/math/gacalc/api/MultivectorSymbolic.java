@@ -78,8 +78,8 @@ public class MultivectorSymbolic {
      * @param a
      * @return a.Involute()
      */
-    public MultivectorSymbolic involute()  {
-        return get(impl.involute());
+    public MultivectorSymbolic gradeInversion()  {
+        return get(impl.gradeInversion());
     }
     
     public MultivectorSymbolic op(MultivectorSymbolic b) {
@@ -108,8 +108,8 @@ public class MultivectorSymbolic {
      * @param b
      * @return a | b
      */
-    public MultivectorSymbolic dot(MultivectorSymbolic b) {
-        return get(impl.dot(b.impl));
+    public MultivectorSymbolic lc(MultivectorSymbolic b) {
+        return get(impl.lc(b.impl));
     }
 
     /**

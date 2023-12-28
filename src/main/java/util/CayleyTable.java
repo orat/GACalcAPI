@@ -50,6 +50,16 @@ public class CayleyTable extends DenseStringMatrix {
     public int getBladesCount(){
         return names.size();
     }
+    public /*static*/ int getGrade(int index){
+        return getBasisBladeName(index).length()-1;
+    }
+    public /*static*/ String getBasisBladeName(int index){
+        return names.get(index);
+    }
+    // The pseudoscalar is always the last element
+    public String getPseudoscalarName(){
+        return names.get(names.size()-1);
+    }
     
     /**
      * Get the row in the column vector of basis blades for the given basis blade name.
@@ -216,8 +226,8 @@ public class CayleyTable extends DenseStringMatrix {
         return null;
     }
     
-    public int getGrade(int index){
+    /*public int getGrade(int index){
         return getBasisBladeNames()[index].length()-1;
-    }
+    }*/
     
 }

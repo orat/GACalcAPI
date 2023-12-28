@@ -1,7 +1,6 @@
 package util.cga;
 
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
-import de.orat.math.sparsematrix.MatrixSparsity;
 
 /**
  *

@@ -50,7 +50,4 @@ public abstract class CGACayleyTable extends CayleyTable {
         return result.stream().mapToInt(d -> d).toArray();
     }
     
-    public static String getBasisBladeName(int index){
-        return CGABasisBladeNames[index];
-    }
 }
