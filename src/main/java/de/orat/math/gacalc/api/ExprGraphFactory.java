@@ -4,6 +4,7 @@ import de.orat.math.gacalc.spi.iExprGraphFactory;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.List;
+import util.cga.SparseCGAColumnVectorFactory;
 
 public final class ExprGraphFactory {
 
@@ -94,6 +95,72 @@ public final class ExprGraphFactory {
 	}
 
 	//======================================================
-	// New methods
+	// Symbolic scalar
 	//======================================================
+	public MultivectorSymbolic createScalarLiteral(String name, double scalar) {
+		return this.createMultivectorSymbolic(name, SparseCGAColumnVectorFactory.scalar_ipns(scalar));
+	}
+
+	//======================================================
+	// Symbolic constants
+	//======================================================
+	public MultivectorSymbolic createBaseVectorOrigin() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorInfinity() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorX() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorY() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorZ() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createEpsilonPlus() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createEpsilonMinus() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorInfinityDorst() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorOriginDorst() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorInfinityDoran() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createBaseVectorOriginDoran() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createPi() {
+		return this.createScalarLiteral("Pi", Math.PI);
+	}
+
+	public MultivectorSymbolic createMinkovskyBiVector() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createEuclideanPseudoscalar() {
+		throw new UnsupportedOperationException();
+	}
+
+	public MultivectorSymbolic createPseudoscalar() {
+		throw new UnsupportedOperationException();
+	}
 }
