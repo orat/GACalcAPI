@@ -104,63 +104,93 @@ public final class ExprGraphFactory {
 	//======================================================
 	// Symbolic constants
 	//======================================================
-	public MultivectorSymbolic createBaseVectorOrigin() {
+	public final MultivectorSymbolic baseVectorOrigin = createBaseVectorOrigin();
+
+	protected MultivectorSymbolic createBaseVectorOrigin() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorInfinity() {
+	public final MultivectorSymbolic baseVectorInfinity = createBaseVectorInfinity();
+
+	protected MultivectorSymbolic createBaseVectorInfinity() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorX() {
+	public final MultivectorSymbolic baseVectorX = createBaseVectorX();
+
+	protected MultivectorSymbolic createBaseVectorX() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorY() {
+	public final MultivectorSymbolic baseVectorY = createBaseVectorY();
+
+	protected MultivectorSymbolic createBaseVectorY() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorZ() {
+	public final MultivectorSymbolic baseVectorZ = createBaseVectorZ();
+
+	protected MultivectorSymbolic createBaseVectorZ() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createEpsilonPlus() {
+	public final MultivectorSymbolic epsilonPlus = createEpsilonPlus();
+
+	protected MultivectorSymbolic createEpsilonPlus() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createEpsilonMinus() {
+	public final MultivectorSymbolic epsilonMinus = createEpsilonMinus();
+
+	protected MultivectorSymbolic createEpsilonMinus() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorInfinityDorst() {
+	public final MultivectorSymbolic baseVectorInfinityDorst = createBaseVectorInfinityDorst();
+
+	protected MultivectorSymbolic createBaseVectorInfinityDorst() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorOriginDorst() {
+	public final MultivectorSymbolic baseVectorOriginDorst = createBaseVectorOriginDorst();
+
+	protected MultivectorSymbolic createBaseVectorOriginDorst() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorInfinityDoran() {
+	public final MultivectorSymbolic baseVectorInfinityDoran = createBaseVectorInfinityDoran();
+
+	protected MultivectorSymbolic createBaseVectorInfinityDoran() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createBaseVectorOriginDoran() {
+	public final MultivectorSymbolic baseVectorOriginDoran = createBaseVectorOriginDoran();
+
+	protected MultivectorSymbolic createBaseVectorOriginDoran() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createPi() {
+	public final MultivectorSymbolic pi = createPi();
+
+	protected MultivectorSymbolic createPi() {
 		return this.createScalarLiteral("Pi", Math.PI);
 	}
 
-	public MultivectorSymbolic createMinkovskyBiVector() {
+	public final MultivectorSymbolic minkovskyBiVector = createMinkovskyBiVector();
+
+	protected MultivectorSymbolic createMinkovskyBiVector() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createEuclideanPseudoscalar() {
+	public final MultivectorSymbolic euclideanPseudoscalar = createEuclideanPseudoscalar();
+
+	protected MultivectorSymbolic createEuclideanPseudoscalar() {
 		throw new UnsupportedOperationException();
 	}
 
-	public MultivectorSymbolic createPseudoscalar() {
+	public final MultivectorSymbolic pseudoscalar = createPseudoscalar();
+
+	protected MultivectorSymbolic createPseudoscalar() {
 		throw new UnsupportedOperationException();
 	}
 }
