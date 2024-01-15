@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iExprGraphFactory;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
@@ -30,5 +31,9 @@ public final class GAExprGraphFactoryService {
 	// mit beliebigen Algebren Rpqr umgehen kann
 	public Optional<ExprGraphFactory> getExprGraphFactory() {
 		return loader.findFirst().map(impl -> ExprGraphFactory.get(impl));
+	}
+
+	public static ExprGraphFactory getExprGraphFactoryThrowing() throws NoSuchElementException {
+		return GAExprGraphFactoryService.instance().getExprGraphFactory().orElseThrow();
 	}
 }
