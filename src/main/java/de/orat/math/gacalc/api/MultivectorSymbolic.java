@@ -6,7 +6,7 @@ import de.orat.math.sparsematrix.ColumnVectorSparsity;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public final class MultivectorSymbolic {
+public class MultivectorSymbolic {
 
 	protected final iMultivectorSymbolic impl;
 
@@ -17,7 +17,7 @@ public final class MultivectorSymbolic {
 		return result;
 	}
 
-	private MultivectorSymbolic(iMultivectorSymbolic impl) {
+	protected MultivectorSymbolic(iMultivectorSymbolic impl) {
 		this.impl = impl;
 	}
 
