@@ -57,6 +57,10 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic dual() {
         return get(impl.dual());
     }
+    
+    public MultivectorSymbolic gradeSelection(int grade){
+        return get(impl.gradeSelection(grade));
+    }
 
     /**
      * Conjugate.
@@ -138,7 +142,8 @@ public class MultivectorSymbolic {
         return get(impl.sub(b.impl));
     }
 
-    // macht vermutlich nur Sinn für scalars
+    // wer braucht das überhaupt?
+    //FIXME
     public MultivectorSymbolic mul(MultivectorSymbolic b) throws Exception {
         return get(impl.mul(b.impl));
     }

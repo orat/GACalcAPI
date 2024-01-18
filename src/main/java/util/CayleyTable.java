@@ -53,6 +53,7 @@ public class CayleyTable extends DenseStringMatrix {
     public /*static*/ int getGrade(int index){
         return getBasisBladeName(index).length()-1;
     }
+   
     public /*static*/ String getBasisBladeName(int index){
         return names.get(index);
     }
@@ -60,7 +61,20 @@ public class CayleyTable extends DenseStringMatrix {
     public String getPseudoscalarName(){
         return names.get(names.size()-1);
     }
-    
+    public int getPseudoscalarGrade(){
+        return getGrade(names.size()-1);
+    }
+    //FIXME
+    // unklar ob das so stimmt, oder ob ich nicht -1 zurückliefern muss sobald
+    // max grade überschritten wird
+    public int addGrades(int grade_a, int grade_b){
+        int maxGrade = getPseudoscalarGrade();
+        int result = grade_a + grade_b;
+        while (result > maxGrade){
+            result -= maxGrade;
+        }
+        return result;
+    }
     /**
      * Get the row in the column vector of basis blades for the given basis blade name.
      * 
@@ -225,9 +239,4 @@ public class CayleyTable extends DenseStringMatrix {
         //TODO
         return null;
     }
-    
-    /*public int getGrade(int index){
-        return getBasisBladeNames()[index].length()-1;
-    }*/
-    
 }

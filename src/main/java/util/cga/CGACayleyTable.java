@@ -39,7 +39,6 @@ public abstract class CGACayleyTable extends CayleyTable {
         super(cgaTable, CGABasisBladeNames);
     }
     
-    
     public static int[] getIndizes(int grade){
         List<Integer> result = new ArrayList<>();
         for (int i=0;i<CGABasisBladeNames.length;i++){

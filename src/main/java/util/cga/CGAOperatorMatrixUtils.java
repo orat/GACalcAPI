@@ -12,6 +12,7 @@ import util.LinearOperators;
 public class CGAOperatorMatrixUtils extends LinearOperators {
     
     private final CayleyTable cayleyTable;
+    private static SparseDoubleMatrix scalarMultiplicationOperatorMatrix;
     private static SparseDoubleMatrix reversionOperatorMatrix;
     private static SparseDoubleMatrix involutionOperatorMatrix;
     private static SparseDoubleMatrix conjugationOperatorMatrix;
@@ -20,6 +21,12 @@ public class CGAOperatorMatrixUtils extends LinearOperators {
         this.cayleyTable = cayleyTable;
     }
     
+    public SparseDoubleMatrix getScalarMultiplicationOperatorMatrix(double s){
+        if (scalarMultiplicationOperatorMatrix == null){
+            scalarMultiplicationOperatorMatrix = createScalarMultiplicationMatrix(cayleyTable, s);
+        }
+        return scalarMultiplicationOperatorMatrix;
+    }
     public SparseDoubleMatrix getReversionOperatorMatrix(){
         if (reversionOperatorMatrix == null){
             reversionOperatorMatrix = createReversionOperatorMatrix(cayleyTable);
