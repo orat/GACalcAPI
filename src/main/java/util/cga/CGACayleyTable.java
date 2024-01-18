@@ -4,7 +4,6 @@ package util.cga;
 import java.util.ArrayList;
 import java.util.List;
 import util.CayleyTable;
-//import util.CayleyTable;
 
 /**
  * https://discourse.bivector.net/t/matrix-representation/232/4
@@ -13,8 +12,9 @@ import util.CayleyTable;
  * 
  * make GEN_LANG="java" cga<p>
  * 
- * The brackets are substituted with the replace-functionality of the editor.
+ * The brackets are substituted with the replace-functionality of the editor.<p>
  *
+ * Closure implementation of ga multivectors, maybe helpful:<br>
  * https://gitlab.com/jordibc/geometric-algebra/-/tree/main?ref_type=heads
  * 
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -48,5 +48,4 @@ public abstract class CGACayleyTable extends CayleyTable {
         }
         return result.stream().mapToInt(d -> d).toArray();
     }
-    
 }
