@@ -10,11 +10,14 @@ public interface iFunctionSymbolic {
 
 	void init(Callback callback)/* throws */;
 
+	String getName();
+
+	int getArity();
+
+	int getResultCount();
+
 	@Override
 	String toString();
-
-	void set(String name, List<iMultivectorSymbolic> parameters,
-		List<iMultivectorSymbolic> returns);
 
 	List<iMultivectorSymbolic> callSymbolic(List<iMultivectorSymbolic> arguments);
 

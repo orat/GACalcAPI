@@ -10,7 +10,7 @@ public class MultivectorSymbolic {
 
 	protected final iMultivectorSymbolic impl;
 
-	public static MultivectorSymbolic get(iMultivectorSymbolic impl) {
+	protected static MultivectorSymbolic get(iMultivectorSymbolic impl) {
 		MultivectorSymbolic result = new MultivectorSymbolic(impl);
 		Callback callback = new Callback(result);
 		impl.init(callback);

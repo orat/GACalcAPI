@@ -6,7 +6,7 @@ import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.List;
 import util.cga.SparseCGAColumnVectorFactory;
 
-public final class ExprGraphFactory {
+public class ExprGraphFactory {
 
 	//======================================================
 	// SPI boilerplate code
@@ -20,7 +20,7 @@ public final class ExprGraphFactory {
 		return result;
 	}
 
-	private ExprGraphFactory(iExprGraphFactory impl) {
+	protected ExprGraphFactory(iExprGraphFactory impl) {
 		this.impl = impl;
 	}
 
@@ -51,38 +51,38 @@ public final class ExprGraphFactory {
 	}
 
 	public MultivectorSymbolic createMultivectorSymbolic(String name) {
-		return impl.createMultivectorSymbolic(name);
+		return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name));
 	}
 
 	public MultivectorSymbolic createMultivectorSymbolic(String name, ColumnVectorSparsity sparsity) {
-		return impl.createMultivectorSymbolic(name, sparsity);
+		return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparsity));
 	}
 
 	public MultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleColumnVector sparseVector) {
-		return impl.createMultivectorSymbolic(name, sparseVector);
+		return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparseVector));
 	}
 
 	public MultivectorSymbolic createMultivectorSymbolic(String name, int grade) {
-		return impl.createMultivectorSymbolic(name, grade);
-	}
-
-	public MultivectorNumeric createMultivectorNumeric(double[] values) {
-		return impl.createMultivectorNumeric(values);
+		return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, grade));
 	}
 
 	/**
 	 * Create a numeric multivector. Sparsity is created from zero values.
 	 */
+	public MultivectorNumeric createMultivectorNumeric(double[] values) {
+		return MultivectorNumeric.get(impl.createMultivectorNumeric(values));
+	}
+
 	public MultivectorNumeric createMultivectorNumeric(double[] nonzeros, SparseDoubleColumnVector sparsity) {
-		return impl.createMultivectorNumeric(nonzeros, sparsity);
+		return MultivectorNumeric.get(impl.createMultivectorNumeric(nonzeros, sparsity));
 	}
 
 	public MultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows) {
-		return impl.createMultivectorNumeric(nonzeros, rows);
+		return MultivectorNumeric.get(impl.createMultivectorNumeric(nonzeros, rows));
 	}
 
 	public MultivectorNumeric createRandomMultivectorNumeric() {
-		return impl.createRandomMultivectorNumeric();
+		return MultivectorNumeric.get(impl.createRandomMultivectorNumeric());
 	}
 
 	public double[] createRandomCGAMultivector() {
@@ -91,7 +91,9 @@ public final class ExprGraphFactory {
 
 	public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorSymbolic> parameters,
 		List<MultivectorSymbolic> returns) {
-		return impl.createFunctionSymbolic(name, parameters, returns);
+		var iParameters = parameters.stream().map(mvs -> mvs.impl).toList();
+		var iReturns = returns.stream().map(mvs -> mvs.impl).toList();
+		return FunctionSymbolic.get(impl.createFunctionSymbolic(name, iParameters, iReturns));
 	}
 
 	//======================================================

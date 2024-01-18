@@ -5,18 +5,18 @@ import de.orat.math.gacalc.spi.iMultivectorNumeric;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public final class MultivectorNumeric {
+public class MultivectorNumeric {
 
 	protected final iMultivectorNumeric impl;
 
-	public static MultivectorNumeric get(iMultivectorNumeric impl) {
+	protected static MultivectorNumeric get(iMultivectorNumeric impl) {
 		MultivectorNumeric result = new MultivectorNumeric(impl);
 		Callback callback = new Callback(result);
 		impl.init(callback);
 		return result;
 	}
 
-	private MultivectorNumeric(iMultivectorNumeric impl) {
+	protected MultivectorNumeric(iMultivectorNumeric impl) {
 		this.impl = impl;
 	}
 
