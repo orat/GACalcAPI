@@ -13,7 +13,7 @@ public interface iFunctionSymbolic {
     public void init(Callback callback)/* throws */;
     public String toString();
     
-    public void set(String name, List<iMultivectorSymbolic> parameters, 
+    public void set(/*String name,*/ List<iMultivectorSymbolic> parameters, 
                                          List<iMultivectorSymbolic> returns);
     
     public List<iMultivectorSymbolic> callSymbolic(List<iMultivectorSymbolic> arguments);
