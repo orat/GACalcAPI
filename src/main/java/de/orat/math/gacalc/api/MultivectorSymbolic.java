@@ -8,6 +8,7 @@ import de.orat.math.sparsematrix.ColumnVectorSparsity;
  */
 public class MultivectorSymbolic {
 
+    // muss ich nun ärgerlichereise public machen
     final iMultivectorSymbolic impl;
     
     public static MultivectorSymbolic get(iMultivectorSymbolic impl) {
@@ -30,9 +31,6 @@ public class MultivectorSymbolic {
         
         //TODO
         // add methods needed by the spi implementation
-        public iMultivectorSymbolic getImpl(){
-            return api.impl;
-        }
     }
     
     

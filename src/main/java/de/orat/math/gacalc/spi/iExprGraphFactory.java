@@ -34,7 +34,5 @@ public interface iExprGraphFactory {
     public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorSymbolic> parameters,
                                            List<MultivectorSymbolic> returns);
     
-   
-    
     public double[] createRandomCGAMultivector();
 }

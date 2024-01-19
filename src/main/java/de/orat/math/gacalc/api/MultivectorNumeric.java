@@ -15,7 +15,6 @@ public class MultivectorNumeric {
         impl.init(callback);
         return result;
     }
-    
     private MultivectorNumeric(iMultivectorNumeric impl){
         this.impl = impl;
     }
@@ -30,10 +29,6 @@ public class MultivectorNumeric {
         
         //TODO
         // add methods needed by the spi implementation
-        
-        public iMultivectorNumeric getImpl(){
-            return api.impl;
-        }
         
     }
     
