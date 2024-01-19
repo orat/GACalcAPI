@@ -8,56 +8,56 @@ import util.CayleyTable;
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public interface iMultivectorSymbolic {
-    
-    public void init(Callback callback);
-    public String toString();
-     
-    public String getName();
-    
-    public iMultivectorSymbolic zeroInstance();
-    
-    public ColumnVectorSparsity getSparsity();
-    
-    public CayleyTable getCayleyTable();
-    
-    
-    // operators
-    
-    public int grade();
-    public int[] grades();
-    
-    public iMultivectorSymbolic gradeSelection(int grade);
-    
-    public iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
-    public iMultivectorSymbolic gp(double s);
-    
-    public iMultivectorSymbolic reverse();
-    
-    public iMultivectorSymbolic gradeInversion();
 
-    public iMultivectorSymbolic pseudoscalar();
-    public iMultivectorSymbolic inversePseudoscalar();
+	void init(Callback callback);
 
-    /**
-     * Poincare duality.
-     *
-     * @param a
-     * @return !a
-     */
-    default iMultivectorSymbolic dual(){
-        return lc(inversePseudoscalar());
-    }
+	@Override
+	String toString();
 
+	String getName();
 
-    /**
-     * Clifford Conjugation.
-     *
-     * @param a
-     * @return a.Conjugate()
-     */
-    public iMultivectorSymbolic conjugate();
+	ColumnVectorSparsity getSparsity();
 
-    default iMultivectorSymbolic op(iMultivectorSymbolic b){
+	// operators
+	int grade();
+  int[] grades();
+
+	iMultivectorSymbolic gradeSelection(int grade);
+
+	iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
+  //public iMultivectorSymbolic gp(double s);
+  
+	iMultivectorSymbolic reverse();
+
+	iMultivectorSymbolic gradeInversion();
+
+	iMultivectorSymbolic pseudoscalar();
+
+	iMultivectorSymbolic inversePseudoscalar();
+
+	/**
+	 * Dual.
+	 *
+	 * Poincare duality operator.
+	 *
+	 * @param a
+	 * @return !a
+	 */
+	default iMultivectorSymbolic dual() {
+		return lc(inversePseudoscalar());
+	}
+
+	/**
+	 * Conjugate.
+	 *
+	 * Clifford Conjugation
+	 *
+	 * @param a
+	 * @return a.Conjugate()
+	 */
+	iMultivectorSymbolic conjugate();
+
+	default iMultivectorSymbolic op(iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = zeroInstance(); // scheint dense zu sein
@@ -81,8 +81,8 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }
-    
-    /**
+
+	/**
      * Left contraction.
      *
      * @param a
@@ -118,7 +118,8 @@ public interface iMultivectorSymbolic {
         return result;
     }
 
-    /**
+
+	/**
      * The regressive product. (JOIN)
      *
      * @param a
@@ -129,17 +130,18 @@ public interface iMultivectorSymbolic {
          return dual().op(b.dual()).dual().gp(-1);
     }
 
+	/**
+	 * Add.
+	 *
+	 * Multivector addition
+	 *
+	 * @param a
+	 * @param b
+	 * @return a + b
+	 */
+	iMultivectorSymbolic add(iMultivectorSymbolic b);
 
-    /**
-     * Multivector addition.
-     *
-     * @param a
-     * @param b
-     * @return a + b
-     */
-    public iMultivectorSymbolic add (iMultivectorSymbolic b);
-
-    /**
+	/**
      * Multivector subtraction.
      *
      * @param a
@@ -150,25 +152,33 @@ public interface iMultivectorSymbolic {
         return add(b.gp(-1d));
     }
 
-    // macht vermutlich nur Sinn für scalars
-    //FIXME
-    // brauche ich das wirklich?
-    public iMultivectorSymbolic mul(iMultivectorSymbolic b);
-    
-    /**
-     * Calculate the Euclidean norm. (strict positive).
-     */
-    public iMultivectorSymbolic norm();
+	// macht vermutlich nur Sinn für scalars
+	iMultivectorSymbolic mul(iMultivectorSymbolic b);
 
-    /**
-     * Calculate the Ideal norm. (signed)
-     */
-    default iMultivectorSymbolic inorm() {
-        return dual().norm();
-    }
-    
-    /**
-     * Returns a normalized (Euclidean) element.
-     */
-    public iMultivectorSymbolic normalized();
+	/**
+	 * norm.
+	 *
+	 * Calculate the Euclidean norm. (strict positive).
+	 */
+	iMultivectorSymbolic norm();
+
+	/**
+	 * inorm.
+	 *
+	 * Calculate the Ideal norm. (signed)
+	 */
+	iMultivectorSymbolic inorm();
+
+	/**
+	 * normalized.
+	 *
+	 * Returns a normalized (Euclidean) element.
+	 */
+	iMultivectorSymbolic normalized();
+  
+    public iMultivectorSymbolic zeroInstance();
+   
+
+
+
 }
