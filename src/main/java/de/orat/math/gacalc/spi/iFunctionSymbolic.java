@@ -22,4 +22,17 @@ public interface iFunctionSymbolic {
 	List<iMultivectorSymbolic> callSymbolic(List<iMultivectorSymbolic> arguments);
 
 	List<iMultivectorNumeric> callNumeric(List<iMultivectorNumeric> arguments);
+
+  // old: warum keine set_method mehr?
+  // getName()/getArity() und getResultant() ist doch besser in der API aufgehoben?
+  /**
+    public void init(Callback callback)/* throws */;
+    public String toString();
+    
+    public void set(/*String name,*/ List<iMultivectorSymbolic> parameters, 
+                                         List<iMultivectorSymbolic> returns);
+    
+    public List<iMultivectorSymbolic> callSymbolic(List<iMultivectorSymbolic> arguments);
+    public List<iMultivectorNumeric> callNumeric(List<iMultivectorNumeric> arguments);
+*/
 }

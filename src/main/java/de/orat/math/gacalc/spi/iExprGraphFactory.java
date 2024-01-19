@@ -41,4 +41,5 @@ public interface iExprGraphFactory {
 		List<iMultivectorSymbolic> returns);
 
 	double[] createRandomCGAMultivector();
+  
 }

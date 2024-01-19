@@ -31,9 +31,6 @@ public class MultivectorSymbolic {
 
 		//TODO
 		// add methods needed by the spi implementation
-		public iMultivectorSymbolic getImpl() {
-			return api.impl;
-		}
 	}
 
 	//======================================================
@@ -346,4 +343,5 @@ public class MultivectorSymbolic {
 	public String getName() {
 		return impl.getName();
 	}
+ 
 }

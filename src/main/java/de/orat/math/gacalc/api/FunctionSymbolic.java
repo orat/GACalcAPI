@@ -23,16 +23,38 @@ public class FunctionSymbolic {
 
 		private final FunctionSymbolic api;
 
-		private Callback(FunctionSymbolic api) {
-			this.api = api;
-		}
+    Callback(FunctionSymbolic api){
+            this.api = api;
+    }
+        
+    //TODO
+    // add methods needed by the spi implementation
+        
+    public String getName(){
+            return api.getName();
+    }
+  }
 
-		//TODO
-		// add methods needed by the spi implementation
-		public iFunctionSymbolic getImpl() {
-			return api.impl;
-		}
-	}
+  public static FunctionSymbolic get(iFunctionSymbolic impl, String name, List<MultivectorSymbolic> parameters, 
+                                         List<MultivectorSymbolic> returns){ /*throws Exception */
+        FunctionSymbolic result = new FunctionSymbolic(impl, name, parameters.size());
+        Callback callback = new Callback(result);
+        impl.init(callback);
+        set(impl, /*name,*/ parameters, returns);
+        return result;
+  }
+  private FunctionSymbolic(iFunctionSymbolic impl, String name, int arity){
+        this.impl = impl;
+        this.name = name;
+        this.arity = arity;
+  }
+  private static void set(iFunctionSymbolic impl, /*String name,*/ List<MultivectorSymbolic> parameters, 
+                                         List<MultivectorSymbolic> returns) {
+        impl.set(/*name, */parameters.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)),  
+                          returns.stream().map(mvs -> ((iMultivectorSymbolic) mvs.impl)).collect(Collectors.toCollection(ArrayList::new)));
+  }
+ 
+
 
 	public String getName() {
 		return impl.getName();

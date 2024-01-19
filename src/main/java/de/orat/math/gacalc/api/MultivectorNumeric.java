@@ -30,9 +30,6 @@ public class MultivectorNumeric {
 
 		//TODO
 		// add methods needed by the spi implementation
-		public iMultivectorNumeric getImpl() {
-			return api.impl;
-		}
 
 	}
 

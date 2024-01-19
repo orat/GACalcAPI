@@ -11,6 +11,16 @@ import java.util.List;
  */
 public class LinearOperators {
     
+    public static SparseDoubleMatrix createScalarMultiplicationMatrix(CayleyTable cayleyTable, double s){
+        int size = cayleyTable.getBladesCount();
+        MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
+        double[] nonzeros = new double[size];
+        for (int i=0;i<size;i++){
+            nonzeros[i] = s;
+        }
+        return new SparseDoubleMatrix(sparsity, nonzeros);
+    }
+    
     public static SparseDoubleMatrix createReversionOperatorMatrix(CayleyTable cayleyTable){
         int size = cayleyTable.getBladesCount();
         MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
