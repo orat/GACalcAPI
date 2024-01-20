@@ -10,36 +10,36 @@ import java.util.List;
  */
 public interface iExprGraphFactory {
 
-	default void init(Callback callback) {
+    default void init(Callback callback) {
 
-	}
+    }
 
-	String getAlgebra();
+    String getAlgebra();
 
-	String getName();
+    String getName();
 
-	iMultivectorSymbolic createMultivectorSymbolic(String name, ColumnVectorSparsity sparsity);
+    iMultivectorSymbolic createMultivectorSymbolic(String name, ColumnVectorSparsity sparsity);
 
-	iMultivectorSymbolic createMultivectorSymbolic(String name);
+    iMultivectorSymbolic createMultivectorSymbolic(String name);
 
-	iMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleColumnVector sparseVector);
+    iMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleColumnVector sparseVector);
 
-	iMultivectorSymbolic createMultivectorSymbolic(String name, int grade);
+    iMultivectorSymbolic createMultivectorSymbolic(String name, int grade);
 
-	/**
-	 * Create a numeric multivector. Sparsity is created from zero values.
-	 */
-	iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, SparseDoubleColumnVector sparsity);
+    /**
+     * Create a numeric multivector. Sparsity is created from zero values.
+     */
+    iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, SparseDoubleColumnVector sparsity);
 
-	iMultivectorNumeric createMultivectorNumeric(double[] values);
+    iMultivectorNumeric createMultivectorNumeric(double[] values);
 
-	iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
+    iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
-	iMultivectorNumeric createRandomMultivectorNumeric();
+    iMultivectorNumeric createRandomMultivectorNumeric();
 
-	iFunctionSymbolic createFunctionSymbolic(String name, List<iMultivectorSymbolic> parameters,
-		List<iMultivectorSymbolic> returns);
+    iFunctionSymbolic createFunctionSymbolic(String name, List<iMultivectorSymbolic> parameters,
+            List<iMultivectorSymbolic> returns);
 
-	double[] createRandomCGAMultivector();
+    double[] createRandomCGAMultivector();
   
 }

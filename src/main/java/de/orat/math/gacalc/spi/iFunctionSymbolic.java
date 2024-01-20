@@ -8,31 +8,17 @@ import java.util.List;
  */
 public interface iFunctionSymbolic {
 
-	void init(Callback callback)/* throws */;
+    void init(Callback callback);
 
-	String getName();
+    String getName();
 
-	int getArity();
+    int getArity();
 
-	int getResultCount();
+    int getResultCount();
 
-	@Override
-	String toString();
+    @Override
+    String toString();
 
-	List<iMultivectorSymbolic> callSymbolic(List<iMultivectorSymbolic> arguments);
-
-	List<iMultivectorNumeric> callNumeric(List<iMultivectorNumeric> arguments);
-
-  // old: warum keine set_method mehr?
-  // getName()/getArity() und getResultant() ist doch besser in der API aufgehoben?
-  /**
-    public void init(Callback callback)/* throws */;
-    public String toString();
-    
-    public void set(/*String name,*/ List<iMultivectorSymbolic> parameters, 
-                                         List<iMultivectorSymbolic> returns);
-    
-    public List<iMultivectorSymbolic> callSymbolic(List<iMultivectorSymbolic> arguments);
-    public List<iMultivectorNumeric> callNumeric(List<iMultivectorNumeric> arguments);
-*/
+    List<iMultivectorSymbolic> callSymbolic(List<iMultivectorSymbolic> arguments);
+    List<iMultivectorNumeric> callNumeric(List<iMultivectorNumeric> arguments);
 }
