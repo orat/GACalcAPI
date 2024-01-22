@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.ExprGraphFactory.Callback;
+import de.orat.math.gacalc.api.MultivectorSymbolic;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.List;
@@ -29,7 +30,7 @@ public interface iExprGraphFactory {
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
      */
-    iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, SparseDoubleColumnVector sparsity);
+    iMultivectorNumeric createMultivectorNumeric(SparseDoubleColumnVector vec);
 
     iMultivectorNumeric createMultivectorNumeric(double[] values);
 
@@ -41,5 +42,28 @@ public interface iExprGraphFactory {
             List<iMultivectorSymbolic> returns);
 
     double[] createRandomCGAMultivector();
+    
+    
+    // create constants
+    
+    iMultivectorSymbolic createBaseVectorOrigin();
+
+    iMultivectorSymbolic createBaseVectorInfinity();
+
+    iMultivectorSymbolic createBaseVectorX();
+
+    iMultivectorSymbolic createBaseVectorY();
+
+    iMultivectorSymbolic createBaseVectorZ();
+
+    iMultivectorSymbolic createEpsilonPlus();
+
+    iMultivectorSymbolic createEpsilonMinus();
+    
+    iMultivectorSymbolic createMinkovskyBiVector();
+
+    iMultivectorSymbolic createEuclideanPseudoscalar();
+
+    iMultivectorSymbolic createPseudoscalar();
   
 }

@@ -46,6 +46,10 @@ public class MultivectorSymbolic {
         return get(impl.gp(rhs.impl));
     }
 
+    /*public MultivectorSymbolic geometricProduct(double scalar) {
+        return get(impl.gp(scalar));
+    }*/
+    
     /**
      * outer product (join, span for no common subspace)
      *
@@ -113,7 +117,7 @@ public class MultivectorSymbolic {
      * @return this / rhs
      */
     public MultivectorSymbolic division(MultivectorSymbolic rhs) {
-        throw new UnsupportedOperationException();
+        return geometricProduct(rhs.generalInverse());
     }
 
     //======================================================
@@ -132,6 +136,9 @@ public class MultivectorSymbolic {
         return this.leftContraction(rhs);
     }
 
+    
+    // non linear operators
+    
     /**
      * meet (intersection) = largest common subspace
      *
@@ -152,6 +159,35 @@ public class MultivectorSymbolic {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * exponential
+     *
+     * @return exp(this)
+     */
+    public MultivectorSymbolic exp() {
+            throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * square root
+     *
+     * @return sqrt(this)
+     */
+    public MultivectorSymbolic sqrt() {
+            throw new UnsupportedOperationException();
+    }
+
+    /**
+     * arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
+     * as the couterclockwise angle in radians between -pi and pi of the point (x,y) to the positive x-axis.)
+     *
+     * @param rhs
+     * @return atan2(this, rhs)
+     */
+    public MultivectorSymbolic atan2(MultivectorSymbolic rhs) {
+            throw new UnsupportedOperationException();
+    }
+    
     //======================================================
     // Base 1-ary operators
     //======================================================
@@ -170,7 +206,7 @@ public class MultivectorSymbolic {
      * @return this⁻¹
      */
     public MultivectorSymbolic generalInverse() {
-        throw new UnsupportedOperationException();
+        return get(impl.generalInverse());
     }
 
     /**
@@ -183,7 +219,7 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * reverse/adjoint: reverse all multiplications (a sign change operation)
+     * Reverse/adjoint: reverse all multiplications (a sign change operation)
      *
      * @return this˜
      */
@@ -192,7 +228,7 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * clifford conjugate (a sign change operation)
+     * Clifford conjugate (a sign change operation)
      *
      * @return this†
      */
@@ -209,7 +245,7 @@ public class MultivectorSymbolic {
      * @return this⁻*
      */
     public MultivectorSymbolic undual() {
-            throw new UnsupportedOperationException();
+        return get(impl.undual());
     }
 
     /**
@@ -246,14 +282,7 @@ public class MultivectorSymbolic {
     //======================================================
     // Built-in functions
     //======================================================
-    /**
-     * exponential
-     *
-     * @return exp(this)
-     */
-    public MultivectorSymbolic exp() {
-            throw new UnsupportedOperationException();
-    }
+    
 
     /**
      * Returns a normalized (Euclidean) element.
@@ -262,9 +291,13 @@ public class MultivectorSymbolic {
      * @throws java.lang.Exception
      */
     public MultivectorSymbolic normalize() throws Exception {
-            return get(impl.normalized());
+        return get(impl.normalized());
     }
 
+    /*public double scalarPart(){
+        return impl.scalarPart();
+    }*/
+    
     /**
      * absolute value if this is a scalar
      *
@@ -274,25 +307,6 @@ public class MultivectorSymbolic {
             throw new UnsupportedOperationException();
     }
 
-    /**
-     * square root
-     *
-     * @return sqrt(this)
-     */
-    public MultivectorSymbolic sqrt() {
-            throw new UnsupportedOperationException();
-    }
-
-    /**
-     * arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
-     * as the couterclockwise angle in radians between -pi and pi of the point (x,y) to the positive x-axis.)
-     *
-     * @param rhs
-     * @return atan2(this, rhs)
-     */
-    public MultivectorSymbolic atan2(MultivectorSymbolic rhs) {
-            throw new UnsupportedOperationException();
-    }
 
     /**
      * Negate the signs of the vector- and 4-vector parts of an multivector. 
@@ -320,7 +334,7 @@ public class MultivectorSymbolic {
      * Calculate the Euclidean norm. (strict positive).
      */
     public MultivectorSymbolic norm() throws Exception {
-            return get(impl.norm());
+        return get(impl.norm());
     }
 
     /**
@@ -333,17 +347,17 @@ public class MultivectorSymbolic {
     }
 
     //--------------
+    
     public ColumnVectorSparsity getSparsity() {
-            return impl.getSparsity();
+        return impl.getSparsity();
     }
 
     @Override
     public String toString() {
-            return impl.toString();
+        return impl.toString();
     }
 
     public String getName() {
-            return impl.getName();
+        return impl.getName();
     }
- 
 }

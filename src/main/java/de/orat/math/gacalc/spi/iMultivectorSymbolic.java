@@ -1,5 +1,6 @@
 package de.orat.math.gacalc.spi;
 
+import de.orat.math.gacalc.api.MultivectorSymbolic;
 import de.orat.math.gacalc.api.MultivectorSymbolic.Callback;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import util.CayleyTable;
@@ -44,9 +45,15 @@ public interface iMultivectorSymbolic {
      * @return !a
      */
     default iMultivectorSymbolic dual() {
-            return lc(inversePseudoscalar());
+        return lc(inversePseudoscalar());
     }
+    
+    // da könnte ich eine default imll zur Verfügung stellen die abhängig von der
+    // basis/metric das richtigen Vorzeichen liefert
+    iMultivectorSymbolic undual();
 
+    iMultivectorSymbolic generalInverse();
+    
     /**
      * Conjugate.
      *
@@ -178,6 +185,8 @@ public interface iMultivectorSymbolic {
   
     public iMultivectorSymbolic zeroInstance();
     
+    public iMultivectorSymbolic negate14();
+    
     /**
      * Get the Cayley-Table for the geometric product.
      * 
@@ -185,4 +194,5 @@ public interface iMultivectorSymbolic {
      */
     public CayleyTable getCayleyTable();
    
+    public double scalarPart();
 }

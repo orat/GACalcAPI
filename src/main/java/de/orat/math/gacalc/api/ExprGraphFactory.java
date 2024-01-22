@@ -74,8 +74,8 @@ public class ExprGraphFactory {
             return MultivectorNumeric.get(impl.createMultivectorNumeric(values));
     }
 
-    public MultivectorNumeric createMultivectorNumeric(double[] nonzeros, SparseDoubleColumnVector sparsity) {
-            return MultivectorNumeric.get(impl.createMultivectorNumeric(nonzeros, sparsity));
+    public MultivectorNumeric createMultivectorNumeric(SparseDoubleColumnVector vec) {
+            return MultivectorNumeric.get(impl.createMultivectorNumeric(vec.nonzeros(), vec.getSparsity().getrow()));
     }
 
     public MultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows) {
@@ -101,50 +101,52 @@ public class ExprGraphFactory {
     // Symbolic scalar
     //======================================================
     public MultivectorSymbolic createScalarLiteral(String name, double scalar) {
-            return this.createMultivectorSymbolic(name, SparseCGAColumnVectorFactory.scalar_ipns(scalar));
+        return this.createMultivectorSymbolic(name, SparseCGAColumnVectorFactory.scalar_ipns(scalar));
     }
 
+    
     //======================================================
     // Symbolic constants
     //======================================================
+    
     // public final MultivectorSymbolic baseVectorOrigin = createBaseVectorOrigin();
     protected MultivectorSymbolic createBaseVectorOrigin() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createBaseVectorOrigin());
     }
 
     // public final MultivectorSymbolic baseVectorInfinity = createBaseVectorInfinity();
     protected MultivectorSymbolic createBaseVectorInfinity() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createBaseVectorInfinity());
     }
 
     // public final MultivectorSymbolic baseVectorX = createBaseVectorX();
     protected MultivectorSymbolic createBaseVectorX() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createBaseVectorX());
     }
 
     // public final MultivectorSymbolic baseVectorY = createBaseVectorY();
     protected MultivectorSymbolic createBaseVectorY() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createBaseVectorY());
     }
 
     // public final MultivectorSymbolic baseVectorZ = createBaseVectorZ();
     protected MultivectorSymbolic createBaseVectorZ() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createBaseVectorZ());
     }
 
     // public final MultivectorSymbolic epsilonPlus = createEpsilonPlus();
     protected MultivectorSymbolic createEpsilonPlus() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createEpsilonPlus());
     }
 
     // public final MultivectorSymbolic epsilonMinus = createEpsilonMinus();
     protected MultivectorSymbolic createEpsilonMinus() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createEpsilonMinus());
     }
 
     // public final MultivectorSymbolic baseVectorInfinityDorst = createBaseVectorInfinityDorst();
     protected MultivectorSymbolic createBaseVectorInfinityDorst() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createMinkovskyBiVector());
     }
 
     // public final MultivectorSymbolic baseVectorOriginDorst = createBaseVectorOriginDorst();
@@ -162,23 +164,22 @@ public class ExprGraphFactory {
             throw new UnsupportedOperationException();
     }
 
-    //public final MultivectorSymbolic pi = createPi();
     protected MultivectorSymbolic createPi() {
-            return this.createScalarLiteral("Pi", Math.PI);
+        return this.createScalarLiteral("Pi", Math.PI);
     }
 
     // public final MultivectorSymbolic minkovskyBiVector = createMinkovskyBiVector();
     protected MultivectorSymbolic createMinkovskyBiVector() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createMinkovskyBiVector());
     }
 
     // public final MultivectorSymbolic euclideanPseudoscalar = createEuclideanPseudoscalar();
     protected MultivectorSymbolic createEuclideanPseudoscalar() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createEuclideanPseudoscalar());
     }
 
     // public final MultivectorSymbolic pseudoscalar = createPseudoscalar();
     protected MultivectorSymbolic createPseudoscalar() {
-            throw new UnsupportedOperationException();
+        return MultivectorSymbolic.get(impl.createPseudoscalar());
     }
 }
