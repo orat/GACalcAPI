@@ -12,5 +12,14 @@ public interface iMultivectorNumeric {
     @Override
     String toString();
 
+    //TODO
+    // ich brauche hier doch auch sparsity
+    
     double[] elements();
+    
+    //TODO
+    // vermutlich brauche ich hier alle möglichen Operatoren aus iMultivectorSymbolic
+    // um z.B. die Methoden in SparseCGAColumnVectorFactory implementieren zu können 
+    
+    iMultivectorNumeric op(iMultivectorNumeric mv);
 }

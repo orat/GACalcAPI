@@ -165,7 +165,7 @@ public class MultivectorSymbolic {
      * @return exp(this)
      */
     public MultivectorSymbolic exp() {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
     
     /**
@@ -174,7 +174,7 @@ public class MultivectorSymbolic {
      * @return sqrt(this)
      */
     public MultivectorSymbolic sqrt() {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -185,7 +185,7 @@ public class MultivectorSymbolic {
      * @return atan2(this, rhs)
      */
     public MultivectorSymbolic atan2(MultivectorSymbolic rhs) {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
     
     //======================================================
@@ -197,7 +197,7 @@ public class MultivectorSymbolic {
      * @return -this
      */
     public MultivectorSymbolic negate() {
-        throw new UnsupportedOperationException();
+        return get(impl.gp(-1));
     }
 
     /**
@@ -301,10 +301,12 @@ public class MultivectorSymbolic {
     /**
      * absolute value if this is a scalar
      *
+     * Wer braucht das überhaupt? ja
+     * 
      * @return abs(this)
      */
     public MultivectorSymbolic abs() {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("not yet implemented!");
     }
 
 
@@ -316,7 +318,7 @@ public class MultivectorSymbolic {
      * @return negatate14(this)
      */
     public MultivectorSymbolic negate14() {
-            throw new UnsupportedOperationException();
+        return get(impl.negate14());
     }
 
     //======================================================

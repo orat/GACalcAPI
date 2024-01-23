@@ -22,14 +22,14 @@ public class MultivectorNumeric {
 
 	public static final class Callback {
 
-		private final MultivectorNumeric api;
+            private final MultivectorNumeric api;
 
-		private Callback(MultivectorNumeric api) {
-			this.api = api;
-		}
+            private Callback(MultivectorNumeric api) {
+                    this.api = api;
+            }
 
-		//TODO
-		// add methods needed by the spi implementation
+            //TODO
+            // add methods needed by the spi implementation
 
 	}
 

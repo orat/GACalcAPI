@@ -5,6 +5,7 @@ import de.orat.math.gacalc.api.MultivectorSymbolic;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.List;
+import org.jogamp.vecmath.Tuple3d;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -46,24 +47,28 @@ public interface iExprGraphFactory {
     
     // create constants
     
-    iMultivectorSymbolic createBaseVectorOrigin();
+    SparseDoubleColumnVector createBaseVectorOrigin(double scalor);
 
-    iMultivectorSymbolic createBaseVectorInfinity();
+    SparseDoubleColumnVector createBaseVectorInfinity(double scalar);
 
-    iMultivectorSymbolic createBaseVectorX();
+    SparseDoubleColumnVector createBaseVectorX(double scalar);
 
-    iMultivectorSymbolic createBaseVectorY();
+    SparseDoubleColumnVector createBaseVectorY(double scalar);
 
-    iMultivectorSymbolic createBaseVectorZ();
-
-    iMultivectorSymbolic createEpsilonPlus();
-
-    iMultivectorSymbolic createEpsilonMinus();
+    SparseDoubleColumnVector createBaseVectorZ(double scalar);
     
-    iMultivectorSymbolic createMinkovskyBiVector();
+    SparseDoubleColumnVector createE(Tuple3d tuple3d);
 
-    iMultivectorSymbolic createEuclideanPseudoscalar();
+    SparseDoubleColumnVector createEpsilonPlus();
 
-    iMultivectorSymbolic createPseudoscalar();
+    SparseDoubleColumnVector createEpsilonMinus();
+    
+    SparseDoubleColumnVector createMinkovskyBiVector();
+
+    SparseDoubleColumnVector createEuclideanPseudoscalar();
+
+    SparseDoubleColumnVector createPseudoscalar();
+    
+    iEuclideanTypeConverter getEuclideanTypeConverter();
   
 }

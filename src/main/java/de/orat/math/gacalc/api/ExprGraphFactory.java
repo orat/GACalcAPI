@@ -4,7 +4,10 @@ import de.orat.math.gacalc.spi.iExprGraphFactory;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.List;
-import util.cga.SparseCGAColumnVectorFactory;
+//import de.orat.math.cgacasadi.impl.SparseCGAColumnVectorFactory;
+import de.orat.math.gacalc.spi.iEuclideanTypeConverter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExprGraphFactory {
 
@@ -101,7 +104,8 @@ public class ExprGraphFactory {
     // Symbolic scalar
     //======================================================
     public MultivectorSymbolic createScalarLiteral(String name, double scalar) {
-        return this.createMultivectorSymbolic(name, SparseCGAColumnVectorFactory.scalar_ipns(scalar));
+        return this.createMultivectorSymbolic(name, getEuclideanTypeConverter().scalar_ipns(scalar));
+        //return this.createMultivectorSymbolic(name, SparseCGAColumnVectorFactory.scalar_ipns(scalar));
     }
 
     
@@ -109,59 +113,68 @@ public class ExprGraphFactory {
     // Symbolic constants
     //======================================================
     
+    private Map<String, MultivectorSymbolic> cacheSymbols = new HashMap<>();
+    
     // public final MultivectorSymbolic baseVectorOrigin = createBaseVectorOrigin();
     protected MultivectorSymbolic createBaseVectorOrigin() {
-        return MultivectorSymbolic.get(impl.createBaseVectorOrigin());
+        //return MultivectorSymbolic.get(impl.createBaseVectorOrigin(1d));
+        return createMultivectorSymbolic("o", impl.createBaseVectorOrigin(1d));
     }
 
     // public final MultivectorSymbolic baseVectorInfinity = createBaseVectorInfinity();
     protected MultivectorSymbolic createBaseVectorInfinity() {
-        return MultivectorSymbolic.get(impl.createBaseVectorInfinity());
+        //return MultivectorSymbolic.get(impl.createBaseVectorInfinity(1d));
+        return createMultivectorSymbolic("inf", impl.createBaseVectorInfinity(1d));
     }
 
     // public final MultivectorSymbolic baseVectorX = createBaseVectorX();
     protected MultivectorSymbolic createBaseVectorX() {
-        return MultivectorSymbolic.get(impl.createBaseVectorX());
+        //return MultivectorSymbolic.get(impl.createBaseVectorX(1d));
+        return createMultivectorSymbolic("e1", impl.createBaseVectorX(1d));
     }
 
     // public final MultivectorSymbolic baseVectorY = createBaseVectorY();
     protected MultivectorSymbolic createBaseVectorY() {
-        return MultivectorSymbolic.get(impl.createBaseVectorY());
+        //return MultivectorSymbolic.get(impl.createBaseVectorY(1d));
+        return createMultivectorSymbolic("e2", impl.createBaseVectorY(1d));
     }
 
     // public final MultivectorSymbolic baseVectorZ = createBaseVectorZ();
     protected MultivectorSymbolic createBaseVectorZ() {
-        return MultivectorSymbolic.get(impl.createBaseVectorZ());
+        //return MultivectorSymbolic.get(impl.createBaseVectorZ(1d));
+        return createMultivectorSymbolic("e3", impl.createBaseVectorZ(1d));
     }
 
     // public final MultivectorSymbolic epsilonPlus = createEpsilonPlus();
     protected MultivectorSymbolic createEpsilonPlus() {
-        return MultivectorSymbolic.get(impl.createEpsilonPlus());
+        //return MultivectorSymbolic.get(impl.createEpsilonPlus());
+        return createMultivectorSymbolic("e+", impl.createEpsilonPlus());
     }
 
     // public final MultivectorSymbolic epsilonMinus = createEpsilonMinus();
     protected MultivectorSymbolic createEpsilonMinus() {
-        return MultivectorSymbolic.get(impl.createEpsilonMinus());
+        //return MultivectorSymbolic.get(impl.createEpsilonMinus());
+        return createMultivectorSymbolic("e-", impl.createEpsilonMinus());
     }
 
     // public final MultivectorSymbolic baseVectorInfinityDorst = createBaseVectorInfinityDorst();
     protected MultivectorSymbolic createBaseVectorInfinityDorst() {
-        return MultivectorSymbolic.get(impl.createMinkovskyBiVector());
+        throw new UnsupportedOperationException();
     }
 
     // public final MultivectorSymbolic baseVectorOriginDorst = createBaseVectorOriginDorst();
     protected MultivectorSymbolic createBaseVectorOriginDorst() {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     // public final MultivectorSymbolic baseVectorInfinityDoran = createBaseVectorInfinityDoran();
     protected MultivectorSymbolic createBaseVectorInfinityDoran() {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     // public final MultivectorSymbolic baseVectorOriginDoran = createBaseVectorOriginDoran();
     protected MultivectorSymbolic createBaseVectorOriginDoran() {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     protected MultivectorSymbolic createPi() {
@@ -170,16 +183,23 @@ public class ExprGraphFactory {
 
     // public final MultivectorSymbolic minkovskyBiVector = createMinkovskyBiVector();
     protected MultivectorSymbolic createMinkovskyBiVector() {
-        return MultivectorSymbolic.get(impl.createMinkovskyBiVector());
+        //return MultivectorSymbolic.get(impl.createMinkovskyBiVector());
+        return createMultivectorSymbolic("oinf", impl.createMinkovskyBiVector());
     }
 
     // public final MultivectorSymbolic euclideanPseudoscalar = createEuclideanPseudoscalar();
     protected MultivectorSymbolic createEuclideanPseudoscalar() {
-        return MultivectorSymbolic.get(impl.createEuclideanPseudoscalar());
+        //return MultivectorSymbolic.get(impl.createEuclideanPseudoscalar());
+        return createMultivectorSymbolic("e123", impl.createEuclideanPseudoscalar());
     }
 
     // public final MultivectorSymbolic pseudoscalar = createPseudoscalar();
     protected MultivectorSymbolic createPseudoscalar() {
-        return MultivectorSymbolic.get(impl.createPseudoscalar());
+        //return MultivectorSymbolic.get(impl.createPseudoscalar());
+        return createMultivectorSymbolic("e0123inf", impl.createPseudoscalar());
+    }
+    
+    public iEuclideanTypeConverter getEuclideanTypeConverter(){
+        return impl.getEuclideanTypeConverter();
     }
 }
