@@ -104,8 +104,7 @@ public class ExprGraphFactory {
     // Symbolic scalar
     //======================================================
     public MultivectorSymbolic createScalarLiteral(String name, double scalar) {
-        return this.createMultivectorSymbolic(name, getEuclideanTypeConverter().scalar_ipns(scalar));
-        //return this.createMultivectorSymbolic(name, SparseCGAColumnVectorFactory.scalar_ipns(scalar));
+		return this.createMultivectorSymbolic(name, getEuclideanTypeConverter().scalar_opns(scalar));
     }
 
     
