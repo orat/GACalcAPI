@@ -208,7 +208,10 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic generalInverse() {
         return get(impl.generalInverse());
     }
-
+    public MultivectorSymbolic scalarInverse(){
+        return get(impl.scalorInverse());
+    }
+    
     /**
      * Poincare duality operator.
      *

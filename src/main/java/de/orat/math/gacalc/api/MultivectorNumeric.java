@@ -34,7 +34,7 @@ public class MultivectorNumeric {
 	}
 
 	public double[] elements() {
-		return impl.elements();
+	    return impl.elements();
 	}
 
 	@Override
