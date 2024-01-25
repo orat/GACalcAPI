@@ -26,7 +26,7 @@ public class CGAOperations {
         iMultivectorSymbolic part1 = conjugate.gp(gradeInversion).gp(reversion); 
         iMultivectorSymbolic part2 = mv.gp(part1); 
         iMultivectorSymbolic part3 = part2.negate14();
-        double scalar = part2.gp(part3).scalarPart(); 
-        return part1.gp(part3).gp(1d/scalar);
+        iMultivectorSymbolic scalar = part2.gp(part3).gradeSelection(0); 
+        return part1.gp(part3).gp(scalar.scalorInverse());
     }
 }

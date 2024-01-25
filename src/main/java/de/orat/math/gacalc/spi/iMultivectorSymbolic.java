@@ -48,11 +48,12 @@ public interface iMultivectorSymbolic {
         return lc(inversePseudoscalar());
     }
     
-    // da könnte ich eine default imll zur Verfügung stellen die abhängig von der
+    // da könnte ich eine default impl zur Verfügung stellen die abhängig von der
     // basis/metric das richtigen Vorzeichen liefert
     iMultivectorSymbolic undual();
 
     iMultivectorSymbolic generalInverse();
+    iMultivectorSymbolic scalorInverse();
     
     /**
      * Conjugate.
@@ -193,6 +194,4 @@ public interface iMultivectorSymbolic {
      * @return 
      */
     public CayleyTable getCayleyTable();
-   
-    public double scalarPart();
 }

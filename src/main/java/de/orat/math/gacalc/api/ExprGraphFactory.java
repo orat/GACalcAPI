@@ -52,6 +52,9 @@ public class ExprGraphFactory {
             return impl.getName();
     }
 
+    
+    //------- symbolic
+    
     public MultivectorSymbolic createMultivectorSymbolic(String name) {
             return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name));
     }
@@ -68,6 +71,9 @@ public class ExprGraphFactory {
             return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, grade));
     }
 
+    
+    //------- numeric
+    
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
      */
@@ -87,10 +93,16 @@ public class ExprGraphFactory {
             return MultivectorNumeric.get(impl.createRandomMultivectorNumeric());
     }
 
+    
+    // random multivectors
+    
     public double[] createRandomCGAMultivector() {
             return impl.createRandomCGAMultivector();
     }
 
+    
+    // functions
+    
     public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorSymbolic> parameters,
             List<MultivectorSymbolic> returns) {
             var iParameters = parameters.stream().map(mvs -> mvs.impl).toList();
@@ -256,7 +268,9 @@ public class ExprGraphFactory {
 	//======================================================
 	// Other
 	//======================================================
-    public iEuclideanTypeConverter getEuclideanTypeConverter(){
+    //-----------
+    
+	public iEuclideanTypeConverter getEuclideanTypeConverter() {
         return impl.getEuclideanTypeConverter();
     }
 }

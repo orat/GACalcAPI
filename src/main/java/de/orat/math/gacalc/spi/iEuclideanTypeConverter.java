@@ -10,9 +10,11 @@ import util.cga.SparseCGAColumnVector;
  */
 public interface iEuclideanTypeConverter {
     
+    // to CGA
+    
     public SparseCGAColumnVector euclidean_vector(Tuple3d tuple3d);
 
-    public iMultivectorNumeric euclidean_bivector(Vector3d v1, Vector3d v2);
+    public SparseCGAColumnVector euclidean_bivector(Vector3d v1, Vector3d v2);
 
     public SparseCGAColumnVector scalar_opns(double scalar);
 
@@ -20,8 +22,8 @@ public interface iEuclideanTypeConverter {
 
     public SparseCGAColumnVector bool(boolean bool);
     
-    public iMultivectorSymbolic createRoundPointIPNS(Point3d point);
-    public  SparseCGAColumnVector round_point_opns(Point3d point);
+    public SparseCGAColumnVector createRoundPointIPNS(Point3d point);
+    public SparseCGAColumnVector round_point_opns(Point3d point);
 
     // point-pair
     public SparseCGAColumnVector pointpair_opns(Point3d point1, double weight1,
@@ -82,4 +84,35 @@ public interface iEuclideanTypeConverter {
 
     // translation
     public SparseCGAColumnVector translator(Vector3d point);
+    
+    
+    // from CGA
+    
+    /*public record EuclideanParametersOfOrientedPointIPNS(Point3d location, Vector3d attitude) {}
+
+
+    public Double firstDecomposeSquaredWeight() ;
+
+    public double firstDecomposeScalar();
+
+    public Double[] decomposeScalarArray();
+    public double[][] decomposeDoubleArray();
+
+    public double[] firstDecomposeDoubleArray();*/
+
+    //public iCGATangentOrRound.EuclideanParameters firstDecomposeTangentOrRound();
+
+    //public EuclideanParametersOfOrientedPointIPNS firstDecomposeOrientedPointIPNS();
+
+    //public EuclideanParametersFromPlaneIPNS firstDecomposePlaneIPNS();
+
+    //public EuclideanParametersFromPlaneOPNS firstDecomposePlaneOPNS();
+
+    //public Vector3d firstDecomposeAttitudeIPNS();
+
+    //public PointPair firstDecomposePointPairOPNS();
+
+    /*public Point3d firstDecomposeRoundPointIPNS();
+
+    public Point3d[] decomposePoints();*/
 }
