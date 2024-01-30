@@ -14,7 +14,6 @@ public class ExprGraphFactory {
     //======================================================
     protected final iExprGraphFactory impl;
 
-    // public damit ich von Test-classes dran komme
     protected static ExprGraphFactory get(iExprGraphFactory impl) {
             ExprGraphFactory result = new ExprGraphFactory(impl);
             Callback callback = new Callback(result);
@@ -31,13 +30,13 @@ public class ExprGraphFactory {
             private final ExprGraphFactory api;
 
             private Callback(ExprGraphFactory api) {
-                    this.api = api;
+                this.api = api;
             }
 
             //TODO
             // add methods needed by the spi implementation
             public iExprGraphFactory getImpl() {
-                    return api.impl;
+                return api.impl;
             }
     }
 
@@ -45,11 +44,11 @@ public class ExprGraphFactory {
     // Payload methods
     //======================================================
     public String getAlgebra() {
-            return impl.getAlgebra();
+        return impl.getAlgebra();
     }
 
     public String getName() {
-            return impl.getName();
+        return impl.getName();
     }
 
     
@@ -89,13 +88,13 @@ public class ExprGraphFactory {
             return MultivectorNumeric.get(impl.createMultivectorNumeric(nonzeros, rows));
     }
 
+    
+    // random multivectors
+    
     public MultivectorNumeric createRandomMultivectorNumeric() {
             return MultivectorNumeric.get(impl.createRandomMultivectorNumeric());
     }
 
-    
-    // random multivectors
-    
     public double[] createRandomCGAMultivector() {
         return impl.createRandomCGAMultivector();
     }
@@ -124,8 +123,6 @@ public class ExprGraphFactory {
     // Symbolic constants
     //======================================================
     
-    //private Map<String, MultivectorSymbolic> cacheSymbols = new HashMap<>();
-    
     public MultivectorSymbolic createBaseVectorOrigin() {
         return createMultivectorSymbolic("o", impl.createBaseVectorOrigin(1d));
     }
@@ -145,10 +142,7 @@ public class ExprGraphFactory {
     protected MultivectorSymbolic createBaseVectorZ() {
         return createMultivectorSymbolic("e3", impl.createBaseVectorZ(1d));
     }
-    /*protected MultivectorSymbolic createBaseVectorE(){
-        return createMultivectorSymbolic("E", impl.createBaseVectorE());
-    }*/
-
+    
     protected MultivectorSymbolic createEpsilonPlus() {
         return createMultivectorSymbolic("e+", impl.createEpsilonPlus());
     }
@@ -201,11 +195,4 @@ public class ExprGraphFactory {
     public SparseDoubleColumnVector createOrigin(double scalar){
         return impl.createBaseVectorOrigin(scalar);
     }
-    
-    
-    //-----------
-    
-    /*public iEuclideanTypeConverter getEuclideanTypeConverter(){
-        return impl.getEuclideanTypeConverter();
-    }*/
 }
