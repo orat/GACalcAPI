@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.MultivectorNumeric.Callback;
+import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -12,14 +13,13 @@ public interface iMultivectorNumeric {
     @Override
     String toString();
 
-    //TODO
-    // ich brauche hier doch auch sparsity
+    //double[] elements();
     
-    double[] elements();
+    SparseDoubleColumnVector elements();
     
-    //TODO
-    // vermutlich brauche ich hier alle möglichen Operatoren aus iMultivectorSymbolic
-    // um z.B. die Methoden in SparseCGAColumnVectorFactory implementieren zu können 
+    // Alle benötigten Operatoren aus iMultivectorSymbolic
+    // um den EuclideanTypeConverter imlementieren zu können
     
-    iMultivectorNumeric op(iMultivectorNumeric mv);
+    //iMultivectorNumeric op(iMultivectorNumeric mv);
+    //iMultivectorNumeric add(iMultivectorNumeric mv);
 }

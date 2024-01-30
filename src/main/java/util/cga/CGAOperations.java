@@ -8,17 +8,6 @@ import de.orat.math.gacalc.spi.iMultivectorSymbolic;
  */
 public class CGAOperations {
     
-    /*public static MultivectorSymbolic generalInverse(MultivectorSymbolic mv) {
-        MultivectorSymbolic conjugate = mv.cliffordConjugate();
-        MultivectorSymbolic gradeInversion = mv.gradeInversion();
-        MultivectorSymbolic reversion = mv.reverse();
-        MultivectorSymbolic part1 = conjugate.geometricProduct(gradeInversion).geometricProduct(reversion); 
-        MultivectorSymbolic part2 = mv.geometricProduct(part1); 
-        MultivectorSymbolic part3 = part2.negate14();
-        double scalar = part2.geometricProduct(part3).scalarPart(); 
-        return part1.geometricProduct(part3).geometricProduct(1d/scalar);
-    }*/
-    
     public static iMultivectorSymbolic generalInverse(iMultivectorSymbolic mv) {
         iMultivectorSymbolic conjugate = mv.conjugate();
         iMultivectorSymbolic gradeInversion = mv.gradeInversion();

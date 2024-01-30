@@ -1,8 +1,5 @@
 package util.cga;
 
-import de.orat.math.sparsematrix.ColumnVectorSparsity;
-import de.orat.math.sparsematrix.MatrixSparsity;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
