@@ -124,11 +124,11 @@ public class ExprGraphFactory {
     //======================================================
     
     public MultivectorSymbolic createBaseVectorOrigin() {
-        return createMultivectorSymbolic("o", impl.createBaseVectorOrigin(1d));
+        return createMultivectorSymbolic("e0", impl.createBaseVectorOrigin(1d));
     }
 
     public MultivectorSymbolic createBaseVectorInfinity() {
-        return createMultivectorSymbolic("inf", impl.createBaseVectorInfinity(1d));
+        return createMultivectorSymbolic("ei", impl.createBaseVectorInfinity(1d));
     }
 
     protected MultivectorSymbolic createBaseVectorX() {
@@ -152,19 +152,19 @@ public class ExprGraphFactory {
     }
 
     protected MultivectorSymbolic createBaseVectorInfinityDorst() {
-        throw new UnsupportedOperationException();
+        return createMultivectorSymbolic("inf", impl.createBaseVectorInfinityDorst()); 
     }
 
     protected MultivectorSymbolic createBaseVectorOriginDorst() {
-        throw new UnsupportedOperationException();
+        return createMultivectorSymbolic("o", impl.createBaseVectorOriginDorst()); 
     }
 
     protected MultivectorSymbolic createBaseVectorInfinityDoran() {
-        throw new UnsupportedOperationException();
+        return createMultivectorSymbolic("n_", impl.createBaseVectorInfinityDoran()); 
     }
 
     protected MultivectorSymbolic createBaseVectorOriginDoran() {
-        throw new UnsupportedOperationException();
+        return createMultivectorSymbolic("n", impl.createBaseVectorOriginDoran()); 
     }
 
     protected MultivectorSymbolic createPi() {
@@ -172,7 +172,7 @@ public class ExprGraphFactory {
     }
 
     protected MultivectorSymbolic createMinkovskyBiVector() {
-        return createMultivectorSymbolic("oinf", impl.createMinkovskyBiVector());
+        return createMultivectorSymbolic("oi", impl.createMinkovskyBiVector());
     }
 
     protected MultivectorSymbolic createEuclideanPseudoscalar() {
@@ -180,7 +180,7 @@ public class ExprGraphFactory {
     }
 
     protected MultivectorSymbolic createPseudoscalar() {
-        return createMultivectorSymbolic("e0123inf", impl.createPseudoscalar());
+        return createMultivectorSymbolic("e0123i", impl.createPseudoscalar());
     }
     
 

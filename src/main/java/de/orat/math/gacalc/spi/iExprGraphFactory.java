@@ -74,6 +74,12 @@ public interface iExprGraphFactory {
 
     SparseDoubleColumnVector createPseudoscalar();
     
-    //iEuclideanTypeConverter getEuclideanTypeConverter();
+    SparseDoubleColumnVector createBaseVectorInfinityDorst() ;
+
+    SparseDoubleColumnVector createBaseVectorOriginDorst();
+
+    SparseDoubleColumnVector createBaseVectorInfinityDoran();
+
+    SparseDoubleColumnVector createBaseVectorOriginDoran();
     
 }
