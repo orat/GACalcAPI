@@ -50,11 +50,11 @@ public class CayleyTable extends DenseStringMatrix {
     public int getBladesCount(){
         return names.size();
     }
-    public /*static*/ int getGrade(int index){
+    public int getGrade(int index){
         return getBasisBladeName(index).length()-1;
     }
    
-    public /*static*/ String getBasisBladeName(int index){
+    public String getBasisBladeName(int index){
         return names.get(index);
     }
     // The pseudoscalar is always the last element
@@ -100,7 +100,7 @@ public class CayleyTable extends DenseStringMatrix {
      * 
      * @param value == 1 or 0, -1 or eventually further numbers e.g. 0.5
      * wenn die Zelle nur ein Blade enthält ist value=1, wenn die Zelle ein Blade
-     * mit vorzeichen enthält, dann ist value = -1
+     * mit Vorzeichen enthält, dann ist value = -1
      */
     public record Cell(int bladeIndex, double Value){}
     /**

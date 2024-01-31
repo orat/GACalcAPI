@@ -11,5 +11,7 @@ public class SparseCGAColumnVector extends SparseDoubleColumnVector {
         //if (data.length != 32) throw new IllegalArgumentException("CGA has 32 elements but the tiven array is of length \""+String.valueOf(data.length)+"!");
         super(sparsity, data);
     }
-    
+    public SparseCGAColumnVector(SparseDoubleColumnVector mv){
+        super(mv.getSparsity(), mv.nonzeros());
+    }
 }

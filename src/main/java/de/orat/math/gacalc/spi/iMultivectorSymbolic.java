@@ -33,7 +33,6 @@ public interface iMultivectorSymbolic {
     iMultivectorSymbolic gradeInversion();
 
     iMultivectorSymbolic pseudoscalar();
-
     iMultivectorSymbolic inversePseudoscalar();
 
     /**

@@ -45,10 +45,6 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic geometricProduct(MultivectorSymbolic rhs) {
         return get(impl.gp(rhs.impl));
     }
-
-    /*public MultivectorSymbolic geometricProduct(double scalar) {
-        return get(impl.gp(scalar));
-    }*/
     
     /**
      * outer product (join, span for no common subspace)
@@ -233,7 +229,7 @@ public class MultivectorSymbolic {
     /**
      * Clifford conjugate (a sign change operation)
      *
-     * @return this†
+     * @return this †
      */
     public MultivectorSymbolic cliffordConjugate() {
         return get(impl.conjugate());
