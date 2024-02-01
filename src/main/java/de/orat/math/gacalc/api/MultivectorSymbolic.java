@@ -129,9 +129,10 @@ public class MultivectorSymbolic {
      * @return rhis ⋅ rhs
      */
     public MultivectorSymbolic innerProduct(MultivectorSymbolic rhs) {
-        return this.leftContraction(rhs);
+        return this.innerProduct(rhs);
     }
 
+     
     
     // non linear operators
     
@@ -156,12 +157,12 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * exponential
+     * Exponential to implement rotors.
      *
      * @return exp(this)
      */
     public MultivectorSymbolic exp() {
-        throw new UnsupportedOperationException();
+        return get(impl.exp());
     }
     
     /**
@@ -174,19 +175,27 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
+     * Arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
      * as the couterclockwise angle in radians between -pi and pi of the point (x,y) to the positive x-axis.)
      *
-     * @param rhs
-     * @return atan2(this, rhs)
+     * TODO
+     * läßt sich die Funktion atan2 nicht auch auf beliebige multivectors erweitern?
+     * 
+     * @param y scalar value
+     * @return a scalar atan2(this, rhs)
+     * @throws IllegalArgumentException if x, y != scalar
      */
-    public MultivectorSymbolic atan2(MultivectorSymbolic rhs) {
-        throw new UnsupportedOperationException();
+    public MultivectorSymbolic atan2(MultivectorSymbolic y) {
+        if (!impl.isScalar()) throw new IllegalArgumentException("The argument x of tang(x,y) is no scalar!");
+        if (!y.impl.isScalar()) throw new IllegalArgumentException("The argument y of tang(x,y) is no scalar!");
+        return get(impl.atan2(y.impl));
     }
+    
     
     //======================================================
     // Base 1-ary operators
     //======================================================
+    
     /**
      * negate
      *
@@ -205,7 +214,7 @@ public class MultivectorSymbolic {
         return get(impl.generalInverse());
     }
     public MultivectorSymbolic scalarInverse(){
-        return get(impl.scalorInverse());
+        return get(impl.scalarInverse());
     }
     
     /**
@@ -235,9 +244,11 @@ public class MultivectorSymbolic {
         return get(impl.conjugate());
     }
 
+    
     //======================================================
     // Additional 1-ary operators
     //======================================================
+    
     /**
      * undual
      *
@@ -268,6 +279,7 @@ public class MultivectorSymbolic {
     //======================================================
     // Composite operators
     //======================================================
+    
     /**
      * grade extraction, grade p=0-5 as subscript
      *
@@ -278,11 +290,11 @@ public class MultivectorSymbolic {
         return get(impl.gradeSelection(grade));
     }
 
+    
     //======================================================
     // Built-in functions
     //======================================================
     
-
     /**
      * Returns a normalized (Euclidean) element.
      *

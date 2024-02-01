@@ -64,17 +64,7 @@ public class CayleyTable extends DenseStringMatrix {
     public int getPseudoscalarGrade(){
         return getGrade(names.size()-1);
     }
-    //FIXME
-    // unklar ob das so stimmt, oder ob ich nicht -1 zurückliefern muss sobald
-    // max grade überschritten wird
-    public int addGrades(int grade_a, int grade_b){
-        int maxGrade = getPseudoscalarGrade();
-        int result = grade_a + grade_b;
-        while (result > maxGrade){
-            result -= maxGrade;
-        }
-        return result;
-    }
+    
     /**
      * Get the row in the column vector of basis blades for the given basis blade name.
      * 
