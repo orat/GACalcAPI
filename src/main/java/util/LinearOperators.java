@@ -12,6 +12,22 @@ import java.util.List;
  */
 public class LinearOperators {
     
+    
+    // negate14
+    public static SparseDoubleMatrix createNegate14MultiplicationMatrix(CayleyTable cayleyTable){
+        int size = cayleyTable.getBladesCount();
+        MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
+        double[] nonzeros = new double[size];
+        for (int i=0;i<size;i++){
+            nonzeros[i] = 1d;
+            int grade = cayleyTable.getGrade(i);
+            if (grade == 1 || grade == 4){
+                nonzeros[i] *=-1;
+            }
+        }
+        return new SparseDoubleMatrix(sparsity, nonzeros);
+    }
+    
     // scalar multiplication
     public static SparseDoubleMatrix createScalarMultiplicationMatrix(CayleyTable cayleyTable, double s){
         int size = cayleyTable.getBladesCount();

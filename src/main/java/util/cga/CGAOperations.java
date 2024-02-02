@@ -1,6 +1,5 @@
 package util.cga;
 
-import de.orat.math.gacalc.api.MultivectorSymbolic;
 import de.orat.math.gacalc.spi.iMultivectorSymbolic;
 
 /**

@@ -107,7 +107,9 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * division (inverse geometric product)
+     * Division (inverse geometric product).
+     * 
+     * Based on the generalInverse().
      *
      * @param rhs
      * @return this / rhs
@@ -215,6 +217,19 @@ public class MultivectorSymbolic {
     }
     public MultivectorSymbolic scalarInverse(){
         return get(impl.scalarInverse());
+    }
+    
+    /**
+     * TODO
+     * eventuell wieder abschaffen und in generalInverse testen ob ein versor
+     * vorliegt und dann versorInverse() der Implementierung aufrufen.
+     * Dazu muss ich dann eine Methode implementierung um zu testen ob es sich 
+     * bei einem multivector um einen Versor handelt.
+     * 
+     * @return 
+     */
+    public MultivectorSymbolic versorInverse(){
+        return get(impl.versorInverse());
     }
     
     /**

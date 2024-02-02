@@ -86,6 +86,21 @@ public interface iMultivectorSymbolic {
     iMultivectorSymbolic scalarInverse();
     
     /**
+     * Invertion of versors is more efficient than invertion of a generic multivector.
+     * 
+     * TODO
+     * Untersuchen, ob das besser wieder abgeschafft werden kann und die Implementierung
+     * dann intern das argument darauf testet ob ein versor vorliegt und dann die
+     * passende Implementierung aufruft.
+     * 
+     * @return 
+     */
+    default iMultivectorSymbolic versorInverse(){
+        iMultivectorSymbolic rev = reverse();
+        return rev.gp(gp(rev).scalarInverse());
+    }
+    
+    /**
      * Conjugate.
      *
      * Clifford Conjugation
@@ -147,6 +162,9 @@ public interface iMultivectorSymbolic {
     /**
      * Generic GA left contraction based on grade selection.
      *
+     * The geometric meaning is usually formulated as the dot product between x
+     * and y gives thes orthogonal complement in y of the projection of x onto y.
+     * 
      * @param a
      * @param b
      * @return a | b
@@ -226,12 +244,15 @@ public interface iMultivectorSymbolic {
     default iMultivectorSymbolic ip(iMultivectorSymbolic b){
         //TODO
         // abhängig von den grades a,b lc oder rc rechnen
+        // taschen der Seiten berücksichtigen, bzw. wechsel zu rc
         return lc(b);
     }
 
     /**
      * The regressive product. (JOIN)
      *
+     * This should be implemented in a more performant way.
+     * 
      * @param a
      * @param b
      * @return a & b
