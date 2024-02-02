@@ -42,8 +42,13 @@ public interface iMultivectorSymbolic {
     iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
     iMultivectorSymbolic gp(double s);
   
+    // das könnte ich default implementieren?
+    // schwierig, da ich sonst viele weitere Methoden hier im Interface brauche
+    // um scalare Operationen ausführen zu können, daher die ga-allgemeine Implementierung
+    // erst einmal in die cga-spezifische Implementierung aufgenommen, soll dann
+    // später in eine allg. GA casadi impl verschoben werden
     iMultivectorSymbolic reverse();
-
+       
     iMultivectorSymbolic gradeInversion();
 
     iMultivectorSymbolic pseudoscalar();
@@ -52,19 +57,31 @@ public interface iMultivectorSymbolic {
     /**
      * Dual.
      *
-     * Poincare duality operator.
+     * Generic GA poincare duality operator based on geometric product and inverse pseudoscalar.
      *
+     * tested
+     * 
      * @param a
      * @return !a
      */
     default iMultivectorSymbolic dual() {
-        return lc(inversePseudoscalar());
+        //return lc(inversePseudoscalar());
+        return gp(inversePseudoscalar());
+    }
+    /**
+     * Generic GA poincare unduality operator based on geometric product and pseudoscalar.
+     * 
+     * not tested
+     * 
+     * @return 
+     */
+    default iMultivectorSymbolic undual(){
+        // alternativ könnte das auch via GA generic via gradeselection implementiert werden
+        // nur nicht hier im Interface, da sonst Methoden zurm symoblischen Rechnen von scalars
+        // benötigt würden.
+        return gp(pseudoscalar());
     }
     
-    // da könnte ich eine default impl zur Verfügung stellen die abhängig von der
-    // basis/metric das richtigen Vorzeichen liefert
-    iMultivectorSymbolic undual();
-
     iMultivectorSymbolic generalInverse();
     iMultivectorSymbolic scalarInverse();
     
@@ -128,7 +145,7 @@ public interface iMultivectorSymbolic {
     }
 
     /**
-     * Left contraction.
+     * Generic GA left contraction based on grade selection.
      *
      * @param a
      * @param b
@@ -148,7 +165,7 @@ public interface iMultivectorSymbolic {
         iMultivectorSymbolic result = null;
         for (int i=0;i<grades_a.length;i++){
             for (int j=0;j<grades_b.length;j++){
-                int grade = grades_b[i] - grades_a[j];
+                int grade = grades_b[j] - grades_a[i];
                 if (grade >=0){
                     iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
                     if (result == null){
@@ -161,6 +178,19 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }
+    
+    /**
+     * Generic GA left contraction based on geometric product, pseudoscalar and inversePseudoscalar.
+     * 
+     * test failed
+     * 
+     * @param rhs
+     * @return 
+     */
+    default iMultivectorSymbolic lc_(iMultivectorSymbolic rhs){
+        return op(rhs.gp(inversePseudoscalar())).gp(pseudoscalar());
+    }
+    
     default iMultivectorSymbolic rc (iMultivectorSymbolic b){
         // Das ist so keine vollständig symbolische Implementierung, was dazu führt,
         // dass beim Aufbau des Expression Graphs die grades der Argumente
@@ -187,6 +217,10 @@ public interface iMultivectorSymbolic {
             }
         }
         return result;
+    }
+    
+    default iMultivectorSymbolic rc2(iMultivectorSymbolic b){
+        return reverse().lc(b.reverse()).reverse();
     }
 
     default iMultivectorSymbolic ip(iMultivectorSymbolic b){
