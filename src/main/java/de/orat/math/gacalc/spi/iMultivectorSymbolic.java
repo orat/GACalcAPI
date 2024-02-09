@@ -209,17 +209,20 @@ public interface iMultivectorSymbolic {
     }
     
     // ungetested
+    // a*reverse(a) == norm-square of a
     default iMultivectorSymbolic scp(iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = null;
         for (int i=0;i<grades_a.length;i++){
             for (int j=0;j<grades_b.length;j++){
-                iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(0);
-                if (result == null){
-                    result = res;
-                } else {
-                    result = result.add(res);
+                if (grades_a[i] == grades_b[j]){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(0);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
                 }
             }
         }
@@ -270,11 +273,30 @@ public interface iMultivectorSymbolic {
         return reverse().lc(b.reverse()).reverse();
     }
 
-    default iMultivectorSymbolic ip(iMultivectorSymbolic b){
-        //TODO
-        // abhängig von den grades a,b lc oder rc rechnen
-        // taschen der Seiten berücksichtigen, bzw. wechsel zu rc
-        return lc(b);
+    //not yet tested, bessere Implementierung des ip
+    // besser dot-Product nennen
+    default iMultivectorSymbolic dot(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                int grade = Math.abs(grades_b[j] - grades_a[i]);
+                //Achtung: eigentlich sollte hier ==0 ausgeschlossen werden für die
+                // def des inneren Products. mit 0 einschliesslich sollte das dot-product
+                // genannt werden. Dieses vermeidet Probleme die mit den ursprünglichen
+                // iner-product verbunden sind
+                if (grade >=0){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     /**

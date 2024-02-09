@@ -127,19 +127,26 @@ public class MultivectorSymbolic {
     /**
      * <pre>
      * inner product
-     * <strong>Implemented as {@link #leftContraction left contraction}.</strong>
+     * <strong>Implemented as {@link #dotProduct dot product}.</strong>
      * </pre>
      *
      * @param rhs
      * @return rhis ⋅ rhs
      */
     public MultivectorSymbolic innerProduct(MultivectorSymbolic rhs) {
-        return get(impl.ip(rhs.impl));
+        return get(impl.dot(rhs.impl));
+    }
+    public MultivectorSymbolic dotProduct(MultivectorSymbolic rhs){
+        return get(impl.dot(rhs.impl));
     }
 
     /**
-     * TODO
-     * eigenes Operator-Symbol einführen?
+     * Scalar product.
+     * 
+     * It is symmetrical and reversible.<p>
+     * 
+     * TODO<br>
+     * eigenes Operator-Symbol einführen?<p>
      * 
      * @param rhs
      * @return 
