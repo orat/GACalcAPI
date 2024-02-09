@@ -86,6 +86,17 @@ public interface iMultivectorSymbolic {
     iMultivectorSymbolic scalarInverse();
     
     /**
+     * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix.
+     * Dies ist allerdings nicht so performant wie die spezfische cga impl von generalInverse und gp.
+     * 
+     * @param rhs
+     * @return 
+     */
+    default iMultivectorSymbolic div(iMultivectorSymbolic rhs){
+        return gp(rhs.generalInverse());
+    }
+    
+    /**
      * Invertion of versors is more efficient than invertion of a generic multivector.
      * 
      * TODO
@@ -191,6 +202,24 @@ public interface iMultivectorSymbolic {
                     } else {
                         result = result.add(res);
                     }
+                }
+            }
+        }
+        return result;
+    }
+    
+    // ungetested
+    default iMultivectorSymbolic scp(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(0);
+                if (result == null){
+                    result = res;
+                } else {
+                    result = result.add(res);
                 }
             }
         }

@@ -106,6 +106,11 @@ public class MultivectorSymbolic {
         return get(impl.vee(rhs.impl));
     }
 
+
+    //======================================================
+    // Additional 2-ary operators
+    //======================================================
+    
     /**
      * Division (inverse geometric product).
      * 
@@ -115,12 +120,10 @@ public class MultivectorSymbolic {
      * @return this / rhs
      */
     public MultivectorSymbolic division(MultivectorSymbolic rhs) {
-        return geometricProduct(rhs.generalInverse());
+        //return geometricProduct(rhs.generalInverse());
+        return get(impl.div(rhs.impl));
     }
-
-    //======================================================
-    // Additional 2-ary operators
-    //======================================================
+    
     /**
      * <pre>
      * inner product
@@ -131,10 +134,19 @@ public class MultivectorSymbolic {
      * @return rhis ⋅ rhs
      */
     public MultivectorSymbolic innerProduct(MultivectorSymbolic rhs) {
-        return this.innerProduct(rhs);
+        return get(impl.ip(rhs.impl));
     }
 
-     
+    /**
+     * TODO
+     * eigenes Operator-Symbol einführen?
+     * 
+     * @param rhs
+     * @return 
+     */
+    public MultivectorSymbolic scalarProduct(MultivectorSymbolic rhs){
+        return get(impl.scp(rhs.impl));
+    }
     
     // non linear operators
     
