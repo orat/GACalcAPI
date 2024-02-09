@@ -47,7 +47,7 @@ public class MultivectorSymbolic {
     }
     
     /**
-     * outer product (join, span for no common subspace)
+     * Outer product (join, span for no common subspace)
      *
      * @param rhs
      * @return this ∧ rhs
@@ -57,7 +57,7 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * addition
+     * Addition of arbitray multivectors (not only blades).
      *
      * @param rhs
      * @return this + rhs
@@ -67,7 +67,7 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * subtraction
+     * Subtraction of arbitray multivectors (not only blades).
      *
      * @param rhs
      * @return this - rhs
@@ -77,8 +77,27 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * left contraction
+     * Projection of blades.
+     * 
+     * Geometric interpretation: Projection of a blade this into rhs to yield a
+     * result which lays totally in rhs.<p>
+     * 
+     * Only usefull if the arguments are blades.<p>
+     * 
+     * @param rhs
+     * @return projection of this into rhs.
+     */
+    public MultivectorSymbolic projection(MultivectorSymbolic rhs){
+        return leftContraction(rhs.generalInverse()).leftContraction(rhs);
+    }
+    
+    /**
+     * Left contraction.
      *
+     * Geometric interpretation: The leftcontraction this ⌋ rhs is a sub-blade of
+     * rhs of grade = grad(rhs)-grad(this) which is perpendicular to this and
+     * linear in both arguments.<p>
+     * 
      * @param rhs
      * @return this ⌋ rhs
      */
@@ -155,10 +174,11 @@ public class MultivectorSymbolic {
         return get(impl.scp(rhs.impl));
     }
     
+    
     // non linear operators
     
     /**
-     * meet (intersection) = largest common subspace
+     * Meet (intersection) = largest common subspace/devisor (useful only if the arguments are blades):
      *
      * @param rhs
      * @return this ∩ rhs
@@ -168,7 +188,9 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * join (union) of two subspaces is there smallest superspace = smallest space containing them both
+     * Join (union) of two subspaces is there smallest superspace = 
+     * smallest space containing them both, least common multiple (useful only if
+     * the arguments are blades).
      *
      * @param rhs
      * @return this ∪ rhs
