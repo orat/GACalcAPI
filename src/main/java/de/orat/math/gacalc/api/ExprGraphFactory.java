@@ -95,13 +95,15 @@ public class ExprGraphFactory {
     // random multivectors
     
     public MultivectorNumeric createRandomMultivectorNumeric() {
-            return MultivectorNumeric.get(impl.createRandomMultivectorNumeric());
+        return MultivectorNumeric.get(impl.createRandomMultivectorNumeric());
     }
 
-    public double[] createRandomCGAMultivector() {
-        return impl.createRandomCGAMultivector();
+    public double[] createRandomMultivector() {
+        return impl.createRandomMultivector();
     }
-
+    public double[] createRandomMultivector(int grade) {
+        return impl.createRandomKVector(grade);
+    }
     
     // functions
     

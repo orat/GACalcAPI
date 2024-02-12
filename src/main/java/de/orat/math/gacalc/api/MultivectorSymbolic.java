@@ -4,6 +4,9 @@ import de.orat.math.gacalc.spi.iMultivectorSymbolic;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 
 /**
+ * Following:
+ * - Leo Dorst, "The inner products of geometric algebra", 2002
+ * 
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class MultivectorSymbolic {
@@ -116,7 +119,7 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * regressive product
+     * Regressive or vee product.
      *
      * @param rhs
      * @return this ∨ rhs
@@ -145,15 +148,18 @@ public class MultivectorSymbolic {
     
     /**
      * <pre>
-     * inner product
+     * Inner product.
      * <strong>Implemented as {@link #dotProduct dot product}.</strong>
      * </pre>
      *
+     * The inner product does not fit with left/rightContraction. Better use the
+     * dot-product.
+     * 
      * @param rhs
      * @return rhis ⋅ rhs
      */
     public MultivectorSymbolic innerProduct(MultivectorSymbolic rhs) {
-        return get(impl.dot(rhs.impl));
+        return get(impl.ip(rhs.impl));
     }
     public MultivectorSymbolic dotProduct(MultivectorSymbolic rhs){
         return get(impl.dot(rhs.impl));
@@ -214,6 +220,8 @@ public class MultivectorSymbolic {
      * @return sqrt(this)
      */
     public MultivectorSymbolic sqrt() {
+        if (!impl.isScalar()) throw new IllegalArgumentException("This is no scalar!");
+       
         throw new UnsupportedOperationException();
     }
 
@@ -257,6 +265,7 @@ public class MultivectorSymbolic {
         return get(impl.generalInverse());
     }
     public MultivectorSymbolic scalarInverse(){
+        if (!impl.isScalar()) throw new IllegalArgumentException("This is no scalar!");
         return get(impl.scalarInverse());
     }
     
@@ -324,7 +333,7 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * grade involution/inversion (a sign change operation)
+     * Grade involution/inversion (a sign change operation).
      *
      * @return this^
      */
@@ -332,6 +341,7 @@ public class MultivectorSymbolic {
         return get(impl.gradeInversion());
     }
 
+    
     //======================================================
     // Composite operators
     //======================================================
@@ -361,19 +371,16 @@ public class MultivectorSymbolic {
         return get(impl.normalized());
     }
 
-    /*public double scalarPart(){
-        return impl.scalarPart();
-    }*/
-    
     /**
-     * absolute value if this is a scalar
+     * Absolute value if this is a scalar.
      *
      * Wer braucht das überhaupt? ja
      * 
      * @return abs(this)
      */
     public MultivectorSymbolic abs() {
-        throw new UnsupportedOperationException("not yet implemented!");
+        if (!impl.isScalar()) throw new IllegalArgumentException("This is no scalar!");
+        return get(impl.abs());
     }
 
 
@@ -392,11 +399,6 @@ public class MultivectorSymbolic {
     // Other
     //======================================================
     
-    // macht vermutlich nur Sinn für scalars
-    /*public MultivectorSymbolic mul(MultivectorSymbolic b) throws Exception {
-            return get(impl.mul(b.impl));
-    }*/
-
     /**
      * norm.
      *

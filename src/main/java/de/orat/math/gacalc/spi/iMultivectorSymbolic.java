@@ -57,16 +57,19 @@ public interface iMultivectorSymbolic {
     /**
      * Dual.
      *
-     * Generic GA poincare duality operator based on geometric product and inverse pseudoscalar.
+     * Generic GA poincare duality operator based on geometric product and 
+     * inverse pseudoscalar.<p>
      *
-     * tested
-     * 
+     * This implementation only works for non-degenerate metrics and even for
+     * those a more efficient implementation is possible.<p>
+     *
      * @param a
      * @return !a
      */
     default iMultivectorSymbolic dual() {
-        //return lc(inversePseudoscalar());
-        return gp(inversePseudoscalar());
+        // scheint beides zu funktionieren
+        return lc(inversePseudoscalar());
+        //return gp(inversePseudoscalar());
     }
     /**
      * Generic GA poincare unduality operator based on geometric product and pseudoscalar.
@@ -174,7 +177,21 @@ public interface iMultivectorSymbolic {
      * Generic GA left contraction based on grade selection.
      *
      * The geometric meaning is usually formulated as the dot product between x
-     * and y gives thes orthogonal complement in y of the projection of x onto y.
+     * and y gives the orthogonal complement in y of the projection of x onto y.
+     * 
+     * ganja:<p>
+     * 
+     * LDot(b,r) {
+     *   r=r||new this.constructor();
+     *   for (var i=0,x,gsx; gsx=grade_start[i],x=this[i],i<this.length; i++) if (x) for (var j=0,y,gsy;gsy=grade_start[j],y=b[j],j<b.length; j++) if (y) for (var a=0; a<x.length; a++) if (x[a]) for (var bb=0; bb<y.length; bb++) if (y[bb]) {
+     *     if (i==j && a==bb) { r[0] = r[0]||[0]; r[0][0] += x[a]*y[bb]*metric[i][a]; }
+     *     else {
+     *        var rn=simplify_bits(basis_bits[gsx+a],basis_bits[gsy+bb]), g=bc(rn[1]), e=bits_basis[rn[1]]-grade_start[g];
+     *        if (g == j-i) { if (!r[g])r[g]=[]; r[g][e] = (r[g][e]||0) + rn[0]*x[a]*y[bb]; }
+     *     }
+     *   }
+     *   return r;
+     * }
      * 
      * @param a
      * @param b
@@ -208,6 +225,54 @@ public interface iMultivectorSymbolic {
         return result;
     }
     
+    /**
+     * Generic GA left contraction based on geometric product, pseudoscalar and 
+     * inversePseudoscalar.
+     * 
+     * test failed
+     * 
+     * @param rhs
+     * @return 
+     */
+    default iMultivectorSymbolic lc_(iMultivectorSymbolic rhs){
+        return op(rhs.gp(inversePseudoscalar())).gp(pseudoscalar());
+    }
+    
+    //TODO
+    // könnte auch via reversion implementiert werden auf Basis von lc
+    default iMultivectorSymbolic rc (iMultivectorSymbolic b){
+        // Das ist so keine vollständig symbolische Implementierung, was dazu führt,
+        // dass beim Aufbau des Expression Graphs die grades der Argumente
+        // bestimmt werden und als fest für die Laufzeit angenommen werden
+        //TODO
+        // damit mit jedem Aufruf bei gleicher Sparsity der Argumente nicht neuer
+        // Code im Expression Graph erzeugt wird, sollte eine Kapselung in function-Objekten
+        // erfolgen. Unklar, ob dies hier im Interface als defaut-Implementierung
+        // möglich ist oder ob dies dann in der Casadi-Implementierung erfolgen muss.
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                int grade = grades_a[i] - grades_b[j];
+                if (grade >=0){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    
+    default iMultivectorSymbolic rc2(iMultivectorSymbolic b){
+        return reverse().lc(b.reverse()).reverse();
+    }
+
+    
     // ungetested
     // a*reverse(a) == norm-square of a
     default iMultivectorSymbolic scp(iMultivectorSymbolic b){
@@ -230,51 +295,15 @@ public interface iMultivectorSymbolic {
     }
     
     /**
-     * Generic GA left contraction based on geometric product, pseudoscalar and inversePseudoscalar.
+     * Dot product - different to inner product: 0-grade products are not excluded
+     * from the summation. This fits better to left/right contraction in combination
+     * with a scalar product.
      * 
-     * test failed
+     * Not yet tested.
      * 
-     * @param rhs
+     * @param b
      * @return 
      */
-    default iMultivectorSymbolic lc_(iMultivectorSymbolic rhs){
-        return op(rhs.gp(inversePseudoscalar())).gp(pseudoscalar());
-    }
-    
-    default iMultivectorSymbolic rc (iMultivectorSymbolic b){
-        // Das ist so keine vollständig symbolische Implementierung, was dazu führt,
-        // dass beim Aufbau des Expression Graphs die grades der Argumente
-        // bestimmt werden und als fest für die Laufzeit angenommen werden
-        //TODO
-        // damit mit jedem Aufruf bei gleicher Sparsity der Argumente nicht neuer
-        // Code im Expression Graph erzeugt wird, sollte eine Kapselung in function-Objekten
-        // erfolgen. Unklar, ob dies hier im Interface als defaut-Implementierung
-        // möglich ist oder ob dies dann in der Casadi-Implementierung erfolgen muss.
-        int[] grades_a = grades();
-        int[] grades_b = b.grades();
-        iMultivectorSymbolic result = null;
-        for (int i=0;i<grades_a.length;i++){
-            for (int j=0;j<grades_b.length;j++){
-                int grade = -grades_a[i] + grades_b[j];
-                if (grade >=0){
-                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
-                    if (result == null){
-                        result = res;
-                    } else {
-                        result = result.add(res);
-                    }
-                }
-            }
-        }
-        return result;
-    }
-    
-    default iMultivectorSymbolic rc2(iMultivectorSymbolic b){
-        return reverse().lc(b.reverse()).reverse();
-    }
-
-    //not yet tested, bessere Implementierung des ip
-    // besser dot-Product nennen
     default iMultivectorSymbolic dot(iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
@@ -282,10 +311,6 @@ public interface iMultivectorSymbolic {
         for (int i=0;i<grades_a.length;i++){
             for (int j=0;j<grades_b.length;j++){
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
-                //Achtung: eigentlich sollte hier ==0 ausgeschlossen werden für die
-                // def des inneren Products. mit 0 einschliesslich sollte das dot-product
-                // genannt werden. Dieses vermeidet Probleme die mit den ursprünglichen
-                // iner-product verbunden sind
                 if (grade >=0){
                     iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
                     if (result == null){
@@ -298,9 +323,51 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }
+    
+    /**
+     * Original/classical inner product definition which excludes 0-grades from
+     * the summation. Better use the dot-product instead.
+     * 
+     * Symmetric contraction:<p>
+     * 
+     * Dot(b,r) {
+     *   r=r||new this.constructor();
+     *   for (var i=0,x,gsx; gsx=grade_start[i],x=this[i],i<this.length; i++) if (x) for (var j=0,y,gsy;gsy=grade_start[j],y=b[j],j<b.length; j++) if (y) for (var a=0; a<x.length; a++) if (x[a]) for (var bb=0; bb<y.length; bb++) if (y[bb]) {
+     *     if (i==j && a==bb) { r[0] = r[0]||[0]; r[0][0] += x[a]*y[bb]*metric[i][a]; }
+     *     else {
+     *        var rn=simplify_bits(basis_bits[gsx+a],basis_bits[gsy+bb]), g=bc(rn[1]), e=bits_basis[rn[1]]-grade_start[g];
+     *        if (g == Math.abs(j-i)) { if (!r[g])r[g]=[]; r[g][e] = (r[g][e]||0) + rn[0]*x[a]*y[bb]; }
+     *     }
+     *   }
+     *   return r;
+     * }
+     * 
+     * @param b
+     * @return 
+     */
+    default iMultivectorSymbolic ip(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                int grade = Math.abs(grades_b[j] - grades_a[i]);
+                if (grade == 0){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    
 
     /**
-     * The regressive product. (JOIN)
+     * The regressive or vee product. (JOIN)
      *
      * This should be implemented in a more performant way.
      * 
@@ -309,7 +376,7 @@ public interface iMultivectorSymbolic {
      * @return a & b
      */
     default iMultivectorSymbolic vee (iMultivectorSymbolic b){
-         return dual().op(b.dual()).dual().gp(-1d);
+        return dual().op(b.dual()).dual();
     }
 
     /**
@@ -358,6 +425,8 @@ public interface iMultivectorSymbolic {
      */
     iMultivectorSymbolic normalized();
   
+    iMultivectorSymbolic abs();
+    
     public iMultivectorSymbolic denseEmptyInstance();
     // brauche ich das wirklich?
     //FIXME
