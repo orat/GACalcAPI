@@ -49,8 +49,29 @@ public interface iMultivectorSymbolic {
     // später in eine allg. GA casadi impl verschoben werden
     iMultivectorSymbolic reverse();
        
-    iMultivectorSymbolic gradeInversion();
-
+    // involute (Ak) = (-1) hoch k * Ak
+    // ungetested
+    default iMultivectorSymbolic gradeInversion(){
+        int[] grades = grades();
+        iMultivectorSymbolic result = null; //denseEmptyInstance(); 
+        for (int i=0;i<grades.length;i++){
+            iMultivectorSymbolic res = gradeSelection(grades[i]).
+                    gp(Math.pow(-1, grades[i]));
+            //TODO
+            // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
+            // und den ersten Wert vor dem Vorschleifen in die Variable zu streichen
+            // dann könnte ich das if vermeiden.
+            if (result == null) {
+                result = res;
+            } else {
+                result = result.add(res);
+            }
+            System.out.println("op:res sparsity="+result.getSparsity().toString());
+        }
+        return result;
+    }
+   
+        
     iMultivectorSymbolic pseudoscalar();
     iMultivectorSymbolic inversePseudoscalar();
 
@@ -352,7 +373,7 @@ public interface iMultivectorSymbolic {
         for (int i=0;i<grades_a.length;i++){
             for (int j=0;j<grades_b.length;j++){
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
-                if (grade == 0){
+                if (grade > 0){
                     iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
                     if (result == null){
                         result = res;
