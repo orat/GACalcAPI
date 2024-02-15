@@ -48,6 +48,37 @@ public interface iMultivectorSymbolic {
     // erst einmal in die cga-spezifische Implementierung aufgenommen, soll dann
     // später in eine allg. GA casadi impl verschoben werden
     iMultivectorSymbolic reverse();
+        /**
+     * Generic GA reverse implementation based on grade selection.
+     * 
+     * [Dorst] p. 604
+     * 
+     * noch unvollständig
+     * 
+     * @return 
+     */
+    /*public iMultivectorSymbolic reverse_(){
+        int[] grades = grades();
+        iMultivectorSymbolic result = null; //denseEmptyInstance(); 
+        for (int i=0;i<grades.length;i++){
+            System.out.println("reverse:grade()="+String.valueOf(grades[i]));
+            SX multiplier = SX.pow(new SX(-1d), new SX((new SX(grades[i])),));
+            iMultivectorSymbolic norme2 = gradeSelection(grades[i]).
+                    gp(new SparseCGASymbolicMultivector(multiplier));
+            System.out.println("reverse:norme2 grade()="+String.valueOf(grades[i])+" ="+norme2.toString());
+            //TODO
+            // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
+            // und den ersten Wert vor dem Vorschleifen in die Variable zu streichen
+            // dann könnte ich das if vermeiden.
+            if (result == null) {
+                result = norme2;
+            } else {
+                result = result.add(norme2);
+            }
+            System.out.println("reverse:norme2 sparsity="+result.getSparsity().toString());
+        }
+        return result;
+    }*/
        
     // involute (Ak) = (-1) hoch k * Ak
     // ungetested
@@ -56,6 +87,8 @@ public interface iMultivectorSymbolic {
         iMultivectorSymbolic result = null; //denseEmptyInstance(); 
         for (int i=0;i<grades.length;i++){
             iMultivectorSymbolic res = gradeSelection(grades[i]).
+                    //FIXME das geht effizienter, gp kann vermieden werden, bei
+                    // geradem grade
                     gp(Math.pow(-1, grades[i]));
             //TODO
             // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
@@ -440,13 +473,26 @@ public interface iMultivectorSymbolic {
     iMultivectorSymbolic inorm();
 
     /**
-     * normalized.
-     *
+     * Normalize a multivector.
+     * 
+     * Grade-selection is needed if n>3 only, else this.reverse() is always a scalar.
+     * 
+     * n=p+q+r, R41 has n=5
+     * 
+     * TODO
+     * https://enki.ws/ganja.js/examples/coffeeshop.html#NSELGA
+     * Hier wird eine komplizierte normalize()-Methode beschrieben die auch für R41
+     * funktioniert.<p>
+     * 
      * Returns a normalized (Euclidean) element.
      */
-    iMultivectorSymbolic normalized();
+    default iMultivectorSymbolic normalize(){
+        return gp(gp(this.reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse());
+    }
   
-    iMultivectorSymbolic abs();
+    iMultivectorSymbolic scalarAbs();
+    
+    iMultivectorSymbolic scalarSqrt();
     
     public iMultivectorSymbolic denseEmptyInstance();
     // brauche ich das wirklich?
@@ -458,7 +504,12 @@ public interface iMultivectorSymbolic {
     // for scalars only
     public iMultivectorSymbolic atan2(iMultivectorSymbolic y);
     
+    // [8] M Roelfs and S De Keninck. 2021. 
+    // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
+    // generische Implementierung for multivectors
     public iMultivectorSymbolic exp();
+    public iMultivectorSymbolic sqrt();
+    public iMultivectorSymbolic log();
     
     public iMultivectorSymbolic meet(iMultivectorSymbolic b);
     public iMultivectorSymbolic join(iMultivectorSymbolic b);

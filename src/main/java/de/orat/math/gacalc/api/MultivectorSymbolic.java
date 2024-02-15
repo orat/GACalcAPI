@@ -13,6 +13,8 @@ public class MultivectorSymbolic {
 
     protected final iMultivectorSymbolic impl;
 
+    private static ExprGraphFactory fac = GAExprGraphFactoryService.instance().getExprGraphFactory().get();
+            
     protected static MultivectorSymbolic get(iMultivectorSymbolic impl) {
         MultivectorSymbolic result = new MultivectorSymbolic(impl);
         Callback callback = new Callback(result);
@@ -32,6 +34,9 @@ public class MultivectorSymbolic {
                 this.api = api;
         }
 
+        /*public ExprGraphFactory getExprGraphFactory(){
+            return fac;
+        }*/
         //TODO
         // add methods needed by the spi implementation
     }
@@ -48,7 +53,11 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic geometricProduct(MultivectorSymbolic rhs) {
         return get(impl.gp(rhs.impl));
     }
-    
+    private static MultivectorSymbolic half = fac.createScalarLiteral("1/2", 0.5d);
+        
+    public MultivectorSymbolic commutatorProduct(MultivectorSymbolic rhs){
+        return geometricProduct(rhs).subtraction(rhs.geometricProduct(this)).geometricProduct(half);
+    }
     /**
      * Outer product (join, span for no common subspace)
      *
@@ -91,6 +100,7 @@ public class MultivectorSymbolic {
      * @return projection of this into rhs.
      */
     public MultivectorSymbolic projection(MultivectorSymbolic rhs){
+        if (impl.grade() == -1) throw new IllegalArgumentException("projection only defined for k-vectors!");
         return leftContraction(rhs.generalInverse()).leftContraction(rhs);
     }
     
@@ -98,7 +108,7 @@ public class MultivectorSymbolic {
      * Left contraction.
      *
      * Geometric interpretation: The leftcontraction this ⌋ rhs is a sub-blade of
-     * rhs of grade = grad(rhs)-grad(this) which is perpendicular to this and
+     * rhs of grade = grad(rhs)-grad(this), which is perpendicular to this and
      * linear in both arguments.<p>
      * 
      * @param rhs
@@ -109,7 +119,7 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * right contraction
+     * Right contraction.
      *
      * @param rhs
      * @return this ⌊ rhs
@@ -208,21 +218,28 @@ public class MultivectorSymbolic {
     /**
      * Exponential to implement rotors.
      *
-     * @return exp(this)
+     * @return exp()
+     * @throws IllegalArgumentException if this is no bivector
      */
     public MultivectorSymbolic exp() {
+        if (impl.grade() != 2) throw new IllegalArgumentException("exp() defined for bivectors only!");
         return get(impl.exp());
+    }
+    public MultivectorSymbolic sqrt(){
+        return get(impl.sqrt());
+    }
+    public MultivectorSymbolic log(){
+        return get(impl.log());
     }
     
     /**
-     * square root
+     * Square root.
      *
-     * @return sqrt(this)
+     * @return scalarSqrt(this)
      */
-    public MultivectorSymbolic sqrt() {
+    public MultivectorSymbolic scalarSqrt() {
         if (!impl.isScalar()) throw new IllegalArgumentException("This is no scalar!");
-       
-        throw new UnsupportedOperationException();
+        return get(impl.scalarAbs());
     }
 
     /**
@@ -236,7 +253,7 @@ public class MultivectorSymbolic {
      * @return a scalar atan2(this, rhs)
      * @throws IllegalArgumentException if x, y != scalar
      */
-    public MultivectorSymbolic atan2(MultivectorSymbolic y) {
+    public MultivectorSymbolic scalarAtan2(MultivectorSymbolic y) {
         if (!impl.isScalar()) throw new IllegalArgumentException("The argument x of tang(x,y) is no scalar!");
         if (!y.impl.isScalar()) throw new IllegalArgumentException("The argument y of tang(x,y) is no scalar!");
         return get(impl.atan2(y.impl));
@@ -292,7 +309,8 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * Reverse/adjoint: reverse all multiplications (a sign change operation)
+     * Reverse/adjoint: Reverse all multiplications/the order of every product
+     * of vectors (a sign change operation).
      *
      * @return this˜
      */
@@ -324,8 +342,13 @@ public class MultivectorSymbolic {
     }
 
     /**
-     * square
+     * Square.
+     * 
+     * Square of k-blades are always scalars.
      *
+     * TODO
+     * dafür sollte ich einen Test schreiben
+     * 
      * @return this²
      */
     public MultivectorSymbolic square() {
@@ -368,7 +391,7 @@ public class MultivectorSymbolic {
      * @throws java.lang.Exception
      */
     public MultivectorSymbolic normalize() throws Exception {
-        return get(impl.normalized());
+        return get(impl.normalize());
     }
 
     /**
@@ -376,11 +399,11 @@ public class MultivectorSymbolic {
      *
      * Wer braucht das überhaupt? ja
      * 
-     * @return abs(this)
+     * @return scalarAbs(this)
      */
-    public MultivectorSymbolic abs() {
+    public MultivectorSymbolic scalarAbs() {
         if (!impl.isScalar()) throw new IllegalArgumentException("This is no scalar!");
-        return get(impl.abs());
+        return get(impl.scalarAbs());
     }
 
 
@@ -413,9 +436,9 @@ public class MultivectorSymbolic {
      *
      * Calculate the Ideal norm. (signed)
      */
-    public MultivectorSymbolic inorm() throws Exception {
+    /*public MultivectorSymbolic inorm() throws Exception {
             return get(impl.inorm());
-    }
+    }*/
 
     //--------------
     
