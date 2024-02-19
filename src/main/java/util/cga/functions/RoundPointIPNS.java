@@ -5,12 +5,8 @@ import de.orat.math.gacalc.api.FunctionSymbolic;
 import de.orat.math.gacalc.api.GAExprGraphFactoryService;
 import de.orat.math.gacalc.api.MultivectorNumeric;
 import de.orat.math.gacalc.api.MultivectorSymbolic;
-import de.orat.math.gacalc.spi.iMultivectorNumeric;
-import de.orat.math.sparsematrix.ColumnVectorSparsity;
-import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.ArrayList;
 import java.util.List;
-import org.jogamp.vecmath.Point3d;
 
 /**
  * Versuch, der sich nicht bewährt hat.

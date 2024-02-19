@@ -7,7 +7,6 @@ import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.jogamp.vecmath.Tuple3d;
 import util.cga.CGAMultivectorSparsity;
 import util.cga.SparseCGAColumnVector;
 

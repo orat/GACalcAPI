@@ -5,7 +5,6 @@ import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.List;
 import java.util.function.Supplier;
-import org.jogamp.vecmath.Tuple3d;
 
 public class ExprGraphFactory {
 
