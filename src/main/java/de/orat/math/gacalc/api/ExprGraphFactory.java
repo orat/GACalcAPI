@@ -270,8 +270,8 @@ public class ExprGraphFactory {
     // For up projection from euclidean space
     //======================================================
     
-    public SparseDoubleColumnVector createE(Tuple3d tuple3d) {
-        return impl.createE(tuple3d);
+    public SparseDoubleColumnVector createE(double x, double y, double z) {
+        return impl.createE(x,y,z);
     }
     public SparseDoubleColumnVector createInf(double scalar){
         return impl.createBaseVectorInfinity(scalar);

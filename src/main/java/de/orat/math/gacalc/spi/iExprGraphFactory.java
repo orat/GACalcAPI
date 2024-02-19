@@ -79,7 +79,7 @@ public interface iExprGraphFactory {
     
     SparseDoubleColumnVector createScalar(double scalar);
     
-    SparseDoubleColumnVector createE(Tuple3d tuple3d);
+    SparseDoubleColumnVector createE(double x, double y, double z);
 
     SparseDoubleColumnVector createEpsilonPlus();
 

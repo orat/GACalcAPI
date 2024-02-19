@@ -39,11 +39,11 @@ public class RoundPointIPNS extends EuclideanTypeFunction {
         return new ParametersAndReturns(parameters, returns);
     }    
    
-    public MultivectorNumeric up(Point3d point) throws Exception {
-        double infValue = 0.5*(point.x*point.x+point.y*point.y+point.z*point.z);
+    public MultivectorNumeric up(double x, double y, double z) throws Exception {
+        double infValue = 0.5*(x*x+y*y+z*z);
         MultivectorNumeric o = fac.createMultivectorNumeric(fac.createOrigin(1d));
         MultivectorNumeric inf = fac.createMultivectorNumeric(fac.createInf(infValue));
-        MultivectorNumeric E = fac.createMultivectorNumeric(fac.createE(point));
+        MultivectorNumeric E = fac.createMultivectorNumeric(fac.createE(x, y, z));
         
         List<MultivectorNumeric> arguments = new ArrayList<>();
         arguments.add(o);

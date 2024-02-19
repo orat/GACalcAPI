@@ -475,14 +475,15 @@ public interface iMultivectorSymbolic {
     /**
      * Normalize a multivector.
      * 
-     * Grade-selection is needed if n>3 only, else this.reverse() is always a scalar.
+     * Grade-selection is needed if n>3 only, else this.reverse() is always a scalar.<p>
      * 
-     * n=p+q+r, R41 has n=5
+     * n=p+q+r, R41 corresponds to n=5<p>
      * 
-     * TODO
-     * https://enki.ws/ganja.js/examples/coffeeshop.html#NSELGA
+     * TODO<br>
+     * https://enki.ws/ganja.js/examples/coffeeshop.html#NSELGA<br>
      * Hier wird eine komplizierte normalize()-Methode beschrieben die auch für R41
-     * funktioniert.<p>
+     * funktioniert. Diese könnte dann eine spezifische Implementierung dieses
+     * Interfaces zur Verfügung stellen und die default impl hier überschreiben.<p>
      * 
      * Returns a normalized (Euclidean) element.
      */
