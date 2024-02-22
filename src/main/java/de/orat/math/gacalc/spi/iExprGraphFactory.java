@@ -23,7 +23,7 @@ public interface iExprGraphFactory {
 
     String getName();
 
-    iMultivectorSymbolic createMultivectorSymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity);
+    iMultivectorSymbolic createMultivectorSymbolic(String name, MatrixSparsity sparsity);
 
     iMultivectorSymbolic createMultivectorSymbolic(String name);
 
