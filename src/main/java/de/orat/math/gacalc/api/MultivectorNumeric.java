@@ -1,7 +1,7 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iMultivectorNumeric;
-import de.orat.math.sparsematrix.SparseDoubleColumnVector;
+import de.orat.math.sparsematrix.SparseDoubleMatrix;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -38,7 +38,7 @@ public class MultivectorNumeric {
         return impl.elements();
     }*/
     
-    public SparseDoubleColumnVector elements() {
+    public SparseDoubleMatrix elements() {
         return impl.elements();
     }
 

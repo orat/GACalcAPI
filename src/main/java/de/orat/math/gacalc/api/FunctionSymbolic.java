@@ -1,7 +1,6 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iFunctionSymbolic;
-import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import java.util.List;
 
 public class FunctionSymbolic {
