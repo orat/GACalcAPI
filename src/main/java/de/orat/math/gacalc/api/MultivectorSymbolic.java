@@ -1,7 +1,8 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iMultivectorSymbolic;
-import de.orat.math.sparsematrix.ColumnVectorSparsity;
+import de.orat.math.sparsematrix.MatrixSparsity;
+//import de.orat.math.sparsematrix.ColumnVectorSparsity;
 
 /**
  * Following:
@@ -239,7 +240,7 @@ public class MultivectorSymbolic {
      */
     public MultivectorSymbolic scalarSqrt() {
         if (!impl.isScalar()) throw new IllegalArgumentException("This is no scalar!");
-        return get(impl.scalarAbs());
+        return get(impl.scalarSqrt());
     }
 
     /**
@@ -442,7 +443,7 @@ public class MultivectorSymbolic {
 
     //--------------
     
-    public ColumnVectorSparsity getSparsity() {
+    public MatrixSparsity/*ColumnVectorSparsity*/ getSparsity() {
         return impl.getSparsity();
     }
 

@@ -2,6 +2,7 @@ package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.MultivectorSymbolic.Callback;
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
+import de.orat.math.sparsematrix.MatrixSparsity;
 import util.CayleyTable;
 
 /**
@@ -16,7 +17,7 @@ public interface iMultivectorSymbolic {
 
     String getName();
 
-    ColumnVectorSparsity getSparsity();
+    MatrixSparsity/*ColumnVectorSparsity*/ getSparsity();
     
     default boolean isScalar(){
         int[] rows = getSparsity().getrow();

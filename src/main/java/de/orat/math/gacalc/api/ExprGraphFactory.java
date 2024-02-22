@@ -1,8 +1,10 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iExprGraphFactory;
-import de.orat.math.sparsematrix.ColumnVectorSparsity;
-import de.orat.math.sparsematrix.SparseDoubleColumnVector;
+import de.orat.math.sparsematrix.MatrixSparsity;
+//import de.orat.math.sparsematrix.ColumnVectorSparsity;
+//import de.orat.math.sparsematrix.SparseDoubleColumnVector;
+import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -60,11 +62,11 @@ public class ExprGraphFactory {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name));
     }
 
-    public MultivectorSymbolic createMultivectorSymbolic(String name, ColumnVectorSparsity sparsity) {
+    public MultivectorSymbolic createMultivectorSymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparsity));
     }
 
-    public MultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleColumnVector sparseVector) {
+    public MultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparseVector));
     }
 
@@ -82,7 +84,7 @@ public class ExprGraphFactory {
             return MultivectorNumeric.get(impl.createMultivectorNumeric(values));
     }
 
-    public MultivectorNumeric createMultivectorNumeric(SparseDoubleColumnVector vec) {
+    public MultivectorNumeric createMultivectorNumeric(SparseDoubleMatrix vec) {
             return MultivectorNumeric.get(impl.createMultivectorNumeric(vec.nonzeros(), vec.getSparsity().getrow()));
     }
 
@@ -269,13 +271,13 @@ public class ExprGraphFactory {
     // For up projection from euclidean space
     //======================================================
     
-    public SparseDoubleColumnVector createE(double x, double y, double z) {
+    public SparseDoubleMatrix createE(double x, double y, double z) {
         return impl.createE(x,y,z);
     }
-    public SparseDoubleColumnVector createInf(double scalar){
+    public SparseDoubleMatrix createInf(double scalar){
         return impl.createBaseVectorInfinity(scalar);
     }
-    public SparseDoubleColumnVector createOrigin(double scalar){
+    public SparseDoubleMatrix createOrigin(double scalar){
         return impl.createBaseVectorOrigin(scalar);
     }
 }

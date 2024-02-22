@@ -1,14 +1,16 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.ExprGraphFactory.Callback;
-import de.orat.math.gacalc.api.MultivectorSymbolic;
-import de.orat.math.sparsematrix.ColumnVectorSparsity;
+//import de.orat.math.gacalc.api.MultivectorSymbolic;
+//import de.orat.math.sparsematrix.ColumnVectorSparsity;
+import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleColumnVector;
+import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import util.cga.CGAMultivectorSparsity;
-import util.cga.SparseCGAColumnVector;
+//import util.cga.CGAMultivectorSparsity;
+//import util.cga.SparseCGAColumnVector;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -23,18 +25,18 @@ public interface iExprGraphFactory {
 
     String getName();
 
-    iMultivectorSymbolic createMultivectorSymbolic(String name, ColumnVectorSparsity sparsity);
+    iMultivectorSymbolic createMultivectorSymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity);
 
     iMultivectorSymbolic createMultivectorSymbolic(String name);
 
-    iMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleColumnVector sparseVector);
+    iMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
 
     iMultivectorSymbolic createMultivectorSymbolic(String name, int grade);
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
      */
-    iMultivectorNumeric createMultivectorNumeric(SparseDoubleColumnVector vec);
+    iMultivectorNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
 
     iMultivectorNumeric createMultivectorNumeric(double[] values);
 
@@ -66,36 +68,36 @@ public interface iExprGraphFactory {
     
     // create constants
     
-    SparseDoubleColumnVector createBaseVectorOrigin(double scalor);
+    SparseDoubleMatrix createBaseVectorOrigin(double scalor);
 
-    SparseDoubleColumnVector createBaseVectorInfinity(double scalar);
+    SparseDoubleMatrix createBaseVectorInfinity(double scalar);
 
-    SparseDoubleColumnVector createBaseVectorX(double scalar);
+    SparseDoubleMatrix createBaseVectorX(double scalar);
 
-    SparseDoubleColumnVector createBaseVectorY(double scalar);
+    SparseDoubleMatrix createBaseVectorY(double scalar);
 
-    SparseDoubleColumnVector createBaseVectorZ(double scalar);
+    SparseDoubleMatrix createBaseVectorZ(double scalar);
     
-    SparseDoubleColumnVector createScalar(double scalar);
+    SparseDoubleMatrix createScalar(double scalar);
     
-    SparseDoubleColumnVector createE(double x, double y, double z);
+    SparseDoubleMatrix createE(double x, double y, double z);
 
-    SparseDoubleColumnVector createEpsilonPlus();
+    SparseDoubleMatrix createEpsilonPlus();
 
-    SparseDoubleColumnVector createEpsilonMinus();
+    SparseDoubleMatrix createEpsilonMinus();
     
-    SparseDoubleColumnVector createMinkovskyBiVector();
+    SparseDoubleMatrix createMinkovskyBiVector();
 
-    SparseDoubleColumnVector createEuclideanPseudoscalar();
+    SparseDoubleMatrix createEuclideanPseudoscalar();
 
-    SparseDoubleColumnVector createPseudoscalar();
+    SparseDoubleMatrix createPseudoscalar();
     
-    SparseDoubleColumnVector createBaseVectorInfinityDorst() ;
+    SparseDoubleMatrix createBaseVectorInfinityDorst() ;
 
-    SparseDoubleColumnVector createBaseVectorOriginDorst();
+    SparseDoubleMatrix createBaseVectorOriginDorst();
 
-    SparseDoubleColumnVector createBaseVectorInfinityDoran();
+    SparseDoubleMatrix createBaseVectorInfinityDoran();
 
-    SparseDoubleColumnVector createBaseVectorOriginDoran();
+    SparseDoubleMatrix createBaseVectorOriginDoran();
     
 }

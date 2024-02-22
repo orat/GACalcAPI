@@ -1,0 +1,2 @@
+...ColumnVector... classes entfernen, denn GA-Implementierungen könnten auch auf nxn-Matrizen beruhen
+wie z.B. auf Basis von ext-Vahlen-Matrizen
