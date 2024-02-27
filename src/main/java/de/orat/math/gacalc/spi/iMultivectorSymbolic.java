@@ -1,8 +1,9 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.MultivectorSymbolic.Callback;
-import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.MatrixSparsity;
+import java.util.Collections;
+import java.util.function.Supplier;
 import util.CayleyTable;
 
 /**
@@ -17,7 +18,7 @@ public interface iMultivectorSymbolic {
 
     String getName();
 
-    MatrixSparsity/*ColumnVectorSparsity*/ getSparsity();
+    MatrixSparsity getSparsity();
     
     default boolean isScalar(){
         int[] rows = getSparsity().getrow();
@@ -38,18 +39,29 @@ public interface iMultivectorSymbolic {
     int grade();
     int[] grades();
 
-    iMultivectorSymbolic gradeSelection(int grade);
-
+    //iMultivectorSymbolic gradeSelection(int grade);
+    iFunctionSymbolic getGradeSelectionFunction(int grade);
+    default iMultivectorSymbolic gradeSelection(int grade){
+         return getGradeSelectionFunction(grade).callSymbolic(Collections.singletonList(
+                this)).iterator().next();
+    }
+    
     iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
     iMultivectorSymbolic gp(double s);
   
+    default iMultivectorSymbolic reverse(){
+         return getReverseFunction().callSymbolic(Collections.singletonList(
+                this)).iterator().next();
+    }
+    
     // das könnte ich default implementieren?
     // schwierig, da ich sonst viele weitere Methoden hier im Interface brauche
     // um scalare Operationen ausführen zu können, daher die ga-allgemeine Implementierung
     // erst einmal in die cga-spezifische Implementierung aufgenommen, soll dann
     // später in eine allg. GA casadi impl verschoben werden
-    iMultivectorSymbolic reverse();
-        /**
+    iFunctionSymbolic getReverseFunction();
+    
+    /**
      * Generic GA reverse implementation based on grade selection.
      * 
      * [Dorst] p. 604
@@ -140,34 +152,9 @@ public interface iMultivectorSymbolic {
         return gp(pseudoscalar());
     }
     
-    iMultivectorSymbolic generalInverse();
     iMultivectorSymbolic scalarInverse();
     
-    /**
-     * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix.
-     * Dies ist allerdings nicht so performant wie die spezfische cga impl von generalInverse und gp.
-     * 
-     * @param rhs
-     * @return 
-     */
-    default iMultivectorSymbolic div(iMultivectorSymbolic rhs){
-        return gp(rhs.generalInverse());
-    }
-    
-    /**
-     * Invertion of versors is more efficient than invertion of a generic multivector.
-     * 
-     * TODO
-     * Untersuchen, ob das besser wieder abgeschafft werden kann und die Implementierung
-     * dann intern das argument darauf testet ob ein versor vorliegt und dann die
-     * passende Implementierung aufruft.
-     * 
-     * @return 
-     */
-    default iMultivectorSymbolic versorInverse(){
-        iMultivectorSymbolic rev = reverse();
-        return rev.gp(gp(rev).scalarInverse());
-    }
+
     
     /**
      * Conjugate.
@@ -205,7 +192,7 @@ public interface iMultivectorSymbolic {
                         " op:grade(b)="+String.valueOf(grades_b[j]));
                 int grade = grades_a[i] + grades_b[j];
                 System.out.println("op:grade(result)="+String.valueOf(grade));
-                if (grade >=0){
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
                     System.out.println("op:add(grade == "+String.valueOf(grade)+")");
                     iMultivectorSymbolic res = gradeSelection(grades_a[i]).
                             gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
@@ -456,16 +443,41 @@ public interface iMultivectorSymbolic {
         return add(b.gp(-1d));
     }
 
-    // macht vermutlich nur Sinn für scalars
-    //iMultivectorSymbolic mul(iMultivectorSymbolic b);
-
-    /**
+    public iMultivectorSymbolic negate14();
+    
+    iMultivectorSymbolic scalarAbs();
+    
+    iMultivectorSymbolic scalarAtan2(iMultivectorSymbolic y);
+    
+    iMultivectorSymbolic scalarSqrt();
+    
+    
+    public iMultivectorSymbolic denseEmptyInstance();
+    // brauche ich das wirklich?
+    //FIXME
+    public iMultivectorSymbolic sparseEmptyInstance();
+    
+    
+    // non linear operators/functions
+    
+    // [8] M Roelfs and S De Keninck. 2021. 
+    // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
+    // generische Implementierung for multivectors
+    public iMultivectorSymbolic exp();
+    public iMultivectorSymbolic sqrt();
+    public iMultivectorSymbolic log();
+    
+    public iMultivectorSymbolic meet(iMultivectorSymbolic b);
+    public iMultivectorSymbolic join(iMultivectorSymbolic b);
+    
+     /**
      * norm.
      *
      * Calculate the Euclidean norm. (strict positive).
      */
     iMultivectorSymbolic norm();
 
+    
     /**
      * inorm.
      *
@@ -491,29 +503,32 @@ public interface iMultivectorSymbolic {
     default iMultivectorSymbolic normalize(){
         return gp(gp(this.reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse());
     }
-  
-    iMultivectorSymbolic scalarAbs();
     
-    iMultivectorSymbolic scalarSqrt();
+    iMultivectorSymbolic generalInverse();
     
-    public iMultivectorSymbolic denseEmptyInstance();
-    // brauche ich das wirklich?
-    //FIXME
-    public iMultivectorSymbolic sparseEmptyInstance();
+    /**
+     * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix.
+     * Dies ist allerdings nicht so performant wie die spezfische cga impl von generalInverse und gp.
+     * 
+     * @param rhs
+     * @return 
+     */
+    default iMultivectorSymbolic div(iMultivectorSymbolic rhs){
+        return gp(rhs.generalInverse());
+    }
     
-    public iMultivectorSymbolic negate14();
-    
-    // for scalars only
-    public iMultivectorSymbolic atan2(iMultivectorSymbolic y);
-    
-    // [8] M Roelfs and S De Keninck. 2021. 
-    // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
-    // generische Implementierung for multivectors
-    public iMultivectorSymbolic exp();
-    public iMultivectorSymbolic sqrt();
-    public iMultivectorSymbolic log();
-    
-    public iMultivectorSymbolic meet(iMultivectorSymbolic b);
-    public iMultivectorSymbolic join(iMultivectorSymbolic b);
-    
+    /**
+     * Invertion of versors is more efficient than invertion of a generic multivector.
+     * 
+     * TODO
+     * Untersuchen, ob das besser wieder abgeschafft werden kann und die Implementierung
+     * dann intern das argument darauf testet ob ein versor vorliegt und dann die
+     * passende Implementierung aufruft.
+     * 
+     * @return 
+     */
+    default iMultivectorSymbolic versorInverse(){
+        iMultivectorSymbolic rev = reverse();
+        return rev.gp(gp(rev).scalarInverse());
+    }
 }

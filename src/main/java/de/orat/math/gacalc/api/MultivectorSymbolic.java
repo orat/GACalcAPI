@@ -2,6 +2,7 @@ package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iMultivectorSymbolic;
 import de.orat.math.sparsematrix.MatrixSparsity;
+import java.util.Collections;
 //import de.orat.math.sparsematrix.ColumnVectorSparsity;
 
 /**
@@ -257,7 +258,7 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic scalarAtan2(MultivectorSymbolic y) {
         if (!impl.isScalar()) throw new IllegalArgumentException("The argument x of tang(x,y) is no scalar!");
         if (!y.impl.isScalar()) throw new IllegalArgumentException("The argument y of tang(x,y) is no scalar!");
-        return get(impl.atan2(y.impl));
+        return get(impl.scalarAtan2(y.impl));
     }
     
     
@@ -317,6 +318,8 @@ public class MultivectorSymbolic {
      */
     public MultivectorSymbolic reverse() {
         return get(impl.reverse());
+        //return get(impl.getReverseFunction().callSymbolic(Collections.singletonList(
+        //        this.impl)).iterator().next());
     }
 
     /**
