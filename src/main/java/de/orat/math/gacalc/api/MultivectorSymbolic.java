@@ -325,7 +325,7 @@ public class MultivectorSymbolic {
     /**
      * Clifford conjugate (a sign change operation)
      *
-     * @return this †
+     * @return this † (| in ganja.js?)
      */
     public MultivectorSymbolic cliffordConjugate() {
         return get(impl.conjugate());

@@ -39,28 +39,23 @@ public interface iMultivectorSymbolic {
     int grade();
     int[] grades();
 
-    //iMultivectorSymbolic gradeSelection(int grade);
     iFunctionSymbolic getGradeSelectionFunction(int grade);
     default iMultivectorSymbolic gradeSelection(int grade){
          return getGradeSelectionFunction(grade).callSymbolic(Collections.singletonList(
                 this)).iterator().next();
     }
     
-    iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
-    iMultivectorSymbolic gp(double s);
-  
+    
     default iMultivectorSymbolic reverse(){
          return getReverseFunction().callSymbolic(Collections.singletonList(
                 this)).iterator().next();
     }
-    
     // das könnte ich default implementieren?
     // schwierig, da ich sonst viele weitere Methoden hier im Interface brauche
     // um scalare Operationen ausführen zu können, daher die ga-allgemeine Implementierung
     // erst einmal in die cga-spezifische Implementierung aufgenommen, soll dann
     // später in eine allg. GA casadi impl verschoben werden
     iFunctionSymbolic getReverseFunction();
-    
     /**
      * Generic GA reverse implementation based on grade selection.
      * 
@@ -92,7 +87,11 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }*/
-       
+    
+    
+    iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
+    iMultivectorSymbolic gp(double s);
+  
     // involute (Ak) = (-1) hoch k * Ak
     // ungetested
     default iMultivectorSymbolic gradeInversion(){
@@ -254,7 +253,7 @@ public interface iMultivectorSymbolic {
         for (int i=0;i<grades_a.length;i++){
             for (int j=0;j<grades_b.length;j++){
                 int grade = grades_b[j] - grades_a[i];
-                if (grade >=0){
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
                     iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
                     if (result == null){
                         result = res;
@@ -297,7 +296,7 @@ public interface iMultivectorSymbolic {
         for (int i=0;i<grades_a.length;i++){
             for (int j=0;j<grades_b.length;j++){
                 int grade = grades_a[i] - grades_b[j];
-                if (grade >=0){
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
                     iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
                     if (result == null){
                         result = res;
@@ -353,7 +352,7 @@ public interface iMultivectorSymbolic {
         for (int i=0;i<grades_a.length;i++){
             for (int j=0;j<grades_b.length;j++){
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
-                if (grade >=0){
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
                     iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
                     if (result == null){
                         result = res;
