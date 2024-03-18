@@ -164,6 +164,7 @@ public interface iMultivectorSymbolic {
     iMultivectorSymbolic scalarInverse();
     
 
+    // conjugate
     
     /**
      * Conjugate.
@@ -173,8 +174,14 @@ public interface iMultivectorSymbolic {
      * @param a
      * @return a.Conjugate()
      */
-    iMultivectorSymbolic conjugate();
-
+    //iMultivectorSymbolic conjugate();
+    default iMultivectorSymbolic conjugate(){
+         return getConjugateFunction().callSymbolic(Collections.singletonList(
+                this)).iterator().next();
+    }
+    iFunctionSymbolic getConjugateFunction();
+    
+    
     // funktioniert noch nicht - da bekommen ich lauter 00-Elemente
     // vermutlich gilt die entsprechende Formel nur für blades und ich muss
     // den multivector in blades zerlegen und dann über die blades iterieren
