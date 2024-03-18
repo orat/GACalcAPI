@@ -2,7 +2,9 @@ package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.MultivectorSymbolic.Callback;
 import de.orat.math.sparsematrix.MatrixSparsity;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 import util.CayleyTable;
 
@@ -89,7 +91,15 @@ public interface iMultivectorSymbolic {
     }*/
     
     
-    iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
+    // gp
+    
+    //iMultivectorSymbolic gp(iMultivectorSymbolic rhs);
+    public iFunctionSymbolic getGPFunction();
+    default iMultivectorSymbolic gp(iMultivectorSymbolic rhs){
+        return getGPFunction().callSymbolic(Arrays.asList(this, rhs)).iterator().next();
+    }
+    
+    
     iMultivectorSymbolic gp(double s);
   
     // involute (Ak) = (-1) hoch k * Ak
