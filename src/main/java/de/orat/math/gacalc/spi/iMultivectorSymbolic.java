@@ -99,8 +99,11 @@ public interface iMultivectorSymbolic {
         return getGPFunction().callSymbolic(Arrays.asList(this, rhs)).iterator().next();
     }
     
-    
-    iMultivectorSymbolic gp(double s);
+    //iMultivectorSymbolic gp(double s);
+    public iFunctionSymbolic getGPWithScalarFunction(double s);
+    default iMultivectorSymbolic gp(double s){
+        return getGPWithScalarFunction(s).callSymbolic(Arrays.asList(this)).iterator().next();
+    }
   
     // involute (Ak) = (-1) hoch k * Ak
     // ungetested
@@ -182,13 +185,15 @@ public interface iMultivectorSymbolic {
     iFunctionSymbolic getConjugateFunction();
     
     
+    // outer product
+    
     // funktioniert noch nicht - da bekommen ich lauter 00-Elemente
     // vermutlich gilt die entsprechende Formel nur für blades und ich muss
     // den multivector in blades zerlegen und dann über die blades iterieren
     //TODO
-    default iMultivectorSymbolic op__(iMultivectorSymbolic b){
+    /*default iMultivectorSymbolic op__(iMultivectorSymbolic b){
         return gp(b).add(b.gradeInversion().gp(this)).gp(0.5d);
-    }
+    }*/
     
     default iMultivectorSymbolic op(iMultivectorSymbolic b){
         // Das ist so keine vollständig symbolische Implementierung, was dazu führt,

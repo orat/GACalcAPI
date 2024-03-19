@@ -14,14 +14,14 @@ public final class GAExprGraphFactoryService {
 	private final ServiceLoader<iExprGraphFactory> loader;
 
 	public static synchronized GAExprGraphFactoryService instance() {
-		if (service == null) {
-			service = new GAExprGraphFactoryService();
-		}
-		return service;
+            if (service == null) {
+                    service = new GAExprGraphFactoryService();
+            }
+            return service;
 	}
 
 	private GAExprGraphFactoryService() {
-		loader = ServiceLoader.load(iExprGraphFactory.class);
+            loader = ServiceLoader.load(iExprGraphFactory.class);
 	}
 
 	//TODO
