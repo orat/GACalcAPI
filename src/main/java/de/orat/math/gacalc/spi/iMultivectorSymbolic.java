@@ -1,11 +1,13 @@
 package de.orat.math.gacalc.spi;
 
+import de.orat.math.gacalc.api.ExprGraphFactory;
+import de.orat.math.gacalc.api.FunctionSymbolic;
+import de.orat.math.gacalc.api.MultivectorSymbolic;
 import de.orat.math.gacalc.api.MultivectorSymbolic.Callback;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 import util.CayleyTable;
 
 /**
@@ -22,12 +24,19 @@ public interface iMultivectorSymbolic {
 
     MatrixSparsity getSparsity();
     
+    /**
+     * Is structural a scalar.
+     * 
+     * @return 
+     */
     default boolean isScalar(){
         int[] rows = getSparsity().getrow();
         if (rows.length != 1) return false;
         return rows[0] == 0;
     }
-
+    
+    public boolean isZero();
+    
     /**
      * Get the Cayley-Table for the geometric product.
      * 
@@ -37,6 +46,9 @@ public interface iMultivectorSymbolic {
     
     
     // Operators to create an acyclic graph
+    
+    iMultivectorSymbolic asCachedSymbolicFunction(String name, 
+        List<iMultivectorSymbolic> args, iMultivectorSymbolic res);
     
     int grade();
     int[] grades();
@@ -142,6 +154,9 @@ public interface iMultivectorSymbolic {
      * This implementation only works for non-degenerate metrics and even for
      * those a more efficient implementation is possible.<p>
      *
+     * TODO
+     * auf function/cache umstellen?
+     * 
      * @param a
      * @return !a
      */
@@ -461,7 +476,9 @@ public interface iMultivectorSymbolic {
      * @return a - b
      */
     default iMultivectorSymbolic sub (iMultivectorSymbolic b){
-        return add(b.gp(-1d));
+        return asCachedSymbolicFunction("sub", Arrays.asList(this, b), 
+                add(b.gp(-1d)));
+        //return add(b.gp(-1d));
     }
 
     public iMultivectorSymbolic negate14();
@@ -519,10 +536,16 @@ public interface iMultivectorSymbolic {
      * funktioniert. Diese könnte dann eine spezifische Implementierung dieses
      * Interfaces zur Verfügung stellen und die default impl hier überschreiben.<p>
      * 
+     * FIXME
+     * test failed
+     * alle Werte sind verschieden zur Vergleichs-Implementierung
+     * 
      * Returns a normalized (Euclidean) element.
      */
     default iMultivectorSymbolic normalize(){
-        return gp(gp(this.reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse());
+        return asCachedSymbolicFunction("normalize", Collections.singletonList(this),
+                gp(gp(this.reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse()));
+        //return gp(gp(this.reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse());
     }
     
     iMultivectorSymbolic generalInverse();

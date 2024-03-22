@@ -2,8 +2,6 @@ package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iExprGraphFactory;
 import de.orat.math.sparsematrix.MatrixSparsity;
-//import de.orat.math.sparsematrix.ColumnVectorSparsity;
-//import de.orat.math.sparsematrix.SparseDoubleColumnVector;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
 import java.util.function.Supplier;
@@ -105,6 +103,7 @@ public class ExprGraphFactory {
     public double[] createRandomMultivector(int grade) {
         return impl.createRandomKVector(grade);
     }
+    
     
     // functions
     

@@ -15,6 +15,32 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
         return new CGAMultivectorSparsity(createDenseRows(cgaCayleyTable.getBladesCount()));
     }
     
+    public static CGAMultivectorSparsity even(){
+        return new CGAMultivectorSparsity(CGACayleyTableGeometricProduct.getEvenIndizes());
+    }
+    
+    public static CGAMultivectorSparsity scalar(){
+        return new CGAMultivectorSparsity(new int[]{0});
+    }
+    
+    public boolean isEven(){
+        int[] evenIndizes = CGACayleyTableGeometricProduct.getEvenIndizes();
+        int[] row = getrow();
+        int rows = row.length;
+        if (rows != evenIndizes.length) return false;
+        for (int i=0;i<rows;i++){
+            if (row[i] != evenIndizes[i]) return false;
+        }
+        return true;
+    }
+    
+    public boolean isScalar(){
+        int[] row = getrow();
+        if (row.length != 1) return false;
+        if (row[0] != 0) return false;
+        return true;
+    }
+    
     /**
      * It is allowed to have nonzeros indizes corresponding to different grades.
      * 

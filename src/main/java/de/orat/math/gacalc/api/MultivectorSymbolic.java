@@ -283,8 +283,13 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic generalInverse() {
         return get(impl.generalInverse());
     }
+    /**
+     * @throws IllegalArgumentException if the multivector is no scalar or is 0
+     * @return 
+     */
     public MultivectorSymbolic scalarInverse(){
         if (!impl.isScalar()) throw new IllegalArgumentException("This is no scalar!");
+        if (impl.isZero()) throw new IllegalArgumentException("This is zero!");
         return get(impl.scalarInverse());
     }
     
@@ -392,9 +397,11 @@ public class MultivectorSymbolic {
      * Returns a normalized (Euclidean) element.
      *
      * @return normalize(this)
-     * @throws java.lang.Exception
+     * @throws java.lang.IllegalArgumentException if the multivector is 0.
      */
-    public MultivectorSymbolic normalize() throws Exception {
+    public MultivectorSymbolic normalize() throws IllegalArgumentException {
+        //return division(norm());
+        // impl interface hat schon eine default method impl
         return get(impl.normalize());
     }
 
@@ -427,11 +434,9 @@ public class MultivectorSymbolic {
     //======================================================
     
     /**
-     * norm.
-     *
-     * Calculate the Euclidean norm. (strict positive).
+     * Euclidean norm. (strict positive).
      */
-    public MultivectorSymbolic norm() throws Exception {
+    public MultivectorSymbolic norm() {
         return get(impl.norm());
     }
 

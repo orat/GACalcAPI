@@ -34,6 +34,10 @@ public abstract class CGACayleyTable extends CayleyTable {
     public static int getCGAGrade(int index){
         return CGABasisBladeNames[index].length()-1;
     }
+    
+    public static int[] getEvenIndizes(){
+        return new int[]{0,6,7,8,9,10,11,12,13,14,15,26,27,28,29,30};
+    }
      
     CGACayleyTable(String[][] cgaTable){
         super(cgaTable, CGABasisBladeNames);

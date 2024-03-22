@@ -15,7 +15,7 @@ public final class GAExprGraphFactoryService {
 
 	public static synchronized GAExprGraphFactoryService instance() {
             if (service == null) {
-                    service = new GAExprGraphFactoryService();
+                service = new GAExprGraphFactoryService();
             }
             return service;
 	}
