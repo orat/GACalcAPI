@@ -273,14 +273,6 @@ public interface iMultivectorSymbolic {
      * @return a | b
      */
     default iMultivectorSymbolic lc (iMultivectorSymbolic b){
-        // Das ist so keine vollständig symbolische Implementierung, was dazu führt,
-        // dass beim Aufbau des Expression Graphs die grades der Argumente
-        // bestimmt werden und als fest für die Laufzeit angenommen werden
-        //TODO
-        // damit mit jedem Aufruf bei gleicher Sparsity der Argumente nicht neuer
-        // Code im Expression Graph erzeugt wird, sollte eine Kapselung in function-Objekten
-        // erfolgen. Unklar, ob dies hier im Interface als defaut-Implementierung
-        // möglich ist oder ob dies dann in der Casadi-Implementierung erfolgen muss.
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = null;
@@ -371,9 +363,9 @@ public interface iMultivectorSymbolic {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         String funName =  _createBipedFuncName("scp", grades_a, grades_b);
-        return asCachedSymbolicFunction(funName, Arrays.asList(this, b), _scp(this, b));
+        return asCachedSymbolicFunction(funName, Arrays.asList(this, b), _scp(b));
     }
-    default iMultivectorSymbolic _scp(iMultivectorSymbolic a, iMultivectorSymbolic b){
+    default iMultivectorSymbolic _scp(iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = null;
@@ -411,17 +403,23 @@ public interface iMultivectorSymbolic {
         return result;
     }*/
     
+    
     /**
      * Dot product - different to inner product: 0-grade products are not excluded
-     * from the summation. This fits better to left/right contraction in combination
-     * with a scalar product.
+     * from the summation. 
      * 
-     * Not yet tested.
+     * This fits better to left/right contraction in combination with a scalar product.<p>
      * 
      * @param b
      * @return 
      */
     default iMultivectorSymbolic dot(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        String funName =  _createBipedFuncName("dot", grades_a, grades_b);
+        return asCachedSymbolicFunction(funName, Arrays.asList(this, b), _dot(b));
+    }
+    default iMultivectorSymbolic _dot(iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = null;
@@ -440,7 +438,25 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }
-    
+    /*default iMultivectorSymbolic dot(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                int grade = Math.abs(grades_b[j] - grades_a[i]);
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                }
+            }
+        }
+        return result;
+    }*/
     /**
      * Original/classical inner product definition which excludes 0-grades from
      * the summation. Better use the dot-product instead.
