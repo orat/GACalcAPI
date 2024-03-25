@@ -457,6 +457,7 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }*/
+    
     /**
      * Original/classical inner product definition which excludes 0-grades from
      * the summation. Better use the dot-product instead.
@@ -509,7 +510,9 @@ public interface iMultivectorSymbolic {
      * @return a & b
      */
     default iMultivectorSymbolic vee (iMultivectorSymbolic b){
-        return dual().op(b.dual()).dual();
+        return asCachedSymbolicFunction("vee", Arrays.asList(this, b), 
+                dual().op(b.dual()).dual());
+        //return dual().op(b.dual()).dual();
     }
 
     /**
