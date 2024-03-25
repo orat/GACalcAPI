@@ -104,7 +104,6 @@ public class ExprGraphFactory {
         return impl.createRandomKVector(grade);
     }
     
-    
     // functions
     
     public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorSymbolic> parameters,

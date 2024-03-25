@@ -396,13 +396,13 @@ public class MultivectorSymbolic {
     /**
      * Returns a normalized (Euclidean) element.
      *
-     * @return normalize(this)
+     * @return normed(this)
      * @throws java.lang.IllegalArgumentException if the multivector is 0.
      */
     public MultivectorSymbolic normalize() throws IllegalArgumentException {
         //return division(norm());
         // impl interface hat schon eine default method impl
-        return get(impl.normalize());
+        return get(impl.normalizeBySquaredNorm());
     }
 
     /**
@@ -434,7 +434,7 @@ public class MultivectorSymbolic {
     //======================================================
     
     /**
-     * Euclidean norm. (strict positive).
+     * Euclidean norm. (strict positive, from squared norm).
      */
     public MultivectorSymbolic norm() {
         return get(impl.norm());

@@ -1,8 +1,5 @@
 package de.orat.math.gacalc.spi;
 
-import de.orat.math.gacalc.api.ExprGraphFactory;
-import de.orat.math.gacalc.api.FunctionSymbolic;
-import de.orat.math.gacalc.api.MultivectorSymbolic;
 import de.orat.math.gacalc.api.MultivectorSymbolic.Callback;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import java.util.Arrays;
@@ -523,29 +520,32 @@ public interface iMultivectorSymbolic {
      */
     iMultivectorSymbolic inorm();
 
+    iMultivectorSymbolic normalizeEvenElement();
+    iMultivectorSymbolic normalizeBySquaredNorm();
     /**
-     * Normalize a multivector.
+     * Normalize a multivector (unit under reverse).
      * 
-     * Grade-selection is needed if n>3 only, else this.reverse() is always a scalar.<p>
+     * Grade-selection is needed if n>3 only, else reverse() is always a scalar.<p>
      * 
      * n=p+q+r, R41 corresponds to n=5<p>
      * 
-     * TODO<br>
-     * https://enki.ws/ganja.js/examples/coffeeshop.html#NSELGA<br>
-     * Hier wird eine komplizierte normalize()-Methode beschrieben die auch für R41
-     * funktioniert. Diese könnte dann eine spezifische Implementierung dieses
-     * Interfaces zur Verfügung stellen und die default impl hier überschreiben.<p>
+     * Reverse norm is different to standard normalization.<p>
      * 
-     * FIXME
-     * test failed
-     * alle Werte sind verschieden zur Vergleichs-Implementierung
+     * [Kleppe
+     * normed = {
+     *  _P(1)/(sqrt(abs(_P(1)*_P(1)~)))
+     * }
      * 
      * Returns a normalized (Euclidean) element.
+     * 
+     * TODO
+     * da fehlt mir noch ein test
      */
-    default iMultivectorSymbolic normalize(){
-        return asCachedSymbolicFunction("normalize", Collections.singletonList(this),
-                gp(gp(this.reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse()));
-        //return gp(gp(this.reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse());
+    default iMultivectorSymbolic normalizeByReverseNorm(){
+        //return asCachedSymbolicFunction("normed", Collections.singletonList(this),
+        //        gp(gp(reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse()));
+        // ist gp(scalar) wirklich das gleiche wie muls? ja
+        return gp(gp(reverse()).gradeSelection(0).scalarAbs().scalarSqrt().scalarInverse());
     }
     
     iMultivectorSymbolic generalInverse();
@@ -553,6 +553,9 @@ public interface iMultivectorSymbolic {
     /**
      * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix.
      * Dies ist allerdings nicht so performant wie die spezfische cga impl von generalInverse und gp.
+     * 
+     * TODO
+     * da fehlt mir noch ein test
      * 
      * @param rhs
      * @return 
@@ -562,17 +565,31 @@ public interface iMultivectorSymbolic {
     }
     
     /**
-     * Invertion of versors is more efficient than invertion of a generic multivector.
+     * Inversion of versors is more efficient than inversion of a generic multivector.
      * 
      * TODO
      * Untersuchen, ob das besser wieder abgeschafft werden kann und die Implementierung
      * dann intern das argument darauf testet ob ein versor vorliegt und dann die
      * passende Implementierung aufruft.
      * 
-     * @return 
+     * @return inverse of the multivector if the multivector is a versor
+     * @throws IllegalArgumentException if the scalarproduct with the rerverse of this multivector is no scalar
      */
     default iMultivectorSymbolic versorInverse(){
-        iMultivectorSymbolic rev = reverse();
-        return rev.gp(gp(rev).scalarInverse());
+        //iMultivectorSymbolic rev = reverse();
+        // return rev.gp(gp(rev).scalarInverse());
+        // wo kommt diese Implementierung her?
+        // scheint falsch zu sein
+        // vergleich mit generalInverse liefert Vorzeichenfehler
+        
+        iMultivectorSymbolic R = reverse();
+        iMultivectorSymbolic s = scp(R);
+        if (!s.isScalar()) throw new IllegalArgumentException("Multiplication with reverse must be a scalar!");
+        //if (s == 0.0) throw new java.lang.ArithmeticException("non-invertible multivector");
+        return R.gp(s.scalarInverse());
+        // Achtung: es wird nicht gp(double) sonder gp(mv) aufgerufen. Vielleicht ist das ja der Fehler?
+        
+        // scheint mir jetzt den gleichen Vorzeichenfehler zu liefern
+        // statt gp taucht im test muls(scalar) auf - elementwise Multiplication mit einem scalar
     }
 }

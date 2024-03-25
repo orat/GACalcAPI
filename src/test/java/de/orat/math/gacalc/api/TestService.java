@@ -2,8 +2,6 @@ package de.orat.math.gacalc.api;
 
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import java.util.Optional;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
