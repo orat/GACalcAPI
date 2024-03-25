@@ -347,10 +347,33 @@ public interface iMultivectorSymbolic {
         return reverse().lc(b.reverse()).reverse();
     }
 
+    // special characters like ._-[]{} are not allowed as function names
+    default String _createBipedFuncName(String name, int[] arg1Grades, int[] arg2Grades){
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append("a");
+        for (int i=0;i<arg1Grades.length-1;i++){
+            sb.append(String.valueOf(arg1Grades[i]));
+            //sb.append("-");
+        }
+        sb.append(String.valueOf(arg1Grades[arg1Grades.length-1]));
+        sb.append("b");
+        for (int i=0;i<arg2Grades.length-1;i++){
+            sb.append(String.valueOf(arg2Grades[i]));
+            //sb.append("-");
+        }
+        sb.append(String.valueOf(arg2Grades[arg2Grades.length-1]));
+        //sb.append("_");
+        return sb.toString();
+    }
     
-    // ungetested
-    // a*reverse(a) == norm-square of a
     default iMultivectorSymbolic scp(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        String funName =  _createBipedFuncName("scp", grades_a, grades_b);
+        return asCachedSymbolicFunction(funName, Arrays.asList(this, b), _scp(this, b));
+    }
+    default iMultivectorSymbolic _scp(iMultivectorSymbolic a, iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = null;
@@ -368,6 +391,25 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }
+        
+    /*default iMultivectorSymbolic scp(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                if (grades_a[i] == grades_b[j]){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(0);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                }
+            }
+        }
+        return result;
+    }*/
     
     /**
      * Dot product - different to inner product: 0-grade products are not excluded
