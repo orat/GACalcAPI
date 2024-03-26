@@ -1,2 +1,12 @@
 ...ColumnVector... classes entfernen, denn GA-Implementierungen könnten auch auf nxn-Matrizen beruhen
 wie z.B. auf Basis von ext-Vahlen-Matrizen
+
+iMultivectorSymbolic:
+versorInverse() scheint falsches Vorzeichen zu liefern + Umstellung auf function
+div() da fehlt ein Test + Umstellung auf function
+normalizeByReverseNorm da fehlt ein Test + Umstellung auf function
+ip() da fehlt ein test + Umstellung auf function
+rc() da fehlt ein Test + Umstellung auf function
+lc() der vorhandene test schlägt fehlt und ist auskommentiert
+Test Vergleich lc() mit lc_()
+undual() da fehlt ein Test

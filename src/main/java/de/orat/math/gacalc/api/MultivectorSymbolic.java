@@ -361,7 +361,7 @@ public class MultivectorSymbolic {
      * @return this²
      */
     public MultivectorSymbolic square() {
-        return this.geometricProduct(this);
+        return geometricProduct(this);
     }
 
     /**
@@ -434,7 +434,7 @@ public class MultivectorSymbolic {
     //======================================================
     
     /**
-     * Euclidean norm. (strict positive, from squared norm).
+     * Euclidean/reverse norm. (strict positive).
      */
     public MultivectorSymbolic norm() {
         return get(impl.norm());

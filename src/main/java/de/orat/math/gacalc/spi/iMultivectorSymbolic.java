@@ -9,6 +9,8 @@ import util.CayleyTable;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
+ * 
+ * Methods with prefix "_" are to use only inside this interface.
  */
 public interface iMultivectorSymbolic {
 
@@ -44,7 +46,7 @@ public interface iMultivectorSymbolic {
     
     // Operators to create an acyclic graph
     
-    iMultivectorSymbolic asCachedSymbolicFunction(String name, 
+    iMultivectorSymbolic _asCachedSymbolicFunction(String name, 
         List<iMultivectorSymbolic> args, iMultivectorSymbolic res);
     
     int grade();
@@ -151,15 +153,14 @@ public interface iMultivectorSymbolic {
      * This implementation only works for non-degenerate metrics and even for
      * those a more efficient implementation is possible.<p>
      *
-     * TODO
-     * auf function/cache umstellen?
-     * 
      * @param a
      * @return !a
      */
     default iMultivectorSymbolic dual() {
+        return _asCachedSymbolicFunction("dual", Arrays.asList(this), 
+                _lc_InversePseudoscalar());
         // scheint beides zu funktionieren
-        return lc(inversePseudoscalar());
+        //return lc(inversePseudoscalar());
         //return gp(inversePseudoscalar());
     }
     /**
@@ -169,12 +170,21 @@ public interface iMultivectorSymbolic {
      * 
      * @return 
      */
-    default iMultivectorSymbolic undual(){
+    /*default iMultivectorSymbolic undual(){
         // alternativ könnte das auch via GA generic via gradeselection implementiert werden
         // nur nicht hier im Interface, da sonst Methoden zurm symoblischen Rechnen von scalars
         // benötigt würden.
         return gp(pseudoscalar());
+    }*/
+    default iMultivectorSymbolic undual(){
+        return getUndualFunction().callSymbolic(Arrays.asList(this)).iterator().next();
     }
+    //TODO
+    // default impl? sollte möglich sein ist dann aber nicht so performant, da das
+    // Vorzeichen je nach GA model bestimmt werden muss, 
+    public iFunctionSymbolic getUndualFunction();
+    
+    
     
     iMultivectorSymbolic scalarInverse();
     
@@ -208,14 +218,44 @@ public interface iMultivectorSymbolic {
     }*/
     
     default iMultivectorSymbolic op(iMultivectorSymbolic b){
-        // Das ist so keine vollständig symbolische Implementierung, was dazu führt,
-        // dass beim Aufbau des Expression Graphs die grades der Argumente
-        // bestimmt werden und als fest für die Laufzeit angenommen werden
-        //TODO
-        // damit mit jedem Aufruf bei gleicher Sparsity der Argumente nicht neuer
-        // Code im Expression Graph erzeugt wird, sollte eine Kapselung in function-Objekten
-        // erfolgen. Unklar, ob dies hier im Interface als defaut-Implementierung
-        // möglich ist oder ob dies dann in der Casadi-Implementierung erfolgen muss.
+        String funName =  _createBipedFuncName("op", grades(), b.grades());
+        return _asCachedSymbolicFunction(funName, Arrays.asList(this, b), _op(b));
+    }
+
+    default iMultivectorSymbolic _op(iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null; //denseEmptyInstance(); 
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                //System.out.println("op:grade(a)="+String.valueOf(grades_a[i])+
+                //        " op:grade(b)="+String.valueOf(grades_b[j]));
+                int grade = grades_a[i] + grades_b[j];
+                //System.out.println("op:grade(result)="+String.valueOf(grade));
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
+                    //System.out.println("op:add(grade == "+String.valueOf(grade)+")");
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).
+                            gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    //System.out.println("op:res grade(a)="+String.valueOf(grades_a[i])+
+                    //        ", grade(b)="+String.valueOf(grades_b[j])+", grade(result)="+
+                    //        String.valueOf(grade)+" ="+res.toString());
+                    //TODO
+                    // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
+                    // und den ersten Wert vor dem Vorschleifen in die Variable zu streichen
+                    // dann könnte ich das if vermeiden.
+                    if (result == null) {
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                    //System.out.println("op:res sparsity="+result.getSparsity().toString());
+                }
+            }
+        }
+        return result;
+    }
+    
+    /*default iMultivectorSymbolic op(iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = null; //denseEmptyInstance(); 
@@ -246,7 +286,7 @@ public interface iMultivectorSymbolic {
             }
         }
         return result;
-    }
+    }*/
 
     /**
      * Generic GA left contraction based on grade selection.
@@ -272,7 +312,16 @@ public interface iMultivectorSymbolic {
      * @param b
      * @return a | b
      */
-    default iMultivectorSymbolic lc (iMultivectorSymbolic b){
+    default iMultivectorSymbolic lc(iMultivectorSymbolic b){
+        String funName =  _createBipedFuncName("lc", grades(), b.grades());
+        return _asCachedSymbolicFunction(funName, Arrays.asList(this, b), _lc(b));
+    }
+    default iMultivectorSymbolic _lc_InversePseudoscalar(){
+        String funName =  _createBipedFuncName("lc", grades(),"PseudoScalar");
+        return _asCachedSymbolicFunction(funName, Arrays.asList(this), __lc_InversePseudoscalar());
+    }
+    default iMultivectorSymbolic __lc_InversePseudoscalar (){
+        iMultivectorSymbolic b = inversePseudoscalar();
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         iMultivectorSymbolic result = null;
@@ -291,12 +340,51 @@ public interface iMultivectorSymbolic {
         }
         return result;
     }
+    default iMultivectorSymbolic _lc (iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                int grade = grades_b[j] - grades_a[i];
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    /*default iMultivectorSymbolic lc (iMultivectorSymbolic b){
+        int[] grades_a = grades();
+        int[] grades_b = b.grades();
+        iMultivectorSymbolic result = null;
+        for (int i=0;i<grades_a.length;i++){
+            for (int j=0;j<grades_b.length;j++){
+                int grade = grades_b[j] - grades_a[i];
+                if (grade >=0 && grade <= getCayleyTable().getPseudoscalarGrade()){
+                    iMultivectorSymbolic res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    if (result == null){
+                        result = res;
+                    } else {
+                        result = result.add(res);
+                    }
+                }
+            }
+        }
+        return result;
+    }*/
     
     /**
      * Generic GA left contraction based on geometric product, pseudoscalar and 
      * inversePseudoscalar.
      * 
      * test failed
+     * TODO direkter Vergleich mit lc()
      * 
      * @param rhs
      * @return 
@@ -358,12 +446,26 @@ public interface iMultivectorSymbolic {
         //sb.append("_");
         return sb.toString();
     }
+    default String _createBipedFuncName(String name, int[] arg1Grades, String constName){
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append("a");
+        for (int i=0;i<arg1Grades.length-1;i++){
+            sb.append(String.valueOf(arg1Grades[i]));
+            //sb.append("-");
+        }
+        sb.append(String.valueOf(arg1Grades[arg1Grades.length-1]));
+        sb.append("b");
+        sb.append(constName);
+        //sb.append("_");
+        return sb.toString();
+    }
     
     default iMultivectorSymbolic scp(iMultivectorSymbolic b){
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         String funName =  _createBipedFuncName("scp", grades_a, grades_b);
-        return asCachedSymbolicFunction(funName, Arrays.asList(this, b), _scp(b));
+        return _asCachedSymbolicFunction(funName, Arrays.asList(this, b), _scp(b));
     }
     default iMultivectorSymbolic _scp(iMultivectorSymbolic b){
         int[] grades_a = grades();
@@ -417,7 +519,7 @@ public interface iMultivectorSymbolic {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
         String funName =  _createBipedFuncName("dot", grades_a, grades_b);
-        return asCachedSymbolicFunction(funName, Arrays.asList(this, b), _dot(b));
+        return _asCachedSymbolicFunction(funName, Arrays.asList(this, b), _dot(b));
     }
     default iMultivectorSymbolic _dot(iMultivectorSymbolic b){
         int[] grades_a = grades();
@@ -505,14 +607,16 @@ public interface iMultivectorSymbolic {
      *
      * This should be implemented in a more performant way.
      * 
-     * @param a
-     * @param b
+     * @param a first multivector
+     * @param b second multivector
      * @return a & b
      */
     default iMultivectorSymbolic vee (iMultivectorSymbolic b){
-        return asCachedSymbolicFunction("vee", Arrays.asList(this, b), 
-                dual().op(b.dual()).dual());
-        //return dual().op(b.dual()).dual();
+        //FIXME das erste dual() hier liefert keinen symbolic expr.
+        //TODO wieder auf cached function umstellen
+        //return _asCachedSymbolicFunction("vee", Arrays.asList(this, b), 
+        //        dual().op(b.dual()).dual());
+        return dual().op(b.dual()).dual();
     }
 
     /**
@@ -534,7 +638,7 @@ public interface iMultivectorSymbolic {
      * @return a - b
      */
     default iMultivectorSymbolic sub (iMultivectorSymbolic b){
-        return asCachedSymbolicFunction("sub", Arrays.asList(this, b), 
+        return _asCachedSymbolicFunction("sub", Arrays.asList(this, b), 
                 add(b.gp(-1d)));
         //return add(b.gp(-1d));
     }
@@ -566,23 +670,23 @@ public interface iMultivectorSymbolic {
     public iMultivectorSymbolic meet(iMultivectorSymbolic b);
     public iMultivectorSymbolic join(iMultivectorSymbolic b);
     
-     /**
-     * norm.
-     *
-     * Calculate the Euclidean norm. (strict positive).
-     */
-    iMultivectorSymbolic norm();
-
-    
     /**
-     * inorm.
+     * Euclidean/reverse norm.
      *
-     * Calculate the Ideal norm. (signed)
+     * Calculate the euclidean/reverse norm. (strict positive).
+     * 
+     * TODO
+     * vielleicht besser umbenennen in euclideanNorm oder reverseNorm?
+     * wird in der impl überschrieben
+     * 
+     * aber was ist mit conjugate based norm?
+     * https://math.stackexchange.com/questions/1128844/about-the-definition-of-norm-in-clifford-algebra?rq=1
+     * 
      */
-    iMultivectorSymbolic inorm();
-
-    iMultivectorSymbolic normalizeEvenElement();
-    iMultivectorSymbolic normalizeBySquaredNorm();
+    default iMultivectorSymbolic norm(){
+        return scp(reverse()).scalarAbs().scalarSqrt();
+    }
+    
     /**
      * Normalize a multivector (unit under reverse).
      * 
@@ -591,6 +695,9 @@ public interface iMultivectorSymbolic {
      * n=p+q+r, R41 corresponds to n=5<p>
      * 
      * Reverse norm is different to standard normalization.<p>
+     * 
+     * https://math.stackexchange.com/questions/1128844/about-the-definition-of-norm-in-clifford-algebra?rq=1
+     * --> Difference between reverse based and conjugate based norm
      * 
      * [Kleppe
      * normed = {
@@ -603,11 +710,24 @@ public interface iMultivectorSymbolic {
      * da fehlt mir noch ein test
      */
     default iMultivectorSymbolic normalizeByReverseNorm(){
-        //return asCachedSymbolicFunction("normed", Collections.singletonList(this),
+        //return _asCachedSymbolicFunction("normed", Collections.singletonList(this),
         //        gp(gp(reverse().gradeSelection(0)).scalarAbs().scalarSqrt().scalarInverse()));
         // ist gp(scalar) wirklich das gleiche wie muls? ja
+        //TODO sollte ich besser mit Hilfe von reverse/euclidean norm implementieren
         return gp(gp(reverse()).gradeSelection(0).scalarAbs().scalarSqrt().scalarInverse());
     }
+    
+    /**
+     * Ideal norm.
+     *
+     * Calculate the Ideal norm. (signed)
+     */
+    iMultivectorSymbolic inorm();
+     
+    iMultivectorSymbolic normalizeBySquaredNorm(); // oder idealNorm?
+   
+    iMultivectorSymbolic normalizeEvenElement();
+    
     
     iMultivectorSymbolic generalInverse();
     
@@ -648,7 +768,7 @@ public interface iMultivectorSymbolic {
         if (!s.isScalar()) throw new IllegalArgumentException("Multiplication with reverse must be a scalar!");
         //if (s == 0.0) throw new java.lang.ArithmeticException("non-invertible multivector");
         return R.gp(s.scalarInverse());
-        // Achtung: es wird nicht gp(double) sonder gp(mv) aufgerufen. Vielleicht ist das ja der Fehler?
+        // Achtung: es wird nicht gp(double) sondern gp(mv) aufgerufen. Vielleicht ist das ja der Fehler?
         
         // scheint mir jetzt den gleichen Vorzeichenfehler zu liefern
         // statt gp taucht im test muls(scalar) auf - elementwise Multiplication mit einem scalar
