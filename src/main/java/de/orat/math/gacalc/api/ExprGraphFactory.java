@@ -1,41 +1,40 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iExprGraphFactory;
-import de.orat.math.gacalc.spi.iMultivectorSymbolic;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+public class ExprGraphFactory {
 
     //======================================================
     // SPI boilerplate code
     //======================================================
-    protected final iExprGraphFactory<IMultivectorSymbolic> impl;
+    protected final iExprGraphFactory impl;
 
-    protected static <IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> ExprGraphFactory<IMultivectorSymbolic> get(iExprGraphFactory<IMultivectorSymbolic> impl) {
-        ExprGraphFactory<IMultivectorSymbolic> result = new ExprGraphFactory<>(impl);
+    protected static ExprGraphFactory get(iExprGraphFactory impl) {
+        ExprGraphFactory result = new ExprGraphFactory(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
-    protected ExprGraphFactory(iExprGraphFactory<IMultivectorSymbolic> impl) {
+    protected ExprGraphFactory(iExprGraphFactory impl) {
         this.impl = impl;
     }
 
-    public static final class Callback<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+    public static final class Callback {
 
-        private final ExprGraphFactory<IMultivectorSymbolic> api;
+        private final ExprGraphFactory api;
 
-        private Callback(ExprGraphFactory<IMultivectorSymbolic> api) {
+        private Callback(ExprGraphFactory api) {
             this.api = api;
         }
 
         //TODO
         // add methods needed by the spi implementation
-        public iExprGraphFactory<IMultivectorSymbolic> getImpl() {
+        public iExprGraphFactory getImpl() {
             return api.impl;
         }
     }
@@ -52,19 +51,19 @@ public class ExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<
     }
 
     //------- symbolic
-    public MultivectorSymbolic<IMultivectorSymbolic> createMultivectorSymbolic(String name) {
+    public MultivectorSymbolic createMultivectorSymbolic(String name) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> createMultivectorSymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity) {
+    public MultivectorSymbolic createMultivectorSymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparsity));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector) {
+    public MultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparseVector));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> createMultivectorSymbolic(String name, int grade) {
+    public MultivectorSymbolic createMultivectorSymbolic(String name, int grade) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, grade));
     }
 
@@ -98,8 +97,8 @@ public class ExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<
     }
 
     // functions
-    public FunctionSymbolic<IMultivectorSymbolic> createFunctionSymbolic(String name, List<MultivectorSymbolic<IMultivectorSymbolic>> parameters,
-        List<MultivectorSymbolic<IMultivectorSymbolic>> returns) {
+    public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorSymbolic> parameters,
+        List<MultivectorSymbolic> returns) {
         var iParameters = parameters.stream().map(mvs -> mvs.impl).toList();
         var iReturns = returns.stream().map(mvs -> mvs.impl).toList();
         return FunctionSymbolic.get(impl.createFunctionSymbolic(name, iParameters, iReturns));
@@ -108,7 +107,7 @@ public class ExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<
     //======================================================
     // Symbolic scalar
     //======================================================
-    public MultivectorSymbolic<IMultivectorSymbolic> createScalarLiteral(String name, double scalar) {
+    public MultivectorSymbolic createScalarLiteral(String name, double scalar) {
         return createMultivectorSymbolic(name, impl.createScalar(scalar));
     }
 
@@ -124,6 +123,10 @@ public class ExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<
             this.supplier = supplier;
         }
 
+        public static <T> Lazy<T> of(Supplier<T> supplier) {
+            return new Lazy<>(supplier);
+        }
+
         @Override
         public T get() {
             if (supplier == null) {
@@ -136,138 +139,138 @@ public class ExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<
         }
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorOrigin() {
+    public MultivectorSymbolic getBaseVectorOrigin() {
         return baseVectorOrigin.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorOrigin = new Lazy(() -> createBaseVectorOrigin());
+    protected final Supplier<MultivectorSymbolic> baseVectorOrigin = Lazy.of(() -> createBaseVectorOrigin());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorOrigin() {
+    protected MultivectorSymbolic createBaseVectorOrigin() {
         return createMultivectorSymbolic("ε₀", impl.createBaseVectorOrigin(1d));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorInfinity() {
+    public MultivectorSymbolic getBaseVectorInfinity() {
         return baseVectorInfinity.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorInfinity = new Lazy(() -> createBaseVectorInfinity());
+    protected final Supplier<MultivectorSymbolic> baseVectorInfinity = Lazy.of(() -> createBaseVectorInfinity());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorInfinity() {
+    protected MultivectorSymbolic createBaseVectorInfinity() {
         return createMultivectorSymbolic("εᵢ", impl.createBaseVectorInfinity(1d));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorX() {
+    public MultivectorSymbolic getBaseVectorX() {
         return baseVectorX.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorX = new Lazy(() -> createBaseVectorX());
+    protected final Supplier<MultivectorSymbolic> baseVectorX = Lazy.of(() -> createBaseVectorX());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorX() {
+    protected MultivectorSymbolic createBaseVectorX() {
         return createMultivectorSymbolic("ε₁", impl.createBaseVectorX(1d));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorY() {
+    public MultivectorSymbolic getBaseVectorY() {
         return baseVectorY.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorY = new Lazy(() -> createBaseVectorY());
+    protected final Supplier<MultivectorSymbolic> baseVectorY = Lazy.of(() -> createBaseVectorY());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorY() {
+    protected MultivectorSymbolic createBaseVectorY() {
         return createMultivectorSymbolic("ε₂", impl.createBaseVectorY(1d));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorZ() {
+    public MultivectorSymbolic getBaseVectorZ() {
         return baseVectorZ.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorZ = new Lazy(() -> createBaseVectorZ());
+    protected final Supplier<MultivectorSymbolic> baseVectorZ = Lazy.of(() -> createBaseVectorZ());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorZ() {
+    protected MultivectorSymbolic createBaseVectorZ() {
         return createMultivectorSymbolic("e3", impl.createBaseVectorZ(1d));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getEpsilonPlus() {
+    public MultivectorSymbolic getEpsilonPlus() {
         return epsilonPlus.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> epsilonPlus = new Lazy(() -> createEpsilonPlus());
+    protected final Supplier<MultivectorSymbolic> epsilonPlus = Lazy.of(() -> createEpsilonPlus());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createEpsilonPlus() {
+    protected MultivectorSymbolic createEpsilonPlus() {
         return createMultivectorSymbolic("ε₊", impl.createEpsilonPlus());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getEpsilonMinus() {
+    public MultivectorSymbolic getEpsilonMinus() {
         return epsilonMinus.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> epsilonMinus = new Lazy(() -> createEpsilonMinus());
+    protected final Supplier<MultivectorSymbolic> epsilonMinus = Lazy.of(() -> createEpsilonMinus());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createEpsilonMinus() {
+    protected MultivectorSymbolic createEpsilonMinus() {
         return createMultivectorSymbolic("ε₋", impl.createEpsilonMinus());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getPi() {
+    public MultivectorSymbolic getPi() {
         return pi.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> pi = new Lazy(() -> createPi());
+    protected final Supplier<MultivectorSymbolic> pi = Lazy.of(() -> createPi());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createPi() {
+    protected MultivectorSymbolic createPi() {
         return this.createScalarLiteral("π", Math.PI);
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorInfinityDorst() {
+    public MultivectorSymbolic getBaseVectorInfinityDorst() {
         return baseVectorInfinityDorst.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorInfinityDorst = new Lazy(() -> createBaseVectorInfinityDorst());
+    protected final Supplier<MultivectorSymbolic> baseVectorInfinityDorst = Lazy.of(() -> createBaseVectorInfinityDorst());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorInfinityDorst() {
+    protected MultivectorSymbolic createBaseVectorInfinityDorst() {
         return createMultivectorSymbolic("∞", impl.createBaseVectorInfinityDorst());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorOriginDorst() {
+    public MultivectorSymbolic getBaseVectorOriginDorst() {
         return baseVectorOriginDorst.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorOriginDorst = new Lazy(() -> createBaseVectorOriginDorst());
+    protected final Supplier<MultivectorSymbolic> baseVectorOriginDorst = Lazy.of(() -> createBaseVectorOriginDorst());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorOriginDorst() {
+    protected MultivectorSymbolic createBaseVectorOriginDorst() {
         return createMultivectorSymbolic("o", impl.createBaseVectorOriginDorst());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorInfinityDoran() {
+    public MultivectorSymbolic getBaseVectorInfinityDoran() {
         return baseVectorInfinityDoran.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorInfinityDoran = new Lazy(() -> createBaseVectorInfinityDoran());
+    protected final Supplier<MultivectorSymbolic> baseVectorInfinityDoran = Lazy.of(() -> createBaseVectorInfinityDoran());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorInfinityDoran() {
+    protected MultivectorSymbolic createBaseVectorInfinityDoran() {
         return createMultivectorSymbolic("n", impl.createBaseVectorInfinityDoran());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getBaseVectorOriginDoran() {
+    public MultivectorSymbolic getBaseVectorOriginDoran() {
         return baseVectorOriginDoran.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> baseVectorOriginDoran = new Lazy(() -> createBaseVectorOriginDoran());
+    protected final Supplier<MultivectorSymbolic> baseVectorOriginDoran = Lazy.of(() -> createBaseVectorOriginDoran());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createBaseVectorOriginDoran() {
+    protected MultivectorSymbolic createBaseVectorOriginDoran() {
         return createMultivectorSymbolic("ñ", impl.createBaseVectorOriginDoran());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getMinkovskyBiVector() {
+    public MultivectorSymbolic getMinkovskyBiVector() {
         return minkovskyBiVector.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> minkovskyBiVector = new Lazy(() -> createMinkovskyBiVector());
+    protected final Supplier<MultivectorSymbolic> minkovskyBiVector = Lazy.of(() -> createMinkovskyBiVector());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createMinkovskyBiVector() {
+    protected MultivectorSymbolic createMinkovskyBiVector() {
         return createMultivectorSymbolic("E₀", impl.createMinkovskyBiVector());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getEuclideanPseudoscalar() {
+    public MultivectorSymbolic getEuclideanPseudoscalar() {
         return euclideanPseudoscalar.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> euclideanPseudoscalar = new Lazy(() -> createEuclideanPseudoscalar());
+    protected final Supplier<MultivectorSymbolic> euclideanPseudoscalar = Lazy.of(() -> createEuclideanPseudoscalar());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createEuclideanPseudoscalar() {
+    protected MultivectorSymbolic createEuclideanPseudoscalar() {
         return createMultivectorSymbolic("E₃", impl.createEuclideanPseudoscalar());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> getPseudoscalar() {
+    public MultivectorSymbolic getPseudoscalar() {
         return pseudoscalar.get();
     }
-    protected final Supplier<MultivectorSymbolic<IMultivectorSymbolic>> pseudoscalar = new Lazy(() -> createPseudoscalar());
+    protected final Supplier<MultivectorSymbolic> pseudoscalar = Lazy.of(() -> createPseudoscalar());
 
-    protected MultivectorSymbolic<IMultivectorSymbolic> createPseudoscalar() {
+    protected MultivectorSymbolic createPseudoscalar() {
         return createMultivectorSymbolic("E", impl.createPseudoscalar());
     }
 

@@ -1,29 +1,30 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iFunctionSymbolic;
+import de.orat.math.gacalc.spi.iMultivectorNumeric;
 import de.orat.math.gacalc.spi.iMultivectorSymbolic;
 import java.util.List;
 
-public class FunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+public class FunctionSymbolic {
 
-    protected final iFunctionSymbolic<IMultivectorSymbolic> impl;
+    protected final iFunctionSymbolic impl;
 
-    protected static <IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> FunctionSymbolic<IMultivectorSymbolic> get(iFunctionSymbolic<IMultivectorSymbolic> impl) {
-        FunctionSymbolic<IMultivectorSymbolic> result = new FunctionSymbolic<>(impl);
+    protected static FunctionSymbolic get(iFunctionSymbolic impl) {
+        FunctionSymbolic result = new FunctionSymbolic(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
-    protected FunctionSymbolic(iFunctionSymbolic<IMultivectorSymbolic> impl) {
+    protected FunctionSymbolic(iFunctionSymbolic impl) {
         this.impl = impl;
     }
 
-    public static final class Callback<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+    public static final class Callback {
 
-        private final FunctionSymbolic<IMultivectorSymbolic> api;
+        private final FunctionSymbolic api;
 
-        Callback(FunctionSymbolic<IMultivectorSymbolic> api) {
+        Callback(FunctionSymbolic api) {
             this.api = api;
         }
 
@@ -43,16 +44,16 @@ public class FunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<
         return impl.getResultCount();
     }
 
-    public List<MultivectorSymbolic<IMultivectorSymbolic>> callSymbolic(List<MultivectorSymbolic<IMultivectorSymbolic>> arguments) {
+    public List<MultivectorSymbolic> callSymbolic(List<MultivectorSymbolic> arguments) {
         var iArguments = arguments.stream().map(ims -> ims.impl).toList();
-        var iResults = impl.callSymbolic(iArguments);
+        List<iMultivectorSymbolic> iResults = impl.callSymbolic(iArguments);
         var results = iResults.stream().map(ims -> MultivectorSymbolic.get(ims)).toList();
         return results;
     }
 
     public List<MultivectorNumeric> callNumeric(List<MultivectorNumeric> arguments) throws Exception {
         var iArguments = arguments.stream().map(ims -> ims.impl).toList();
-        var iResults = impl.callNumeric(iArguments);
+        List<iMultivectorNumeric> iResults = impl.callNumeric(iArguments);
         var results = iResults.stream().map(imn -> MultivectorNumeric.get(imn)).toList();
         return results;
     }
@@ -61,5 +62,4 @@ public class FunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<
     public String toString() {
         return this.impl.toString();
     }
-
 }

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public interface iFunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+public interface iFunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorNumeric extends iMultivectorNumeric> {
 
     void init(Callback callback);
 
@@ -21,5 +21,5 @@ public interface iFunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymb
 
     List<IMultivectorSymbolic> callSymbolic(List<IMultivectorSymbolic> arguments);
 
-    List<iMultivectorNumeric> callNumeric(List<iMultivectorNumeric> arguments);
+    List<IMultivectorNumeric> callNumeric(List<IMultivectorNumeric> arguments);
 }

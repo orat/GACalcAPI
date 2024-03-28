@@ -1,7 +1,6 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iExprGraphFactory;
-import de.orat.math.gacalc.spi.iMultivectorSymbolic;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ServiceLoader;
@@ -34,7 +33,7 @@ public final class GAExprGraphFactoryService {
         return loader.findFirst().map(impl -> ExprGraphFactory.get(impl));
     }
 
-    public static <IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> ExprGraphFactory<IMultivectorSymbolic> getExprGraphFactoryThrowing() throws NoSuchElementException {
+    public static ExprGraphFactory getExprGraphFactoryThrowing() throws NoSuchElementException {
         return GAExprGraphFactoryService.instance().getExprGraphFactory().orElseThrow();
     }
 }

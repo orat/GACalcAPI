@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorNumeric extends iMultivectorNumeric> {
 
     default void init(Callback callback) {
 
@@ -40,8 +40,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
-    iFunctionSymbolic<IMultivectorSymbolic> createFunctionSymbolic(String name, List<IMultivectorSymbolic> parameters,
-        List<IMultivectorSymbolic> returns);
+    iFunctionSymbolic<IMultivectorSymbolic, IMultivectorNumeric> createFunctionSymbolic(String name, List<IMultivectorSymbolic> parameters, List<IMultivectorSymbolic> returns);
 
     // random multivectors
     default double[] createRandomMultivector(int basisBladesCount) {
@@ -88,5 +87,4 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
     SparseDoubleMatrix createBaseVectorInfinityDoran();
 
     SparseDoubleMatrix createBaseVectorOriginDoran();
-
 }

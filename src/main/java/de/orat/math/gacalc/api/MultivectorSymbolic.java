@@ -8,28 +8,28 @@ import de.orat.math.sparsematrix.MatrixSparsity;
  *
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+public class MultivectorSymbolic {
 
-    protected final IMultivectorSymbolic impl;
+    protected final iMultivectorSymbolic impl;
 
     private static final ExprGraphFactory fac = GAExprGraphFactoryService.instance().getExprGraphFactory().get();
 
-    protected static <IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> MultivectorSymbolic<IMultivectorSymbolic> get(IMultivectorSymbolic impl) {
-        MultivectorSymbolic<IMultivectorSymbolic> result = new MultivectorSymbolic<>(impl);
+    protected static MultivectorSymbolic get(iMultivectorSymbolic impl) {
+        MultivectorSymbolic result = new MultivectorSymbolic(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
-    protected MultivectorSymbolic(IMultivectorSymbolic impl) {
+    protected MultivectorSymbolic(iMultivectorSymbolic impl) {
         this.impl = impl;
     }
 
-    public static final class Callback<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+    public static final class Callback {
 
-        private final MultivectorSymbolic<IMultivectorSymbolic> api;
+        private final MultivectorSymbolic api;
 
-        private Callback(MultivectorSymbolic<IMultivectorSymbolic> api) {
+        private Callback(MultivectorSymbolic api) {
             this.api = api;
         }
 
@@ -49,12 +49,12 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> geometricProduct(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic geometricProduct(MultivectorSymbolic rhs) {
         return get(impl.gp(rhs.impl));
     }
     private static final MultivectorSymbolic half = fac.createScalarLiteral("1/2", 0.5d);
 
-    public MultivectorSymbolic<IMultivectorSymbolic> commutatorProduct(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic commutatorProduct(MultivectorSymbolic rhs) {
         return geometricProduct(rhs).subtraction(rhs.geometricProduct(this)).geometricProduct(half);
     }
 
@@ -64,7 +64,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this ∧ rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> outerProduct(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic outerProduct(MultivectorSymbolic rhs) {
         return get(impl.op(rhs.impl));
     }
 
@@ -74,7 +74,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this + rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> addition(MultivectorSymbolic<IMultivectorSymbolic> rhs)/* throws Exception */ {
+    public MultivectorSymbolic addition(MultivectorSymbolic rhs)/* throws Exception */ {
         return get(impl.add(rhs.impl));
     }
 
@@ -84,7 +84,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this - rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> subtraction(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic subtraction(MultivectorSymbolic rhs) {
         return get(impl.sub(rhs.impl));
     }
 
@@ -99,7 +99,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return projection of this into rhs.
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> projection(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic projection(MultivectorSymbolic rhs) {
         if (impl.grade() == -1) {
             throw new IllegalArgumentException("projection only defined for k-vectors!");
         }
@@ -115,7 +115,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this ⌋ rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> leftContraction(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic leftContraction(MultivectorSymbolic rhs) {
         return get(impl.lc(rhs.impl));
     }
 
@@ -125,7 +125,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this ⌊ rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> rightContraction(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic rightContraction(MultivectorSymbolic rhs) {
         return get(impl.rc(rhs.impl));
     }
 
@@ -135,7 +135,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this ∨ rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> regressiveProduct(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic regressiveProduct(MultivectorSymbolic rhs) {
         return get(impl.vee(rhs.impl));
     }
 
@@ -150,7 +150,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this / rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> division(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic division(MultivectorSymbolic rhs) {
         //return geometricProduct(rhs.generalInverse());
         return get(impl.div(rhs.impl));
     }
@@ -166,11 +166,11 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return rhis ⋅ rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> innerProduct(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic innerProduct(MultivectorSymbolic rhs) {
         return get(impl.ip(rhs.impl));
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> dotProduct(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic dotProduct(MultivectorSymbolic rhs) {
         return get(impl.dot(rhs.impl));
     }
 
@@ -186,7 +186,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> scalarProduct(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic scalarProduct(MultivectorSymbolic rhs) {
         return get(impl.scp(rhs.impl));
     }
 
@@ -197,7 +197,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this ∩ rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> meet(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic meet(MultivectorSymbolic rhs) {
         throw new UnsupportedOperationException();
     }
 
@@ -208,7 +208,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param rhs
      * @return this ∪ rhs
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> join(MultivectorSymbolic<IMultivectorSymbolic> rhs) {
+    public MultivectorSymbolic join(MultivectorSymbolic rhs) {
         throw new UnsupportedOperationException();
     }
 
@@ -218,18 +218,18 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @return exp()
      * @throws IllegalArgumentException if this is no bivector
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> exp() {
+    public MultivectorSymbolic exp() {
         if (impl.grade() != 2) {
             throw new IllegalArgumentException("exp() defined for bivectors only!");
         }
         return get(impl.exp());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> sqrt() {
+    public MultivectorSymbolic sqrt() {
         return get(impl.sqrt());
     }
 
-    public MultivectorSymbolic<IMultivectorSymbolic> log() {
+    public MultivectorSymbolic log() {
         return get(impl.log());
     }
 
@@ -238,7 +238,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return scalarSqrt(this)
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> scalarSqrt() {
+    public MultivectorSymbolic scalarSqrt() {
         if (!impl.isScalar()) {
             throw new IllegalArgumentException("This is no scalar!");
         }
@@ -255,7 +255,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @return a scalar atan2(this, rhs)
      * @throws IllegalArgumentException if x, y != scalar
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> scalarAtan2(MultivectorSymbolic<IMultivectorSymbolic> y) {
+    public MultivectorSymbolic scalarAtan2(MultivectorSymbolic y) {
         if (!impl.isScalar()) {
             throw new IllegalArgumentException("The argument x of tang(x,y) is no scalar!");
         }
@@ -273,7 +273,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return -this
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> negate() {
+    public MultivectorSymbolic negate() {
         return get(impl.gp(-1));
     }
 
@@ -282,7 +282,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return this⁻¹
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> generalInverse() {
+    public MultivectorSymbolic generalInverse() {
         return get(impl.generalInverse());
     }
 
@@ -290,7 +290,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @throws IllegalArgumentException if the multivector is no scalar or is 0
      * @return
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> scalarInverse() {
+    public MultivectorSymbolic scalarInverse() {
         if (!impl.isScalar()) {
             throw new IllegalArgumentException("This is no scalar!");
         }
@@ -307,7 +307,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> versorInverse() {
+    public MultivectorSymbolic versorInverse() {
         return get(impl.versorInverse());
     }
 
@@ -316,7 +316,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return this*
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> dual() {
+    public MultivectorSymbolic dual() {
         return get(impl.dual());
     }
 
@@ -326,7 +326,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return this˜
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> reverse() {
+    public MultivectorSymbolic reverse() {
         return get(impl.reverse());
         //return get(impl.getReverseFunction().callSymbolic(Collections.singletonList(
         //        this.impl)).iterator().next());
@@ -337,7 +337,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return this † (| in ganja.js?)
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> cliffordConjugate() {
+    public MultivectorSymbolic cliffordConjugate() {
         return get(impl.conjugate());
     }
 
@@ -349,7 +349,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return this⁻*
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> undual() {
+    public MultivectorSymbolic undual() {
         return get(impl.undual());
     }
 
@@ -362,7 +362,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return this²
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> square() {
+    public MultivectorSymbolic square() {
         return geometricProduct(this);
     }
 
@@ -371,7 +371,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return this^
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> gradeInversion() {
+    public MultivectorSymbolic gradeInversion() {
         return get(impl.gradeInversion());
     }
 
@@ -384,7 +384,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @param grade ₚ
      * @return {@code <this>ₚ (with ₚ ∈ {₀, ₁, ₂, ₃, ₄, ₅})}
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> gradeExtraction(int grade) {
+    public MultivectorSymbolic gradeExtraction(int grade) {
         return get(impl.gradeSelection(grade));
     }
 
@@ -397,7 +397,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      * @return normed(this)
      * @throws java.lang.IllegalArgumentException if the multivector is 0.
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> normalize() throws IllegalArgumentException {
+    public MultivectorSymbolic normalize() throws IllegalArgumentException {
         //return division(norm());
         // impl interface hat schon eine default method impl
         return get(impl.normalizeBySquaredNorm());
@@ -410,7 +410,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return scalarAbs(this)
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> scalarAbs() {
+    public MultivectorSymbolic scalarAbs() {
         if (!impl.isScalar()) {
             throw new IllegalArgumentException("This is no scalar!");
         }
@@ -424,7 +424,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * @return negatate14(this)
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> negate14() {
+    public MultivectorSymbolic negate14() {
         return get(impl.negate14());
     }
 
@@ -434,7 +434,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
     /**
      * Euclidean/reverse norm. (strict positive).
      */
-    public MultivectorSymbolic<IMultivectorSymbolic> norm() {
+    public MultivectorSymbolic norm() {
         return get(impl.norm());
     }
 
@@ -443,7 +443,7 @@ public class MultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbol
      *
      * Calculate the Ideal norm. (signed)
      */
-    /*public MultivectorSymbolic<IMultivectorSymbolic> inorm() throws Exception {
+    /*public MultivectorSymbolic inorm() throws Exception {
             return get(impl.inorm());
     }*/
     //--------------
