@@ -11,133 +11,126 @@ import java.util.List;
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class LinearOperators {
-    
-    
+
     // negate14
-    public static SparseDoubleMatrix createNegate14MultiplicationMatrix(CayleyTable cayleyTable){
+    public static SparseDoubleMatrix createNegate14MultiplicationMatrix(CayleyTable cayleyTable) {
         int size = cayleyTable.getBladesCount();
         MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
         double[] nonzeros = new double[size];
-        for (int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             nonzeros[i] = 1d;
             int grade = cayleyTable.getGrade(i);
-            if (grade == 1 || grade == 4){
-                nonzeros[i] *=-1;
+            if (grade == 1 || grade == 4) {
+                nonzeros[i] *= -1;
             }
         }
         return new SparseDoubleMatrix(sparsity, nonzeros);
     }
-    
+
     // scalar multiplication
-    public static SparseDoubleMatrix createScalarMultiplicationMatrix(CayleyTable cayleyTable, double s){
+    public static SparseDoubleMatrix createScalarMultiplicationMatrix(CayleyTable cayleyTable, double s) {
         int size = cayleyTable.getBladesCount();
         MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
         double[] nonzeros = new double[size];
-        for (int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             nonzeros[i] = s;
         }
         return new SparseDoubleMatrix(sparsity, nonzeros);
     }
-    
+
     // reversion
-    public static SparseDoubleMatrix createReversionOperatorMatrix(CayleyTable cayleyTable){
+    public static SparseDoubleMatrix createReversionOperatorMatrix(CayleyTable cayleyTable) {
         int size = cayleyTable.getBladesCount();
         MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
         double[] nonzeros = new double[size];
-        for (int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             int gradei = cayleyTable.getGrade(i);
-            double exp = gradei*(gradei-1)*0.5;
+            double exp = gradei * (gradei - 1) * 0.5;
             nonzeros[i] = pow(-1d, exp);
         }
         return new SparseDoubleMatrix(sparsity, nonzeros);
     }
-    
+
     // clifford conjugation
-    public static SparseDoubleMatrix createConjugationOperatorMatrix(CayleyTable cayleyTable){
+    public static SparseDoubleMatrix createConjugationOperatorMatrix(CayleyTable cayleyTable) {
         int size = cayleyTable.getBladesCount();
         MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
         double[] nonzeros = new double[size];
-        for (int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             int gradei = cayleyTable.getGrade(i);
-            double exp = gradei*(gradei+1)*0.5;
+            double exp = gradei * (gradei + 1) * 0.5;
             nonzeros[i] = pow(-1d, exp);
         }
         return new SparseDoubleMatrix(sparsity, nonzeros);
     }
-    
+
     // grade involution
-    public static SparseDoubleMatrix createInvolutionOperatorMatrix(CayleyTable cayleyTable){
+    public static SparseDoubleMatrix createInvolutionOperatorMatrix(CayleyTable cayleyTable) {
         int size = cayleyTable.getBladesCount();
         MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
         double[] nonzeros = new double[size];
-        for (int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             int gradei = cayleyTable.getGrade(i);
             nonzeros[i] = pow(-1d, gradei);
         }
         return new SparseDoubleMatrix(sparsity, nonzeros);
     }
-    
+
     // grade selection
-    public static SparseDoubleMatrix createGradeSelectionOperatorMatrix(CayleyTable cayleyTable, int grade){
+    public static SparseDoubleMatrix createGradeSelectionOperatorMatrix(CayleyTable cayleyTable, int grade) {
         int size = cayleyTable.getBladesCount();
         double[] values = new double[size];
-        for (int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             int gradei = cayleyTable.getGrade(i);
-            if (gradei == grade){
+            if (gradei == grade) {
                 values[i] = 1;
             }
         }
         MatrixSparsity sparsity = MatrixSparsity.diagonal(values);
         return new SparseDoubleMatrix(sparsity, nonzeros(values));
     }
-    
-    
-    
-    private static double[] nonzeros(double[] values){
+
+    private static double[] nonzeros(double[] values) {
         List<Double> nonzeros = new ArrayList<>();
-        for (int i=0;i<values.length;i++){
-            if (values[i] != 0){
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] != 0) {
                 nonzeros.add(values[i]);
             }
         }
         return nonzeros.stream().mapToDouble(d -> d).toArray();
     }
-    
+
     /**
-     * Versuch einer Portierung aquivalenten ganja.js codes. 
-     * TODO
-     * - eine matrix erzeugen
-     * - tests
-     * 
+     * Versuch einer Portierung aquivalenten ganja.js codes. TODO - eine matrix erzeugen - tests
+     *
      * @param values
      * @param cayleyTable
-     * @return 
+     * @return
      */
     // get Reverse (){ var res = new this.constructor(); for (var i=0; i<this.length; i++) res[i]= this[i]*[1,1,-1,-1][grades[i]%4]; return res; };
-    public static double[] reverse(double[] values, CayleyTable cayleyTable){
+    public static double[] reverse(double[] values, CayleyTable cayleyTable) {
         double[] result = new double[values.length];
-        double[] pattern = new double[]{1,1,-1,-1};
-        for (int i=0; i<values.length; i++){
-            result[i]= values[i]*pattern[cayleyTable.getGrade(i)%4]; 
+        double[] pattern = new double[]{1, 1, -1, -1};
+        for (int i = 0; i < values.length; i++) {
+            result[i] = values[i] * pattern[cayleyTable.getGrade(i) % 4];
         }
-        return result; 
+        return result;
     }
-    
-    
+
     // cga dual
-    public static SparseDoubleMatrix createDualOperatorMatrix(CayleyTable cayleyTable){
+    public static SparseDoubleMatrix createDualOperatorMatrix(CayleyTable cayleyTable) {
         int size = cayleyTable.getBladesCount();
         MatrixSparsity sparsity = MatrixSparsity.diagonal(size);
         double[] nonzeros = new double[]{
-           -1d, -1d, 1d, -1d, 1d, 1d, 1d, -1d, 1d, 1d, 1d, -1d, -1d, 1d, 1d, -1d, 1d,  -1d, -1d, 1d, 1d, 
-            -1d, -1d, -1d, 1d, -1d, -1d, -1d, 1d, -1d, 1d, 1d };
+            -1d, -1d, 1d, -1d, 1d, 1d, 1d, -1d, 1d, 1d, 1d, -1d, -1d, 1d, 1d, -1d, 1d, -1d, -1d, 1d, 1d,
+            -1d, -1d, -1d, 1d, -1d, -1d, -1d, 1d, -1d, 1d, 1d};
         iDoubleMatrix result = new SparseDoubleMatrix(sparsity, nonzeros).transpose();
         //TODO in eine sparse matrix verwandeln
         // wie kann ich das unabhängig von cga formulieren für beliebige algebren?
         throw new UnsupportedOperationException("not yet implemented!");
         //TODO
         // Umwandlung in eine Sparsematrix?
-        
+
         /*res[0]=-values[31];
 	res[1]=-values[30];
 	res[2]=values[29];
@@ -182,11 +175,9 @@ public class LinearOperators {
 	res[30]=values[1];
 	res[31]=values[0];*/
     }
-    
-    
+
     //  get Dual (){ if (r) return this.map((x,i,a)=>a[drm[i]]*drms[i]); 
     // var res = new this.constructor(); res[res.length-1]=1; return res.Mul(this); };
-     
     /*public static double[] dual(double[] values){
         double[] res = new double[values.length];
         if (r) return this.map((x,i,a)=>a[drm[i]]*drms[i]); 

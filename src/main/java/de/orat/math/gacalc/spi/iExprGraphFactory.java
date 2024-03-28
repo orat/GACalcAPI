@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public interface iExprGraphFactory {
+public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
 
     default void init(Callback callback) {
 
@@ -23,13 +23,13 @@ public interface iExprGraphFactory {
 
     String getName();
 
-    iMultivectorSymbolic createMultivectorSymbolic(String name, MatrixSparsity sparsity);
+    IMultivectorSymbolic createMultivectorSymbolic(String name, MatrixSparsity sparsity);
 
-    iMultivectorSymbolic createMultivectorSymbolic(String name);
+    IMultivectorSymbolic createMultivectorSymbolic(String name);
 
-    iMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
+    IMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
 
-    iMultivectorSymbolic createMultivectorSymbolic(String name, int grade);
+    IMultivectorSymbolic createMultivectorSymbolic(String name, int grade);
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
@@ -40,32 +40,23 @@ public interface iExprGraphFactory {
 
     iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
-    
-    
-    
-    
-    iFunctionSymbolic createFunctionSymbolic(String name, List<iMultivectorSymbolic> parameters,
-            List<iMultivectorSymbolic> returns);
+    iFunctionSymbolic<IMultivectorSymbolic> createFunctionSymbolic(String name, List<IMultivectorSymbolic> parameters,
+        List<IMultivectorSymbolic> returns);
 
-    
     // random multivectors
-    
-    
     default double[] createRandomMultivector(int basisBladesCount) {
         Random random = new Random();
         return random.doubles(-1, 1).
-                limit(basisBladesCount).toArray();
+            limit(basisBladesCount).toArray();
     }
-    
+
     iMultivectorNumeric createRandomMultivectorNumeric();
 
     double[] createRandomMultivector();
-    
+
     double[] createRandomKVector(int grade);
-    
-    
+
     // create constants
-    
     SparseDoubleMatrix createBaseVectorOrigin(double scalor);
 
     SparseDoubleMatrix createBaseVectorInfinity(double scalar);
@@ -75,27 +66,27 @@ public interface iExprGraphFactory {
     SparseDoubleMatrix createBaseVectorY(double scalar);
 
     SparseDoubleMatrix createBaseVectorZ(double scalar);
-    
+
     SparseDoubleMatrix createScalar(double scalar);
-    
+
     SparseDoubleMatrix createE(double x, double y, double z);
 
     SparseDoubleMatrix createEpsilonPlus();
 
     SparseDoubleMatrix createEpsilonMinus();
-    
+
     SparseDoubleMatrix createMinkovskyBiVector();
 
     SparseDoubleMatrix createEuclideanPseudoscalar();
 
     SparseDoubleMatrix createPseudoscalar();
-    
-    SparseDoubleMatrix createBaseVectorInfinityDorst() ;
+
+    SparseDoubleMatrix createBaseVectorInfinityDorst();
 
     SparseDoubleMatrix createBaseVectorOriginDorst();
 
     SparseDoubleMatrix createBaseVectorInfinityDoran();
 
     SparseDoubleMatrix createBaseVectorOriginDoran();
-    
+
 }

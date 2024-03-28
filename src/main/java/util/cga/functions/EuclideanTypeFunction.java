@@ -10,20 +10,22 @@ import java.util.List;
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class EuclideanTypeFunction {
-     
+
     final static ExprGraphFactory fac = GAExprGraphFactoryService.instance().getExprGraphFactory().get();
-        
+
     final FunctionSymbolic upFunctionSymbolic;
     final FunctionSymbolic downFunctionSymbolic;
-    
+
     record ParametersAndReturns(List<MultivectorSymbolic> parameters,
-                                       List<MultivectorSymbolic> returns){}
-    
+        List<MultivectorSymbolic> returns) {
+
+    }
+
     EuclideanTypeFunction(String name, ParametersAndReturns upParametersAndReturns,
-            ParametersAndReturns downParametersAndReturns){
-        upFunctionSymbolic = fac.createFunctionSymbolic(name, 
-                upParametersAndReturns.parameters, upParametersAndReturns.returns);
-        downFunctionSymbolic = fac.createFunctionSymbolic(name, 
-                downParametersAndReturns.parameters, downParametersAndReturns.returns);
+        ParametersAndReturns downParametersAndReturns) {
+        upFunctionSymbolic = fac.createFunctionSymbolic(name,
+            upParametersAndReturns.parameters, upParametersAndReturns.returns);
+        downFunctionSymbolic = fac.createFunctionSymbolic(name,
+            downParametersAndReturns.parameters, downParametersAndReturns.returns);
     }
 }

@@ -1,11 +1,11 @@
 package util;
- 
+
 import de.orat.math.gacalc.spi.iFunctionSymbolic;
 import java.util.function.Supplier;
 
 /**
  * @Deprectated
- * 
+ *
  */
 public class LazyFunction implements Supplier<iFunctionSymbolic> {
 
@@ -27,4 +27,3 @@ public class LazyFunction implements Supplier<iFunctionSymbolic> {
         }
     }
 }
-    

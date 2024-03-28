@@ -14,12 +14,10 @@ public interface iMultivectorNumeric {
     String toString();
 
     //double[] elements();
-    
     SparseDoubleMatrix elements();
-    
+
     // Alle benötigten Operatoren aus iMultivectorSymbolic
     // um den EuclideanTypeConverter imlementieren zu können
-    
     //iMultivectorNumeric op(iMultivectorNumeric mv);
     //iMultivectorNumeric add(iMultivectorNumeric mv);
 }

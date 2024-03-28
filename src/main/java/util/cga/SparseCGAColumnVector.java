@@ -9,7 +9,7 @@ import de.orat.math.sparsematrix.SparseDoubleColumnVector;
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class SparseCGAColumnVector extends SparseDoubleColumnVector {
-    
+
     public SparseCGAColumnVector(CGAMultivectorSparsity sparsity, double[] data) {
         //TODO
         // data.length muss kleiner 32 sein
@@ -17,5 +17,5 @@ public class SparseCGAColumnVector extends SparseDoubleColumnVector {
         //if (data.length != 32) throw new IllegalArgumentException("CGA has 32 elements but the tiven array is of length \""+String.valueOf(data.length)+"!");
         super(sparsity, data);
     }
-   
+
 }
