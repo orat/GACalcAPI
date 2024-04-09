@@ -1,3 +1,4 @@
 #!/bin/sh
+git restore --staged ./nb-configuration.xml
 git update-index --assume-unchanged ./nb-configuration.xml
 echo "updated index"
