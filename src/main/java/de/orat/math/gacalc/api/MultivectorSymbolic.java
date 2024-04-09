@@ -274,7 +274,7 @@ public class MultivectorSymbolic {
      * @return -this
      */
     public MultivectorSymbolic negate() {
-        return get(impl.gp(-1));
+        return get(impl.gpWithScalar(-1));
     }
 
     /**

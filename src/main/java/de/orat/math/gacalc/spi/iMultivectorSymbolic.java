@@ -46,33 +46,42 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
      */
     CayleyTable getCayleyTable();
 
-    // Operators to create an acyclic graph
-    IMultivectorSymbolic _asCachedSymbolicFunction(String name,
-        List<IMultivectorSymbolic> args, IMultivectorSymbolic res);
-
-    IMultivectorSymbolic _asCachedSymbolicFunction(String name, List<IMultivectorSymbolic> params,
-        List<IMultivectorSymbolic> args, Supplier<IMultivectorSymbolic> res);
-
     int grade();
 
     int[] grades();
 
-    iFunctionSymbolic<IMultivectorSymbolic> getGradeSelectionFunction(int grade);
+    //======================================================
+    // Constants
+    //======================================================
+    IMultivectorSymbolic pseudoscalar();
 
-    default IMultivectorSymbolic gradeSelection(int grade) {
-        return getGradeSelectionFunction(grade).callSymbolic(Collections.singletonList((IMultivectorSymbolic) this)).iterator().next();
-    }
+    IMultivectorSymbolic inversePseudoscalar();
 
-    default IMultivectorSymbolic reverse() {
-        return getReverseFunction().callSymbolic(Collections.singletonList((IMultivectorSymbolic) this)).iterator().next();
-    }
+    //======================================================
+    // Operators
+    //======================================================
+    IMultivectorSymbolic gradeSelection(int grade);
 
     // das könnte ich default implementieren?
     // schwierig, da ich sonst viele weitere Methoden hier im Interface brauche
     // um scalare Operationen ausführen zu können, daher die ga-allgemeine Implementierung
     // erst einmal in die cga-spezifische Implementierung aufgenommen, soll dann
     // später in eine allg. GA casadi impl verschoben werden
-    iFunctionSymbolic<IMultivectorSymbolic> getReverseFunction();
+    IMultivectorSymbolic reverse();
+
+    IMultivectorSymbolic gp(IMultivectorSymbolic rhs);
+
+    IMultivectorSymbolic gpWithScalar(double s);
+
+    //======================================================
+    // XXXXXXXXXXX Left to fix.
+    //======================================================
+    // Operators to create an acyclic graph
+    IMultivectorSymbolic _asCachedSymbolicFunction(String name,
+        List<IMultivectorSymbolic> args, IMultivectorSymbolic res);
+
+    IMultivectorSymbolic _asCachedSymbolicFunction(String name, List<IMultivectorSymbolic> params,
+        List<IMultivectorSymbolic> args, Supplier<IMultivectorSymbolic> res);
 
     /**
      * Generic GA reverse implementation based on grade selection.
@@ -105,32 +114,13 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
         }
         return result;
     }*/
-    // gp
-    //IMultivectorSymbolic gp(IMultivectorSymbolic rhs);
-    public iFunctionSymbolic<IMultivectorSymbolic> getGPFunction();
-
-    default IMultivectorSymbolic gp(IMultivectorSymbolic rhs) {
-        var asdf = (IMultivectorSymbolic) this;
-        return getGPFunction().callSymbolic(Arrays.asList((IMultivectorSymbolic) this, rhs)).iterator().next();
-    }
-
-    //IMultivectorSymbolic gp(double s);
-    public iFunctionSymbolic<IMultivectorSymbolic> getGPWithScalarFunction(double s);
-
-    default IMultivectorSymbolic gp(double s) {
-        return getGPWithScalarFunction(s).callSymbolic(Arrays.asList((IMultivectorSymbolic) this)).iterator().next();
-    }
-
     // involute (Ak) = (-1) hoch k * Ak
     // ungetested
     default IMultivectorSymbolic gradeInversion() {
         int[] grades = grades();
         IMultivectorSymbolic result = null; //denseEmptyInstance();
         for (int i = 0; i < grades.length; i++) {
-            IMultivectorSymbolic res = gradeSelection(grades[i]).
-                //FIXME das geht effizienter, gp kann vermieden werden, bei
-                // geradem grade
-                gp(Math.pow(-1, grades[i]));
+            IMultivectorSymbolic res = gradeSelection(grades[i]).gpWithScalar(Math.pow(-1, grades[i]));
             //TODO
             // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
             // und den ersten Wert vor dem Vorschleifen in die Variable zu streichen
@@ -144,10 +134,6 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
         }
         return result;
     }
-
-    IMultivectorSymbolic pseudoscalar();
-
-    IMultivectorSymbolic inversePseudoscalar();
 
     /**
      * Dual.
@@ -636,7 +622,7 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
      */
     default IMultivectorSymbolic sub(IMultivectorSymbolic b) {
         return _asCachedSymbolicFunction("sub", Arrays.asList((IMultivectorSymbolic) this, b),
-            add(b.gp(-1d)));
+            add(b.gpWithScalar(-1d)));
         //return add(b.gp(-1d));
     }
 
