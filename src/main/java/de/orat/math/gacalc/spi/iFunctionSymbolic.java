@@ -19,7 +19,7 @@ public interface iFunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymb
     @Override
     String toString();
 
-    List<IMultivectorSymbolic> callSymbolic(List<IMultivectorSymbolic> arguments);
+    List<? extends IMultivectorSymbolic> callSymbolic(List<? extends IMultivectorSymbolic> arguments);
 
     List<iMultivectorNumeric> callNumeric(List<iMultivectorNumeric> arguments);
 }
