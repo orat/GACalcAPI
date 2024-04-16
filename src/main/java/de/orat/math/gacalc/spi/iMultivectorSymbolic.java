@@ -142,6 +142,8 @@ public interface iMultivectorSymbolic {
    
         
     iMultivectorSymbolic pseudoscalar();
+    
+    //TODO default impl ist leicht 
     iMultivectorSymbolic inversePseudoscalar();
 
     /**
@@ -316,6 +318,7 @@ public interface iMultivectorSymbolic {
         String funName =  _createBipedFuncName("lc", grades(), b.grades());
         return _asCachedSymbolicFunction(funName, Arrays.asList(this, b), _lc(b));
     }
+    //TODO umbenennen in getDualFunction()
     default iMultivectorSymbolic _lc_InversePseudoscalar(){
         String funName =  _createBipedFuncName("lc", grades(),"PseudoScalar");
         return _asCachedSymbolicFunction(funName, Arrays.asList(this), __lc_InversePseudoscalar());
