@@ -54,6 +54,7 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
     //======================================================
     IMultivectorSymbolic pseudoscalar();
 
+    //TODO default impl ist leicht
     IMultivectorSymbolic inversePseudoscalar();
 
     IMultivectorSymbolic denseEmptyInstance();
