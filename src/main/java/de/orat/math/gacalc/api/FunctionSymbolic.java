@@ -45,7 +45,7 @@ public class FunctionSymbolic {
     }
 
     public List<MultivectorSymbolic> callSymbolic(List<MultivectorSymbolic> arguments) {
-        var iArguments = arguments.stream().map(ims -> ims.impl).toList();
+        var iArguments = arguments.stream().map(ims -> ims.getImpl()).toList();
         List<iMultivectorSymbolic> iResults = impl.callSymbolic(iArguments);
         var results = iResults.stream().map(ims -> MultivectorSymbolic.get(ims)).toList();
         return results;

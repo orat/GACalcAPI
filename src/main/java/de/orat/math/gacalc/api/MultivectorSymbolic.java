@@ -10,7 +10,11 @@ import de.orat.math.sparsematrix.MatrixSparsity;
  */
 public class MultivectorSymbolic {
 
-    protected final iMultivectorSymbolic impl;
+    private final iMultivectorSymbolic impl;
+
+    protected iMultivectorSymbolic getImpl() {
+        return this.impl;
+    }
 
     private static final ExprGraphFactory fac = GAExprGraphFactoryService.instance().getExprGraphFactory().get();
 

@@ -51,20 +51,20 @@ public class ExprGraphFactory {
     }
 
     //------- symbolic
-    public MultivectorSymbolic createMultivectorSymbolic(String name) {
-        return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name));
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name) {
+        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name));
     }
 
-    public MultivectorSymbolic createMultivectorSymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity) {
-        return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparsity));
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity) {
+        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, sparsity));
+    }
+
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int grade) {
+        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, grade));
     }
 
     public MultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparseVector));
-    }
-
-    public MultivectorSymbolic createMultivectorSymbolic(String name, int grade) {
-        return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, grade));
     }
 
     //------- numeric
@@ -97,10 +97,10 @@ public class ExprGraphFactory {
     }
 
     // functions
-    public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorSymbolic> parameters,
+    public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorPurelySymbolic> parameters,
         List<MultivectorSymbolic> returns) {
-        var iParameters = parameters.stream().map(mvs -> mvs.impl).toList();
-        var iReturns = returns.stream().map(mvs -> mvs.impl).toList();
+        var iParameters = parameters.stream().map(mvs -> mvs.getImpl()).toList();
+        var iReturns = returns.stream().map(mvs -> mvs.getImpl()).toList();
         return FunctionSymbolic.get(impl.createFunctionSymbolic(name, iParameters, iReturns));
     }
 

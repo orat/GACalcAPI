@@ -3,6 +3,7 @@ package util.cga.functions;
 import de.orat.math.gacalc.api.ExprGraphFactory;
 import de.orat.math.gacalc.api.FunctionSymbolic;
 import de.orat.math.gacalc.api.GAExprGraphFactoryService;
+import de.orat.math.gacalc.api.MultivectorPurelySymbolic;
 import de.orat.math.gacalc.api.MultivectorSymbolic;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class EuclideanTypeFunction {
     final FunctionSymbolic upFunctionSymbolic;
     final FunctionSymbolic downFunctionSymbolic;
 
-    record ParametersAndReturns(List<MultivectorSymbolic> parameters,
+    record ParametersAndReturns(List<MultivectorPurelySymbolic> parameters,
         List<MultivectorSymbolic> returns) {
 
     }

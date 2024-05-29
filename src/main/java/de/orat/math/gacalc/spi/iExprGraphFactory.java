@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorPurelySymbolic extends iMultivectorPurelySymbolic<IMultivectorSymbolic>> {
 
     default void init(Callback callback) {
 
@@ -23,13 +23,13 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     String getName();
 
-    IMultivectorSymbolic createMultivectorSymbolic(String name, MatrixSparsity sparsity);
+    iMultivectorPurelySymbolic<IMultivectorSymbolic> createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
 
-    IMultivectorSymbolic createMultivectorSymbolic(String name);
+    iMultivectorPurelySymbolic<IMultivectorSymbolic> createMultivectorPurelySymbolic(String name);
+
+    iMultivectorPurelySymbolic<IMultivectorSymbolic> createMultivectorPurelySymbolic(String name, int grade);
 
     IMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
-
-    IMultivectorSymbolic createMultivectorSymbolic(String name, int grade);
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
@@ -40,7 +40,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
-    iFunctionSymbolic<IMultivectorSymbolic> createFunctionSymbolic(String name, List<IMultivectorSymbolic> parameters, List<IMultivectorSymbolic> returns);
+    iFunctionSymbolic<IMultivectorSymbolic> createFunctionSymbolic(String name, List<IMultivectorPurelySymbolic> parameters, List<IMultivectorSymbolic> returns);
 
     // random multivectors
     default double[] createRandomMultivector(int basisBladesCount) {

@@ -4,6 +4,7 @@ import de.orat.math.gacalc.api.ExprGraphFactory;
 import de.orat.math.gacalc.api.FunctionSymbolic;
 import de.orat.math.gacalc.api.GAExprGraphFactoryService;
 import de.orat.math.gacalc.api.MultivectorNumeric;
+import de.orat.math.gacalc.api.MultivectorPurelySymbolic;
 import de.orat.math.gacalc.api.MultivectorSymbolic;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,9 @@ public class RoundPointIPNS extends EuclideanTypeFunction {
     final static ParametersAndReturns createUpParametersAndReturns() {
         //ColumnVectorSparsity osparsity
         //MultivectorSymbolic o = fac.createMultivectorSymbolic("o", osparsity);
-        MultivectorSymbolic inf = fac.createMultivectorSymbolic("inf");
-        MultivectorSymbolic E = fac.createMultivectorSymbolic("E");
-        List<MultivectorSymbolic> parameters = new ArrayList<>();
+        MultivectorPurelySymbolic inf = fac.createMultivectorPurelySymbolic("inf");
+        MultivectorPurelySymbolic E = fac.createMultivectorPurelySymbolic("E");
+        List<MultivectorPurelySymbolic> parameters = new ArrayList<>();
         //parameters.add(o);
         parameters.add(inf);
         parameters.add(E);
@@ -49,7 +50,7 @@ public class RoundPointIPNS extends EuclideanTypeFunction {
     }
 
     final static ParametersAndReturns createDownParametersAndReturns() {
-        MultivectorSymbolic mv = fac.createMultivectorSymbolic("mv");
+        MultivectorSymbolic mv = fac.createMultivectorPurelySymbolic("mv");
         //MultivectorSymbolic mv1 = mv.negate().div(inf.lc(mn));
         // euclidean part rausziehen, scheint zu funktionieren
         //MultivectorSymbolic resultEuclidean = o.op(inf).ip(o.op(inf).op(result));
