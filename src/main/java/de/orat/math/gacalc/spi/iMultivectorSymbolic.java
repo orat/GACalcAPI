@@ -49,19 +49,7 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
 
     int[] grades();
 
-    //======================================================
-    // Don't belong here
-    //======================================================
-    IMultivectorSymbolic pseudoscalar();
-
-    //TODO default impl ist leicht
-    IMultivectorSymbolic inversePseudoscalar();
-
-    IMultivectorSymbolic denseEmptyInstance();
-
-    // brauche ich das wirklich?
-    //FIXME
-    IMultivectorSymbolic sparseEmptyInstance();
+    iConstantsProvider<IMultivectorSymbolic> constants();
 
     //======================================================
     // Operators
@@ -144,7 +132,7 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
      */
     default IMultivectorSymbolic dual() {
         // scheint beides zu funktionieren
-        return lc(inversePseudoscalar());
+        return lc(constants().getInversePseudoscalar());
         //return gp(inversePseudoscalar());
     }
 
@@ -267,7 +255,7 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
      * @return
      */
     default IMultivectorSymbolic lc_(IMultivectorSymbolic rhs) {
-        return op(rhs.gp(inversePseudoscalar())).gp(pseudoscalar());
+        return op(rhs.gp(constants().getInversePseudoscalar())).gp(constants().getPseudoscalar());
     }
 
     //TODO

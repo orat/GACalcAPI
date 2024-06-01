@@ -49,6 +49,10 @@ public class ExprGraphFactory {
         return impl.getName();
     }
 
+    public ConstantsProvider constants() {
+        return ConstantsProvider.get(impl.constants());
+    }
+
     //------- symbolic
     public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name) {
         return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name));
@@ -107,7 +111,7 @@ public class ExprGraphFactory {
     // Symbolic scalar
     //======================================================
     public MultivectorSymbolic createScalarLiteral(String name, double scalar) {
-        return createMultivectorSymbolic(name, impl.createScalar(scalar));
+        return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, scalar));
     }
 
     //======================================================

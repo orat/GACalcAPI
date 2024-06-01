@@ -4,7 +4,7 @@ import de.orat.math.gacalc.api.ConstantsProvider;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.function.Supplier;
 
-public interface iConstantsProvider<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IConstant extends iConstant<IMultivectorSymbolic>> {
+public interface iConstantsProvider<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
 
     default void init(ConstantsProvider.Callback callback) {
 
@@ -12,73 +12,77 @@ public interface iConstantsProvider<IMultivectorSymbolic extends iMultivectorSym
 
     iExprGraphFactory<?, ?> fac();
 
-    IConstant newConstant(String name, SparseDoubleMatrix definition);
+    IMultivectorSymbolic newConstant(String name, SparseDoubleMatrix definition);
 
-    IConstant cached(Supplier<IConstant> creator);
+    IMultivectorSymbolic cached(Supplier<IMultivectorSymbolic> creator);
 
-    default IConstant getBaseVectorOrigin() {
+    default IMultivectorSymbolic getBaseVectorOrigin() {
         return cached(() -> newConstant("ε₀", fac().createBaseVectorOrigin(1d)));
     }
 
-    default IConstant getBaseVectorInfinity() {
+    default IMultivectorSymbolic getBaseVectorInfinity() {
         return cached(() -> newConstant("εᵢ", fac().createBaseVectorInfinity(1d)));
     }
 
-    default IConstant getBaseVectorX() {
+    default IMultivectorSymbolic getBaseVectorX() {
         return cached(() -> newConstant("ε₁", fac().createBaseVectorX(1d)));
     }
 
-    default IConstant getBaseVectorY() {
+    default IMultivectorSymbolic getBaseVectorY() {
         return cached(() -> newConstant("ε₂", fac().createBaseVectorY(1d)));
     }
 
-    default IConstant getBaseVectorZ() {
+    default IMultivectorSymbolic getBaseVectorZ() {
         return cached(() -> newConstant("ε₃", fac().createBaseVectorZ(1d)));
     }
 
-    default IConstant getEpsilonPlus() {
+    default IMultivectorSymbolic getEpsilonPlus() {
         return cached(() -> newConstant("ε₊", fac().createEpsilonPlus()));
     }
 
-    default IConstant getEpsilonMinus() {
+    default IMultivectorSymbolic getEpsilonMinus() {
         return cached(() -> newConstant("ε₋", fac().createEpsilonMinus()));
     }
 
-    default IConstant getPi() {
+    default IMultivectorSymbolic getPi() {
         return cached(() -> newConstant("π", fac().createScalar(Math.PI)));
     }
 
-    default IConstant getBaseVectorInfinityDorst() {
+    default IMultivectorSymbolic getBaseVectorInfinityDorst() {
         return cached(() -> newConstant("∞", fac().createBaseVectorInfinityDorst()));
     }
 
-    default IConstant getBaseVectorOriginDorst() {
+    default IMultivectorSymbolic getBaseVectorOriginDorst() {
         return cached(() -> newConstant("o", fac().createBaseVectorOriginDorst()));
     }
 
-    default IConstant getBaseVectorInfinityDoran() {
+    default IMultivectorSymbolic getBaseVectorInfinityDoran() {
         return cached(() -> newConstant("n", fac().createBaseVectorInfinityDoran()));
     }
 
-    default IConstant getBaseVectorOriginDoran() {
+    default IMultivectorSymbolic getBaseVectorOriginDoran() {
         return cached(() -> newConstant("ñ", fac().createBaseVectorOriginDoran()));
     }
 
-    default IConstant getMinkovskyBiVector() {
+    default IMultivectorSymbolic getMinkovskyBiVector() {
         return cached(() -> newConstant("E₀", fac().createMinkovskyBiVector()));
     }
 
-    default IConstant getEuclideanPseudoscalar() {
+    default IMultivectorSymbolic getEuclideanPseudoscalar() {
         return cached(() -> newConstant("E₃", fac().createEuclideanPseudoscalar()));
     }
 
-    default IConstant getPseudoscalar() {
+    default IMultivectorSymbolic getPseudoscalar() {
         return cached(() -> newConstant("E", fac().createPseudoscalar()));
     }
 
-    default IConstant one() {
+    IMultivectorSymbolic getInversePseudoscalar();
+
+    default IMultivectorSymbolic one() {
         return cached(() -> newConstant("1", fac().createScalar(1d)));
     }
 
-    IConstant getInversePseudoscalar();
+    default IMultivectorSymbolic half() {
+        return cached(() -> newConstant("0.5", fac().createScalar(0.5d)));
+    }
 }

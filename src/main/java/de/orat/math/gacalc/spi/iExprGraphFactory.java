@@ -23,6 +23,8 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     String getName();
 
+    iConstantsProvider<IMultivectorSymbolic> constants();
+
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
 
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name);
@@ -30,6 +32,16 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int grade);
 
     IMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
+
+    default IMultivectorSymbolic createMultivectorSymbolic(String name, double scalar) {
+        return createMultivectorSymbolic(name, createScalar(scalar));
+    }
+
+    IMultivectorSymbolic createDenseEmptyInstance();
+
+    // brauche ich das wirklich?
+    //FIXME
+    IMultivectorSymbolic createSparseEmptyInstance();
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
@@ -55,20 +67,25 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     double[] createRandomKVector(int grade);
 
-    // create constants
+    /**
+     * SparseDoubleMatrix to build both numeric and symbolic multivectors.
+     */
+    // Scalar
+    SparseDoubleMatrix createScalar(double scalar);
+
+    // Part of public API in ExprGraphFactory
+    SparseDoubleMatrix createE(double x, double y, double z);
+
     SparseDoubleMatrix createBaseVectorOrigin(double scalar);
 
     SparseDoubleMatrix createBaseVectorInfinity(double scalar);
 
+    // Used to build constants in iConstantsProvider
     SparseDoubleMatrix createBaseVectorX(double scalar);
 
     SparseDoubleMatrix createBaseVectorY(double scalar);
 
     SparseDoubleMatrix createBaseVectorZ(double scalar);
-
-    SparseDoubleMatrix createScalar(double scalar);
-
-    SparseDoubleMatrix createE(double x, double y, double z);
 
     SparseDoubleMatrix createEpsilonPlus();
 

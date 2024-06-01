@@ -29,63 +29,75 @@ public class ConstantsProvider {
         // add methods needed by the spi implementation
     }
 
-    public Constant getBaseVectorOrigin() {
-        return Constant.get(this.impl.getBaseVectorOrigin());
+    public MultivectorSymbolic getBaseVectorOrigin() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorOrigin());
     }
 
-    public Constant getBaseVectorInfinity() {
-        return Constant.get(this.impl.getBaseVectorInfinity());
+    public MultivectorSymbolic getBaseVectorInfinity() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorInfinity());
     }
 
-    public Constant getBaseVectorX() {
-        return Constant.get(this.impl.getBaseVectorX());
+    public MultivectorSymbolic getBaseVectorX() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorX());
     }
 
-    public Constant getBaseVectorY() {
-        return Constant.get(this.impl.getBaseVectorY());
+    public MultivectorSymbolic getBaseVectorY() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorY());
     }
 
-    public Constant getBaseVectorZ() {
-        return Constant.get(this.impl.getBaseVectorZ());
+    public MultivectorSymbolic getBaseVectorZ() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorZ());
     }
 
-    public Constant getEpsilonPlus() {
-        return Constant.get(this.impl.getEpsilonPlus());
+    public MultivectorSymbolic getEpsilonPlus() {
+        return MultivectorSymbolic.get(this.impl.getEpsilonPlus());
     }
 
-    public Constant getEpsilonMinus() {
-        return Constant.get(this.impl.getEpsilonMinus());
+    public MultivectorSymbolic getEpsilonMinus() {
+        return MultivectorSymbolic.get(this.impl.getEpsilonMinus());
     }
 
-    public Constant getPi() {
-        return Constant.get(this.impl.getPi());
+    public MultivectorSymbolic getPi() {
+        return MultivectorSymbolic.get(this.impl.getPi());
     }
 
-    public Constant getBaseVectorInfinityDorst() {
-        return Constant.get(this.impl.getBaseVectorInfinityDorst());
+    public MultivectorSymbolic getBaseVectorInfinityDorst() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorInfinityDorst());
     }
 
-    public Constant getBaseVectorOriginDorst() {
-        return Constant.get(this.impl.getBaseVectorOriginDorst());
+    public MultivectorSymbolic getBaseVectorOriginDorst() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorOriginDorst());
     }
 
-    public Constant getBaseVectorInfinityDoran() {
-        return Constant.get(this.impl.getBaseVectorInfinityDoran());
+    public MultivectorSymbolic getBaseVectorInfinityDoran() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorInfinityDoran());
     }
 
-    public Constant getBaseVectorOriginDoran() {
-        return Constant.get(this.impl.getBaseVectorOriginDoran());
+    public MultivectorSymbolic getBaseVectorOriginDoran() {
+        return MultivectorSymbolic.get(this.impl.getBaseVectorOriginDoran());
     }
 
-    public Constant getMinkovskyBiVector() {
-        return Constant.get(this.impl.getMinkovskyBiVector());
+    public MultivectorSymbolic getMinkovskyBiVector() {
+        return MultivectorSymbolic.get(this.impl.getMinkovskyBiVector());
     }
 
-    public Constant getEuclideanPseudoscalar() {
-        return Constant.get(this.impl.getEuclideanPseudoscalar());
+    public MultivectorSymbolic getEuclideanPseudoscalar() {
+        return MultivectorSymbolic.get(this.impl.getEuclideanPseudoscalar());
     }
 
-    public Constant getPseudoscalar() {
-        return Constant.get(this.impl.getPseudoscalar());
+    public MultivectorSymbolic getPseudoscalar() {
+        return MultivectorSymbolic.get(this.impl.getPseudoscalar());
+    }
+
+    public MultivectorSymbolic getInversePseudoscalar() {
+        return MultivectorSymbolic.get(this.impl.getInversePseudoscalar());
+    }
+
+    public MultivectorSymbolic one() {
+        return MultivectorSymbolic.get(this.impl.one());
+    }
+
+    public MultivectorSymbolic half() {
+        return MultivectorSymbolic.get(this.impl.half());
     }
 }
