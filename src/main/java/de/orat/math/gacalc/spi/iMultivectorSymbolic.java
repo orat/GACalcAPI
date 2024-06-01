@@ -6,8 +6,6 @@ import util.CayleyTable;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
- *
- * Methods with prefix "_" are to use only inside (IMultivectorSymbolic) this interface.
  */
 public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
 
@@ -51,9 +49,30 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
 
     iConstantsSymbolic<IMultivectorSymbolic> constants();
 
+    iExprGraphFactory<IMultivectorSymbolic, ?> fac();
+
     //======================================================
     // Operators
     //======================================================
+    default IMultivectorSymbolic commutatorProduct(IMultivectorSymbolic rhs) {
+        return gp(rhs).sub(rhs.gp((IMultivectorSymbolic) this)).gp(constants().half());
+    }
+
+    default IMultivectorSymbolic projection(IMultivectorSymbolic rhs) {
+        if (grade() == -1) {
+            throw new IllegalArgumentException("projection only defined for k-vectors!");
+        }
+        return lc(rhs.generalInverse()).lc(rhs);
+    }
+
+    default IMultivectorSymbolic negate() {
+        return gpWithScalar(-1);
+    }
+
+    default IMultivectorSymbolic square() {
+        return gp((IMultivectorSymbolic) this);
+    }
+
     IMultivectorSymbolic gradeSelection(int grade);
 
     /**
@@ -473,6 +492,7 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
         return gp(gp(reverse()).gradeSelection(0).scalarAbs().scalarSqrt().scalarInverse());
     }
 
+    //return division(norm());
     IMultivectorSymbolic normalizeBySquaredNorm(); // oder idealNorm?
 
     IMultivectorSymbolic normalizeEvenElement();

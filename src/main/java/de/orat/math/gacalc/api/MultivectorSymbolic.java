@@ -8,6 +8,14 @@ import de.orat.math.sparsematrix.MatrixSparsity;
  *
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
+/*
+Policy:
+Methods here can only be delegates to iMultivectorSymbolic. Don't use this class for default implementations.
+- Default implementations can only be cached properly if in iMultivectorSymbolic.
+- Only in iMultivectorSymbolic operators can be used by other operators in iMultivectorSymbolic or in the implementations.
+- It disturbs overview to mix default implementations between MultivectorSymbolic and iMultivectorSymbolic.
+- Checks need to be within the implementations to accommodate if they are directly used without the MultivectorSymbolic proxy. In tests for example.
+ */
 public class MultivectorSymbolic {
 
     private final iMultivectorSymbolic impl;
@@ -15,8 +23,6 @@ public class MultivectorSymbolic {
     protected iMultivectorSymbolic getImpl() {
         return this.impl;
     }
-
-    private static final ExprGraphFactory fac = GAExprGraphFactoryService.instance().getExprGraphFactory().get();
 
     protected static MultivectorSymbolic get(iMultivectorSymbolic impl) {
         MultivectorSymbolic result = new MultivectorSymbolic(impl);
@@ -37,9 +43,6 @@ public class MultivectorSymbolic {
             this.api = api;
         }
 
-        /*public ExprGraphFactory getExprGraphFactory(){
-            return fac;
-        }*/
         //TODO
         // add methods needed by the spi implementation
     }
@@ -56,10 +59,9 @@ public class MultivectorSymbolic {
     public MultivectorSymbolic geometricProduct(MultivectorSymbolic rhs) {
         return get(impl.gp(rhs.impl));
     }
-    private static final MultivectorSymbolic half = fac.createScalarLiteral("1/2", 0.5d);
 
     public MultivectorSymbolic commutatorProduct(MultivectorSymbolic rhs) {
-        return geometricProduct(rhs).subtraction(rhs.geometricProduct(this)).geometricProduct(half);
+        return get(impl.commutatorProduct(rhs.impl));
     }
 
     /**
@@ -104,10 +106,7 @@ public class MultivectorSymbolic {
      * @return projection of this into rhs.
      */
     public MultivectorSymbolic projection(MultivectorSymbolic rhs) {
-        if (impl.grade() == -1) {
-            throw new IllegalArgumentException("projection only defined for k-vectors!");
-        }
-        return leftContraction(rhs.generalInverse()).leftContraction(rhs);
+        return get(impl.projection(rhs.impl));
     }
 
     /**
@@ -155,7 +154,6 @@ public class MultivectorSymbolic {
      * @return this / rhs
      */
     public MultivectorSymbolic division(MultivectorSymbolic rhs) {
-        //return geometricProduct(rhs.generalInverse());
         return get(impl.div(rhs.impl));
     }
 
@@ -202,7 +200,7 @@ public class MultivectorSymbolic {
      * @return this ∩ rhs
      */
     public MultivectorSymbolic meet(MultivectorSymbolic rhs) {
-        throw new UnsupportedOperationException();
+        return get(impl.meet(rhs.impl));
     }
 
     /**
@@ -213,7 +211,7 @@ public class MultivectorSymbolic {
      * @return this ∪ rhs
      */
     public MultivectorSymbolic join(MultivectorSymbolic rhs) {
-        throw new UnsupportedOperationException();
+        return get(impl.join(rhs.impl));
     }
 
     /**
@@ -223,9 +221,6 @@ public class MultivectorSymbolic {
      * @throws IllegalArgumentException if this is no bivector
      */
     public MultivectorSymbolic exp() {
-        if (impl.grade() != 2) {
-            throw new IllegalArgumentException("exp() defined for bivectors only!");
-        }
         return get(impl.exp());
     }
 
@@ -243,9 +238,6 @@ public class MultivectorSymbolic {
      * @return scalarSqrt(this)
      */
     public MultivectorSymbolic scalarSqrt() {
-        if (!impl.isScalar()) {
-            throw new IllegalArgumentException("This is no scalar!");
-        }
         return get(impl.scalarSqrt());
     }
 
@@ -253,19 +245,13 @@ public class MultivectorSymbolic {
      * Arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
      * as the couterclockwise angle in radians between -pi and pi of the point (x,y) to the positive x-axis.)
      *
-     * TODO läßt sich die Funktion atan2 nicht auch auf beliebige multivectors erweitern?
+     * TODO lässt sich die Funktion atan2 nicht auch auf beliebige multivectors erweitern?
      *
      * @param y scalar value
      * @return a scalar atan2(this, rhs)
      * @throws IllegalArgumentException if x, y != scalar
      */
     public MultivectorSymbolic scalarAtan2(MultivectorSymbolic y) {
-        if (!impl.isScalar()) {
-            throw new IllegalArgumentException("The argument x of tang(x,y) is no scalar!");
-        }
-        if (!y.impl.isScalar()) {
-            throw new IllegalArgumentException("The argument y of tang(x,y) is no scalar!");
-        }
         return get(impl.scalarAtan2(y.impl));
     }
 
@@ -278,7 +264,7 @@ public class MultivectorSymbolic {
      * @return -this
      */
     public MultivectorSymbolic negate() {
-        return get(impl.gpWithScalar(-1));
+        return get(impl.negate());
     }
 
     /**
@@ -295,12 +281,6 @@ public class MultivectorSymbolic {
      * @return
      */
     public MultivectorSymbolic scalarInverse() {
-        if (!impl.isScalar()) {
-            throw new IllegalArgumentException("This is no scalar!");
-        }
-        if (impl.isZero()) {
-            throw new IllegalArgumentException("This is zero!");
-        }
         return get(impl.scalarInverse());
     }
 
@@ -332,8 +312,6 @@ public class MultivectorSymbolic {
      */
     public MultivectorSymbolic reverse() {
         return get(impl.reverse());
-        //return get(impl.getReverseFunction().callSymbolic(Collections.singletonList(
-        //        this.impl)).iterator().next());
     }
 
     /**
@@ -367,7 +345,7 @@ public class MultivectorSymbolic {
      * @return this²
      */
     public MultivectorSymbolic square() {
-        return geometricProduct(this);
+        return get(impl.square());
     }
 
     /**
@@ -402,8 +380,6 @@ public class MultivectorSymbolic {
      * @throws java.lang.IllegalArgumentException if the multivector is 0.
      */
     public MultivectorSymbolic normalize() throws IllegalArgumentException {
-        //return division(norm());
-        // impl interface hat schon eine default method impl
         return get(impl.normalizeBySquaredNorm());
     }
 
@@ -415,9 +391,6 @@ public class MultivectorSymbolic {
      * @return scalarAbs(this)
      */
     public MultivectorSymbolic scalarAbs() {
-        if (!impl.isScalar()) {
-            throw new IllegalArgumentException("This is no scalar!");
-        }
         return get(impl.scalarAbs());
     }
 
