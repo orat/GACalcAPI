@@ -2,7 +2,7 @@ package de.orat.math.gacalc.spi.test.impl;
 
 import de.orat.math.gacalc.spi.test.spi.iMultivectorSymbolicOperators;
 
-public class CGAMultivectorSymbolicOperators extends CGAMultivectorSymbolic implements iMultivectorSymbolicOperators<CGAMultivectorSymbolic, CGAConstantSymbolic, CGAConstantSymbolicService, CGAMultivectorSymbolicOperators> {
+public class CGAMultivectorSymbolicOperators extends CGAMultivectorSymbolic implements iMultivectorSymbolicOperators<CGAConstantSymbolic, CGAConstantSymbolicService, CGAMultivectorSymbolicOperators> {
 
     protected CGAMultivectorSymbolicOperators() {
         super();
