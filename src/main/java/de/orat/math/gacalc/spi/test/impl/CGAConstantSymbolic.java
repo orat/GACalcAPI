@@ -2,7 +2,7 @@ package de.orat.math.gacalc.spi.test.impl;
 
 import de.orat.math.gacalc.spi.test.spi.iConstantSymbolic;
 
-public class CGAConstantSymbolic extends CGAMultivectorSymbolicOperators implements iConstantSymbolic<CGAConstantSymbolic, CGAConstantSymbolicService, CGAMultivectorSymbolicOperators> {
+public class CGAConstantSymbolic extends CGAMultivectorSymbolic implements iConstantSymbolic<CGAConstantSymbolic, CGAConstantSymbolicService, CGAMultivectorSymbolic> {
 
     protected CGAConstantSymbolic() {
         super();

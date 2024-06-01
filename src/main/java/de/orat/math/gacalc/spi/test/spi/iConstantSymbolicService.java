@@ -1,6 +1,6 @@
 package de.orat.math.gacalc.spi.test.spi;
 
-public interface iConstantSymbolicService<IConstantSymbolic extends iConstantSymbolic<IConstantSymbolic, IConstantSymbolicService, IMultivectorSymbolicOperators>, IConstantSymbolicService extends iConstantSymbolicService<IConstantSymbolic, IConstantSymbolicService, IMultivectorSymbolicOperators>, IMultivectorSymbolicOperators extends iMultivectorSymbolicOperators<IConstantSymbolic, IConstantSymbolicService, IMultivectorSymbolicOperators>> {
+public interface iConstantSymbolicService<IConstantSymbolic extends iConstantSymbolic<IConstantSymbolic, IConstantSymbolicService, IMultivectorSymbolic>, IConstantSymbolicService extends iConstantSymbolicService<IConstantSymbolic, IConstantSymbolicService, IMultivectorSymbolic>, IMultivectorSymbolic extends iMultivectorSymbolic<IConstantSymbolic, IConstantSymbolicService, IMultivectorSymbolic>> {
 
     IConstantSymbolic getBaseVectorOrigin();
 }

@@ -2,7 +2,7 @@ package de.orat.math.gacalc.spi.test.impl;
 
 import de.orat.math.gacalc.spi.test.spi.iMultivectorSymbolic;
 
-public class CGAMultivectorSymbolic implements iMultivectorSymbolic {
+public class CGAMultivectorSymbolic implements iMultivectorSymbolic<CGAConstantSymbolic, CGAConstantSymbolicService, CGAMultivectorSymbolic> {
 
     protected CGAMultivectorSymbolic() {
     }
@@ -15,4 +15,14 @@ public class CGAMultivectorSymbolic implements iMultivectorSymbolic {
         return "name";
     }
 
+    @Override
+    public CGAConstantSymbolicService constants() {
+        return new CGAConstantSymbolicService();
+    }
+
+    @Override
+    public CGAMultivectorSymbolic gp(CGAMultivectorSymbolic b) {
+        CGAConstantSymbolic cc = constants().getBaseVectorOrigin();
+        return cc.gp(this.gp(b));
+    }
 }
