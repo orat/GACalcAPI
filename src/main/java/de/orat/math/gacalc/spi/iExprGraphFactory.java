@@ -56,7 +56,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
     double[] createRandomKVector(int grade);
 
     // create constants
-    SparseDoubleMatrix createBaseVectorOrigin(double scalor);
+    SparseDoubleMatrix createBaseVectorOrigin(double scalar);
 
     SparseDoubleMatrix createBaseVectorInfinity(double scalar);
 
