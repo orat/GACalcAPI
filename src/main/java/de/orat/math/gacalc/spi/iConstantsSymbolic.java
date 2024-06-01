@@ -1,12 +1,12 @@
 package de.orat.math.gacalc.spi;
 
-import de.orat.math.gacalc.api.ConstantsProvider;
+import de.orat.math.gacalc.api.ConstantsSymbolic;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.function.Supplier;
 
-public interface iConstantsProvider<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
+public interface iConstantsSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
 
-    default void init(ConstantsProvider.Callback callback) {
+    default void init(ConstantsSymbolic.Callback callback) {
 
     }
 

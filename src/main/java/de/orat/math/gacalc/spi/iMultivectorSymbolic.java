@@ -49,7 +49,7 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
 
     int[] grades();
 
-    iConstantsProvider<IMultivectorSymbolic> constants();
+    iConstantsSymbolic<IMultivectorSymbolic> constants();
 
     //======================================================
     // Operators

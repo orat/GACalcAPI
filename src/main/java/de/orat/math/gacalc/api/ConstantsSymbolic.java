@@ -1,27 +1,27 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iConstantsProvider;
+import de.orat.math.gacalc.spi.iConstantsSymbolic;
 
-public class ConstantsProvider {
+public class ConstantsSymbolic {
 
-    protected final iConstantsProvider impl;
+    protected final iConstantsSymbolic impl;
 
-    protected static ConstantsProvider get(iConstantsProvider impl) {
-        ConstantsProvider result = new ConstantsProvider(impl);
+    protected static ConstantsSymbolic get(iConstantsSymbolic impl) {
+        ConstantsSymbolic result = new ConstantsSymbolic(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
-    protected ConstantsProvider(iConstantsProvider impl) {
+    protected ConstantsSymbolic(iConstantsSymbolic impl) {
         this.impl = impl;
     }
 
     public static final class Callback {
 
-        private final ConstantsProvider api;
+        private final ConstantsSymbolic api;
 
-        private Callback(ConstantsProvider api) {
+        private Callback(ConstantsSymbolic api) {
             this.api = api;
         }
 

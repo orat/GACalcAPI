@@ -23,7 +23,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     String getName();
 
-    iConstantsProvider<IMultivectorSymbolic> constants();
+    iConstantsSymbolic<IMultivectorSymbolic> constants();
 
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
 
