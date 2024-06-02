@@ -12,4 +12,9 @@ public class CGAConstantSymbolic extends CGAMultivectorSymbolic implements iCons
         super(other);
     }
 
+    @Override
+    public CGAMultivectorSymbolic toIMV() {
+        return this;
+    }
+
 }

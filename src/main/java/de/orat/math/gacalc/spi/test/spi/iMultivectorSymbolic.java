@@ -8,6 +8,6 @@ public interface iMultivectorSymbolic<IConstantSymbolic extends iConstantSymboli
 
     default IMultivectorSymbolic gp(IMultivectorSymbolic b) {
         IConstantSymbolic cc = constants().getBaseVectorOrigin();
-        return cc.gp(this.gp(b));
+        return b.gp(this.gp(cc.toIMV()));
     }
 }

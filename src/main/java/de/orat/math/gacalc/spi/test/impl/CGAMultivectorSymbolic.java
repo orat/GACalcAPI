@@ -23,6 +23,6 @@ public class CGAMultivectorSymbolic implements iMultivectorSymbolic<CGAConstantS
     @Override
     public CGAMultivectorSymbolic gp(CGAMultivectorSymbolic b) {
         CGAConstantSymbolic cc = constants().getBaseVectorOrigin();
-        return cc.gp(this.gp(b));
+        return b.gp(this.gp(cc));
     }
 }
