@@ -14,6 +14,8 @@ public interface iConstantsSymbolic<IMultivectorSymbolic extends iMultivectorSym
 
     IMultivectorSymbolic newConstant(String name, SparseDoubleMatrix definition);
 
+    IMultivectorSymbolic newConstant(String name, IMultivectorSymbolic definition);
+
     IMultivectorSymbolic cached(Supplier<IMultivectorSymbolic> creator);
 
     default IMultivectorSymbolic getBaseVectorOrigin() {
