@@ -49,8 +49,6 @@ public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorS
 
     iConstantsSymbolic<IMultivectorSymbolic> constants();
 
-    iExprGraphFactory<IMultivectorSymbolic, ?> fac();
-
     //======================================================
     // Operators
     //======================================================

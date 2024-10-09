@@ -6,7 +6,8 @@ import de.orat.math.sparsematrix.SparseDoubleMatrix;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public interface iMultivectorNumeric {
+public interface iMultivectorNumeric<IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>, IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>>
+    extends iMultivectorSymbolic<IMultivectorNumeric> {
 
     void init(Callback callback);
 
@@ -16,8 +17,7 @@ public interface iMultivectorNumeric {
     //double[] elements();
     SparseDoubleMatrix elements();
 
-    // Alle benötigten Operatoren aus iMultivectorSymbolic
-    // um den EuclideanTypeConverter imlementieren zu können
-    //iMultivectorNumeric op(iMultivectorNumeric mv);
-    //iMultivectorNumeric add(iMultivectorNumeric mv);
+    IMultivectorSymbolic toSymbolic();
+
+    // All operators are from iMultivectorSymbolic.
 }

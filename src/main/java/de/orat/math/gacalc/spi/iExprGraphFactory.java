@@ -1,19 +1,15 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.ExprGraphFactory.Callback;
-//import de.orat.math.gacalc.api.MultivectorSymbolic;
-//import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
 import java.util.Random;
-//import util.cga.CGAMultivectorSparsity;
-//import util.cga.SparseCGAColumnVector;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorPurelySymbolic extends iMultivectorPurelySymbolic<IMultivectorSymbolic>> {
+public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorPurelySymbolic extends iMultivectorPurelySymbolic<IMultivectorSymbolic>, IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>> {
 
     default void init(Callback callback) {
 
@@ -46,13 +42,13 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
      */
-    iMultivectorNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
+    IMultivectorNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
 
-    iMultivectorNumeric createMultivectorNumeric(double[] values);
+    IMultivectorNumeric createMultivectorNumeric(double[] values);
 
-    iMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
+    IMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
-    iFunctionSymbolic<IMultivectorSymbolic> createFunctionSymbolic(String name, List<IMultivectorPurelySymbolic> parameters, List<IMultivectorSymbolic> returns);
+    iFunctionSymbolic<IMultivectorSymbolic, IMultivectorNumeric> createFunctionSymbolic(String name, List<IMultivectorPurelySymbolic> parameters, List<IMultivectorSymbolic> returns);
 
     // random multivectors
     default double[] createRandomMultivector(int basisBladesCount) {
@@ -61,7 +57,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
             limit(basisBladesCount).toArray();
     }
 
-    iMultivectorNumeric createRandomMultivectorNumeric();
+    IMultivectorNumeric createRandomMultivectorNumeric();
 
     double[] createRandomMultivector();
 

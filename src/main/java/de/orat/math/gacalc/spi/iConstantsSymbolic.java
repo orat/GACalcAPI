@@ -10,7 +10,7 @@ public interface iConstantsSymbolic<IMultivectorSymbolic extends iMultivectorSym
 
     }
 
-    iExprGraphFactory<?, ?> fac();
+    iExprGraphFactory<?, ?, ?> fac();
 
     IMultivectorSymbolic newConstant(String name, SparseDoubleMatrix definition);
 
