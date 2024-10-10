@@ -4,7 +4,7 @@ import de.orat.math.gacalc.api.MultivectorNumeric.Callback;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 
 /**
- * @author Oliver Rettig (Oliver.Rettig@orat.de)
+ * Numeric Multivector.
  */
 public interface iMultivectorNumeric<IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>, IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>>
     extends iMultivectorSymbolic<IMultivectorNumeric> {

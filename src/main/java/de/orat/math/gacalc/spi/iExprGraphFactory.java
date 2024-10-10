@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @author Oliver Rettig (Oliver.Rettig@orat.de)
+ * Constructors.
  */
 public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorPurelySymbolic extends iMultivectorPurelySymbolic<IMultivectorSymbolic>, IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>> {
 
