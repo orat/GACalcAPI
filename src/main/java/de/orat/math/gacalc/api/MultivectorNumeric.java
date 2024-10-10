@@ -6,10 +6,11 @@ import de.orat.math.sparsematrix.SparseDoubleMatrix;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public class MultivectorNumeric {
+public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, iMultivectorNumeric> {
 
-    protected final iMultivectorNumeric impl;
-
+    /**
+     * To be used by other classes in the package.
+     */
     protected static MultivectorNumeric get(iMultivectorNumeric impl) {
         MultivectorNumeric result = new MultivectorNumeric(impl);
         Callback callback = new Callback(result);
@@ -17,8 +18,20 @@ public class MultivectorNumeric {
         return result;
     }
 
+    @Override
+    protected MultivectorNumeric get_(iMultivectorNumeric impl) {
+        return get(impl);
+    }
+
+    /**
+     * To be used by other classes in the package.
+     */
+    protected iMultivectorNumeric getImpl() {
+        return super.impl;
+    }
+
     protected MultivectorNumeric(iMultivectorNumeric impl) {
-        this.impl = impl;
+        super(impl);
     }
 
     public static final class Callback {
@@ -40,8 +53,8 @@ public class MultivectorNumeric {
         return impl.elements();
     }
 
-    @Override
-    public String toString() {
-        return impl.toString();
+    public MultivectorSymbolic toSymbolic() {
+        return MultivectorSymbolic.get(impl.toSymbolic());
     }
+
 }

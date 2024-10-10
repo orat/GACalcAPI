@@ -4,10 +4,10 @@ import de.orat.math.gacalc.api.MultivectorNumeric.Callback;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 
 /**
- * Numeric Multivector.
+ * Numeric multivector.
  */
 public interface iMultivectorNumeric<IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>, IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>>
-    extends iMultivectorSymbolic<IMultivectorNumeric> {
+    extends iMultivector<IMultivectorNumeric> {
 
     void init(Callback callback);
 
@@ -18,6 +18,4 @@ public interface iMultivectorNumeric<IMultivectorNumeric extends iMultivectorNum
     SparseDoubleMatrix elements();
 
     IMultivectorSymbolic toSymbolic();
-
-    // All operators are from iMultivectorSymbolic.
 }

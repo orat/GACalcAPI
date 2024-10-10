@@ -49,8 +49,12 @@ public class ExprGraphFactory {
         return impl.getName();
     }
 
-    public ConstantsSymbolic constants() {
-        return ConstantsSymbolic.get(impl.constants());
+    public ConstantsFactorySymbolic constantsSymbolic() {
+        return ConstantsFactorySymbolic.get(impl.constantsSymbolic());
+    }
+
+    public ConstantsFactoryNumeric constantsNumeric() {
+        return ConstantsFactoryNumeric.get(impl.constantsNumeric());
     }
 
     //------- symbolic

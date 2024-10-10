@@ -19,7 +19,9 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     String getName();
 
-    iConstantsSymbolic<IMultivectorSymbolic> constants();
+    iConstantsFactorySymbolic<IMultivectorSymbolic> constantsSymbolic();
+
+    iConstantsFactoryNumeric<IMultivectorNumeric, IMultivectorSymbolic> constantsNumeric();
 
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
 
