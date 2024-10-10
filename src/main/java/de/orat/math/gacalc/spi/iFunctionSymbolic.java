@@ -4,7 +4,7 @@ import de.orat.math.gacalc.api.FunctionSymbolic.Callback;
 import java.util.List;
 
 /**
- * @author Oliver Rettig (Oliver.Rettig@orat.de)
+ * Function.
  */
 public interface iFunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>> {
 

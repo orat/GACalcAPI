@@ -4,6 +4,9 @@ import de.orat.math.gacalc.api.ConstantsSymbolic;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.function.Supplier;
 
+/**
+ * Constant leaf node in expr tree.
+ */
 public interface iConstantsSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
 
     default void init(ConstantsSymbolic.Callback callback) {

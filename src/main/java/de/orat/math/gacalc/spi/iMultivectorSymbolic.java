@@ -5,7 +5,7 @@ import de.orat.math.sparsematrix.MatrixSparsity;
 import util.CayleyTable;
 
 /**
- * @author Oliver Rettig (Oliver.Rettig@orat.de)
+ * Non-leaf node in expr tree.
  */
 public interface iMultivectorSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> {
 
