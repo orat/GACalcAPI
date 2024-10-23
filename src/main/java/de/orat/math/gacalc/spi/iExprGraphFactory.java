@@ -50,6 +50,10 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     IMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
+    default IMultivectorNumeric createMultivectorNumeric(double scalar) {
+        return createMultivectorNumeric(createScalar(scalar));
+    }
+
     iFunctionSymbolic<IMultivectorSymbolic, IMultivectorNumeric> createFunctionSymbolic(String name, List<IMultivectorPurelySymbolic> parameters, List<IMultivectorSymbolic> returns);
 
     // random multivectors

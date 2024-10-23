@@ -90,6 +90,10 @@ public class ExprGraphFactory {
         return MultivectorNumeric.get(impl.createMultivectorNumeric(nonzeros, rows));
     }
 
+    public MultivectorNumeric createMultivectorNumeric(double scalar) {
+        return MultivectorNumeric.get(impl.createMultivectorNumeric(scalar));
+    }
+
     // random multivectors
     public MultivectorNumeric createRandomMultivectorNumeric() {
         return MultivectorNumeric.get(impl.createRandomMultivectorNumeric());
