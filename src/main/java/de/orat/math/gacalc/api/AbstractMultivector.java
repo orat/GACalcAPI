@@ -230,6 +230,29 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
         return get_((IMultivector) impl.scalarSqrt());
     }
 
+    // new scalar functions
+    
+    public AMV scalarSign(){
+        return get_((IMultivector) impl.scalarSign());
+    }
+    public AMV scalarSin(){
+        return get_((IMultivector) impl.scalarSin());
+    }
+    public AMV scalarCos(){
+        return get_((IMultivector) impl.scalarCos());
+    }
+    public AMV scalarTan(){
+        return get_((IMultivector) impl.scalarTan());
+    }
+    public AMV scalarAtan(){
+        return get_((IMultivector) impl.scalarAtan());
+    }
+    public AMV scalarAsin(){
+        return get_((IMultivector) impl.scalarAsin());
+    }
+    public AMV scalarAcos(){
+        return get_((IMultivector) impl.scalarAcos());
+    }
     /**
      * Arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
      * as the couterclockwise angle in radians between -pi and pi of the point (x,y) to the positive x-axis.)

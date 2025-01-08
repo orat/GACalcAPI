@@ -428,6 +428,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     IMultivector scalarSign();
     IMultivector scalarSin();
     IMultivector scalarCos();
+    IMultivector scalarTan();
     IMultivector scalarAtan();
     IMultivector scalarAsin();
     IMultivector scalarAcos();
