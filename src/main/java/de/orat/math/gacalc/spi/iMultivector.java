@@ -421,11 +421,18 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     IMultivector negate14();
 
     IMultivector scalarAbs();
-
     IMultivector scalarAtan2(IMultivector y);
-
     IMultivector scalarSqrt();
 
+    // neu
+    IMultivector scalarSign();
+    IMultivector scalarSin();
+    IMultivector scalarCos();
+    IMultivector scalarAtan();
+    IMultivector scalarAsin();
+    IMultivector scalarAcos();
+    
+    
     // non linear operators/functions
     // [8] M Roelfs and S De Keninck. 2021.
     // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
