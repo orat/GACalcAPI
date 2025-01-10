@@ -437,13 +437,29 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     // non linear operators/functions
     // [8] M Roelfs and S De Keninck. 2021.
     // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
-    // generische Implementierung for multivectors
+    // https://arxiv.org/pdf/2107.03771
+    // generische/default Implementierung for multivectors
+    // TODO
     IMultivector exp();
 
+    /**
+     * https://enki.ws/ganja.js/examples/coffeeshop.html#NSELGA
+     * 
+     * implementation for R41 is normalize(1+R) for a rotor/bivector only
+     * 
+     * @return 
+     */
     IMultivector sqrt();
 
+    // non linear operators/functions
+    // [8] M Roelfs and S De Keninck. 2021.
+    // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
+    // https://arxiv.org/pdf/2107.03771
+    // generische/default Implementierung for multivectors
+    // TODO
     IMultivector log();
 
+    
     IMultivector meet(IMultivector b);
 
     IMultivector join(IMultivector b);
