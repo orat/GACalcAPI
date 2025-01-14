@@ -514,7 +514,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     //return division(norm());
     IMultivector normalizeBySquaredNorm(); // oder idealNorm?
 
-    IMultivector normalizeEvenElement();
+    IMultivector normalizeRotor();
 
     /**
      * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix. Dies ist allerdings nicht

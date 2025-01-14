@@ -394,7 +394,10 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
     public AMV normalize() throws IllegalArgumentException {
         return get_((IMultivector) impl.normalizeBySquaredNorm());
     }
-
+    public AMV normalizeRotor() throws IllegalArgumentException {
+        return get_((IMultivector) impl.normalizeRotor());
+    }
+    
     /**
      * Absolute value if this is a scalar.
      *

@@ -38,7 +38,11 @@ public abstract class CGACayleyTable extends CayleyTable {
     public static int[] getEvenIndizes() {
         return new int[]{0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 26, 27, 28, 29, 30};
     }
-
+    // B=B0​e12​+B1​e13​+B2​e14​+B3​e15​+B4​e23​+B5​e24​+B6​e25​+B7​e34​+B8​e35​+B9​e45​
+    public static int[] getBivectorIndizes(){
+        return new int[]{6,7,8,9,10,11,12,13,14,15};
+    }
+    
     CGACayleyTable(String[][] cgaTable) {
         super(cgaTable, CGABasisBladeNames);
     }

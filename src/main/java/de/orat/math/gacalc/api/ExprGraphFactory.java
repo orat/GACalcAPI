@@ -69,6 +69,10 @@ public class ExprGraphFactory {
     public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int grade) {
         return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, grade));
     }
+    
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int[] grades) {
+        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, grades));
+    }
 
     public MultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector) {
         return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparseVector));
@@ -106,7 +110,10 @@ public class ExprGraphFactory {
     public double[] createRandomMultivector(int grade) {
         return impl.createRandomKVector(grade);
     }
-
+    public double[] createRandomMultivector(int[] indizes){
+        return impl.createRandomMultivector(indizes);
+    }
+    
     // functions
     public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorPurelySymbolic> parameters,
         List<MultivectorSymbolic> returns) {
