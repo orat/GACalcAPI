@@ -116,7 +116,8 @@ public class CGAKVectorSparsity extends CGAMultivectorSparsity {
                 result = 5;
                 break;
             default:
-                throw new IllegalArgumentException("In CGA only 0<=grade<=5 is possible!");
+                throw new IllegalArgumentException("In CGA only 0<=grade<=5 is possible, but argument is \""+
+                    String.valueOf(grade)+"!");
         }
         return result;
     }

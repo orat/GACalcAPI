@@ -346,8 +346,8 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     }
 
     /**
-     * Original/classical inner product definition which excludes 0-grades from the summation. Better use the
-     * dot-product instead.
+     * Original/classical inner product definition which excludes 0-grades from the summation. 
+     * Better use the dot-product instead.
      *
      * Symmetric contraction:
      * <p>
@@ -371,7 +371,8 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
                 if (grade > 0) {
-                    IMultivector res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
+                    IMultivector res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).
+                                            gradeSelection(grade);
                     if (result == null) {
                         result = res;
                     } else {
@@ -456,7 +457,6 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
     // https://arxiv.org/pdf/2107.03771
     // generische/default Implementierung for multivectors
-    // TODO
     IMultivector log();
 
     

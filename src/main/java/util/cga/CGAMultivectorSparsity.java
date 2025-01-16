@@ -2,12 +2,18 @@ package util.cga;
 
 import de.orat.math.sparsematrix.ColumnVectorSparsity;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class CGAMultivectorSparsity extends ColumnVectorSparsity {
+
+    private static Set<Integer> evenIndizesSet = null;
 
     private static CGACayleyTable cgaCayleyTable = CGACayleyTableGeometricProduct.instance();
 
@@ -23,7 +29,29 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
         return new CGAMultivectorSparsity(new int[]{0});
     }
 
+
+    // a scalar is also an even element, all subtypes of general even elements
     public boolean isEven() {
+        if (evenIndizesSet == null){
+            int[] evenIndizes = CGACayleyTableGeometricProduct.getEvenIndizes();
+            evenIndizesSet = Arrays.stream(evenIndizes).boxed().
+                collect(Collectors.toCollection(HashSet::new));
+        }
+        
+        int[] row = getrow();
+        int rows = row.length;
+        if (rows > evenIndizesSet.size()) {
+            return false;
+        }
+        for (int i = 0; i < rows; i++) {
+            if (!evenIndizesSet.contains(row[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean isGeneralEven() {
         int[] evenIndizes = CGACayleyTableGeometricProduct.getEvenIndizes();
         int[] row = getrow();
         int rows = row.length;
@@ -43,10 +71,7 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
         if (row.length != 1) {
             return false;
         }
-        if (row[0] != 0) {
-            return false;
-        }
-        return true;
+        return row[0] == 0;
     }
 
     /**
