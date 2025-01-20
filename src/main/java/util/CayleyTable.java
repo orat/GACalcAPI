@@ -42,12 +42,14 @@ public class CayleyTable extends DenseStringMatrix {
         this.names.addAll(Arrays.asList(names));
     }
 
-    public String[] getBasisBladeNames() {
-        return names.toArray(String[]::new);
+    public final String[] getBasisBladeNames() {
+        return getBasisBladeNamesList().toArray(String[]::new);
     }
-
+    public List<String> getBasisBladeNamesList(){
+        return names;
+    }
     public int getBladesCount() {
-        return names.size();
+        return getBasisBladeNamesList().size();
     }
 
     public int getGrade(int index) {
@@ -55,16 +57,16 @@ public class CayleyTable extends DenseStringMatrix {
     }
 
     public String getBasisBladeName(int index) {
-        return names.get(index);
+        return getBasisBladeNamesList().get(index);
     }
 
     // The pseudoscalar is always the last element
     public String getPseudoscalarName() {
-        return names.get(names.size() - 1);
+        return getBasisBladeNamesList().get(getBasisBladeNamesList().size() - 1);
     }
 
     public int getPseudoscalarGrade() {
-        return getGrade(names.size() - 1);
+        return getGrade(getBasisBladeNamesList().size() - 1);
     }
 
     /**
@@ -73,8 +75,8 @@ public class CayleyTable extends DenseStringMatrix {
      * @param basisBladeName
      * @return -1 if the base names list does not contain the given blade
      */
-    public int getBasisBladeRow(String basisBladeName) {
-        return names.indexOf(basisBladeName);
+    public int getBasisBladeIndex(String basisBladeName) {
+        return getBasisBladeNamesList().indexOf(basisBladeName);
     }
 
     /**
@@ -114,7 +116,7 @@ public class CayleyTable extends DenseStringMatrix {
         // start bei i=1, da basisBlade="1" damit nicht verarbeitet werden soll
         // eine Zahl bedeutet implizit ein Faktor aus dieser Zahl und dem Scalarwert also Wert bei index=0
         for (int i = 1; i < getBladesCount(); i++) {
-            String basisBladeName = names.get(i);
+            String basisBladeName = getBasisBladeNamesList().get(i);
             positionIndex = cellVal.indexOf(basisBladeName);
             if (positionIndex >= 0 && positionIndex + basisBladeName.length() == cellVal.length()) {
                 baseBladeIndex = i;
@@ -158,10 +160,10 @@ public class CayleyTable extends DenseStringMatrix {
 
     // not yet tested
     public SparseDoubleMatrix[] determineBasisBlades() {
-        SparseDoubleMatrix[] result = new SparseDoubleMatrix[names.size()];
+        SparseDoubleMatrix[] result = new SparseDoubleMatrix[getBasisBladeNamesList().size()];
         // loop over basis blade names
         for (int i = 0; i < getBladesCount(); i++) {
-            String name = names.get(i);
+            String name = getBasisBladeNamesList().get(i);
             double[][] blade = new double[data.length][data[0].length];
             // loop over rows
             for (int row = 0; row < data.length; row++) {

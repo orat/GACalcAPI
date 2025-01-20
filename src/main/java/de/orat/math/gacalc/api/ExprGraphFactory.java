@@ -62,7 +62,7 @@ public class ExprGraphFactory {
         return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name));
     }
 
-    public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, /*ColumnVectorSparsity*/ MatrixSparsity sparsity) {
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity) {
         return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, sparsity));
     }
 

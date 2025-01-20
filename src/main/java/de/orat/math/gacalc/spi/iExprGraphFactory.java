@@ -112,7 +112,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     SparseDoubleMatrix createEpsilonMinus();
 
-    SparseDoubleMatrix createMinkovskyBiVector();
+    SparseDoubleMatrix createMinkovskiBiVector();
 
     SparseDoubleMatrix createEuclideanPseudoscalar();
 

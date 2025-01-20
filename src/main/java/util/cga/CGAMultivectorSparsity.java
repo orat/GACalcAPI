@@ -90,7 +90,7 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
     public CGAMultivectorSparsity(ColumnVectorSparsity sparsity) {
         super(cgaCayleyTable.getBladesCount(), sparsity.getrow());
         if (sparsity.getn_row() != cgaCayleyTable.getBladesCount()) {
-            throw new IllegalArgumentException("The column vector sparsity argument has not the needed length to reprsent a CGA multivector!");
+            throw new IllegalArgumentException("The column vector sparsity argument has not the needed length to represent a CGA multivector!");
         }
     }
 

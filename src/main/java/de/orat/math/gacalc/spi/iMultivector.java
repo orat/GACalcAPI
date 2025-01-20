@@ -223,18 +223,9 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * Generic GA left contraction based on grade selection.
      *
      * The geometric meaning is usually formulated as the dot product between x and y gives the orthogonal
-     * complement in y of the projection of x onto y.
+     * complement in y of the projection of x onto y.<p>
      *
-     * ganja:
-     * <p>
-     *
-     * LDot(b,r) { r=r||new (IMultivectorSymbolic) this.constructor(); for (var i=0,x,gsx;
-     * gsx=grade_start[i],x=(IMultivectorSymbolic) this[i],i<(IMultivectorSymbolic) this.length; i++) if (x)
-     * for (var * j=0,y,gsy;gsy=grade_start[j],y=b[j],j<b.length; j++) if (y) for (var a=0; a<x.length; a++)
-     * if (x[a]) for (var bb=0; bb<y.length; bb++) if (y[bb]) { if (i==j && a==bb) { r[0] = r[0]||[0]; r[0][0]
-     * += x[a]*y[bb]*metric[i][a]; } else { var rn=simplify_bits(basis_bits[gsx+a],basis_bits[gsy+bb]),
-     * g=bc(rn[1]), e=bits_basis[rn[1]]-grade_start[g]; if (g == j-i) { if (!r[g])r[g]=[]; r[g][e] =
-     * (r[g][e]||0) + rn[0]*x[a]*y[bb]; } } } return r; }
+     * see ganja<p>
      *
      * @param a
      * @param b
@@ -294,7 +285,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
         return result;
     }
 
-    default IMultivector rc2(IMultivector b) {
+    default IMultivector rc_(IMultivector b) {
         return reverse().lc(b.reverse()).reverse();
     }
 
@@ -346,19 +337,13 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     }
 
     /**
-     * Original/classical inner product definition which excludes 0-grades from the summation. 
-     * Better use the dot-product instead.
+     * Original/classical inner product (symmetric contraction) definition which excludes 0-grades from the 
+     * summation. 
+     * 
+     * Better use the dot-product instead.<p>
      *
-     * Symmetric contraction:
      * <p>
-     *
-     * Dot(b,r) { r=r||new (IMultivectorSymbolic) this.constructor(); for (var i=0,x,gsx;
-     * gsx=grade_start[i],x=(IMultivectorSymbolic) this[i],i<(IMultivectorSymbolic) this.length; * i++) if (x)
-     * for (var j=0,y,gsy;gsy=grade_start[j],y=b[j],j<b.length; j++) if (y) for (var a=0; a<x.length; a++) if
-     * (x[a]) for (var bb=0; bb<y.length; bb++) if (y[bb]) { if (i==j && a==bb) { r[0] = r[0]||[0]; r[0][0] +=
-     * x[a]*y[bb]*metric[i][a]; } else { var rn=simplify_bits(basis_bits[gsx+a],basis_bits[gsy+bb]),
-     * g=bc(rn[1]), e=bits_basis[rn[1]]-grade_start[g]; if (g == Math.abs(j-i)) { if (!r[g])r[g]=[]; r[g][e] =
-     * (r[g][e]||0) + rn[0]*x[a]*y[bb]; } } } return r; }
+     * see ganja Dot(b,r)<p>
      *
      * @param b
      * @return
@@ -366,7 +351,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector ip(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null;
+        IMultivector result = null; // TODO initialisieren mit einem 0-MV, sodass ich späteres if loswerden kann
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
@@ -384,6 +369,9 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
         return result;
     }
 
+    IMultivector up();
+    iMultivector down();
+    
     /**
      * The regressive or vee product. (JOIN)
      *
@@ -435,10 +423,6 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     IMultivector scalarAcos();
     
     
-    // non linear operators/functions
-    // [8] M Roelfs and S De Keninck. 2021.
-    // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
-    // https://arxiv.org/pdf/2107.03771
     // generische/default Implementierung for multivectors
     // TODO
     IMultivector exp();

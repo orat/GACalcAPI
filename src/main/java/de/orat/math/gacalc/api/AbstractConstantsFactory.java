@@ -72,7 +72,7 @@ abstract class AbstractConstantsFactory<ACM extends AbstractConstantsFactory<ACM
     }
 
     public AMV getMinkovskyBiVector() {
-        return get_((IMultivector) this.impl.getMinkovskyBiVector());
+        return get_((IMultivector) this.impl.getMinkovskiBiVector());
     }
 
     public AMV getEuclideanPseudoscalar() {

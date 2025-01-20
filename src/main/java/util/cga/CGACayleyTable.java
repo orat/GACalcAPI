@@ -2,7 +2,10 @@ package util.cga;
 
 //import util.CayleyTable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import util.CayleyTable;
 
 /**
@@ -31,6 +34,9 @@ public abstract class CGACayleyTable extends CayleyTable {
         "e245", "e345", "e1234", "e1235",
         "e1245", "e1345", "e2345", "e12345"};
 
+    //FIXME
+    // sollte das nicht getGrade() heissen und bereits in CayleyTable abstract vorhanden sein?
+    // ich brauche das hier aber als statische Methode? aber getGrade() ist nicht statisch verfügbar
     public static int getCGAGrade(int index) {
         return CGABasisBladeNames[index].length() - 1;
     }
@@ -46,11 +52,28 @@ public abstract class CGACayleyTable extends CayleyTable {
     public static int[] getBivectorIndizes(){
         return new int[]{6,7,8,9,10,11,12,13,14,15};
     }
+    public static int getMikovskiBivectorIndex(){
+        return 15;
+    }
+    public static int getPseudoScalarIndex(){
+        return 31;
+    }
+    public static int[] getNonScalarIndizes(){
+        return new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
+        // return getIndizes(new int[]{1,2,3,4,5};
+    }
     
     CGACayleyTable(String[][] cgaTable) {
         super(cgaTable, CGABasisBladeNames);
     }
 
+    public static int[] getIndizes(int[] grades){
+        List<Integer> result = new ArrayList<>();
+        for (int i=0;i<grades.length;i++){
+            result.addAll(Arrays.stream(getIndizes(grades[i])).boxed().collect(Collectors.toList()));
+        }
+        return result.stream().mapToInt(i -> i).toArray();
+    }
     public static int[] getIndizes(int grade) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < CGABasisBladeNames.length; i++) {

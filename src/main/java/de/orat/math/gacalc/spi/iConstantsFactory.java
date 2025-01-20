@@ -64,8 +64,8 @@ public interface iConstantsFactory<IMultivector extends iMultivector<IMultivecto
         return cached(() -> newConstant("ñ", fac().createBaseVectorOriginDoran()));
     }
 
-    default IMultivector getMinkovskyBiVector() {
-        return cached(() -> newConstant("E₀", fac().createMinkovskyBiVector()));
+    default IMultivector getMinkovskiBiVector() {
+        return cached(() -> newConstant("E₀", fac().createMinkovskiBiVector()));
     }
 
     default IMultivector getEuclideanPseudoscalar() {

@@ -221,6 +221,13 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
         return get_((IMultivector) impl.log());
     }
 
+    public AMV up(){
+         return get_((IMultivector) impl.up());
+    }
+    public AMV down(){
+         return get_((IMultivector) impl.down());
+    }
+    
     /**
      * Square root.
      *
@@ -439,7 +446,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
             return get((IMultivector) impl.inorm());
     }*/
     //--------------
-    public MatrixSparsity/*ColumnVectorSparsity*/ getSparsity() {
+    public MatrixSparsity getSparsity() {
         return impl.getSparsity();
     }
 
