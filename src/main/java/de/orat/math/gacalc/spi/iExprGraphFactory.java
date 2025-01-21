@@ -20,7 +20,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
     String getName();
 
     public int getBasisBladesCount();
-     
+
     iConstantsFactorySymbolic<IMultivectorSymbolic> constantsSymbolic();
 
     iConstantsFactoryNumeric<IMultivectorNumeric, IMultivectorSymbolic> constantsNumeric();
@@ -29,21 +29,19 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name);
 
+    IMultivectorPurelySymbolic createDenseMultivectorPurelySymbolic();
+
+    IMultivectorPurelySymbolic createSparseMultivectorPurelySymbolic();
+
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int grade);
 
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int[] grades);
-    
+
     IMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
 
     default IMultivectorSymbolic createMultivectorSymbolic(String name, double scalar) {
         return createMultivectorSymbolic(name, createScalar(scalar));
     }
-
-    IMultivectorSymbolic createDenseEmptyInstance();
-
-    // brauche ich das wirklich?
-    //FIXME
-    IMultivectorSymbolic createSparseEmptyInstance();
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
@@ -60,34 +58,29 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     iFunctionSymbolic<IMultivectorSymbolic, IMultivectorNumeric> createFunctionSymbolic(String name, List<IMultivectorPurelySymbolic> parameters, List<IMultivectorSymbolic> returns);
 
-    
     // random multivectors
-    
     default double[] createRandomMultivector(/*int basisBladesCount*/) {
-        
+
         Random random = new Random();
         return random.doubles(-1, 1).
             limit(getBasisBladesCount()).toArray();
     }
 
-    default double[] createRandomMultivector(int[] indizes){
+    default double[] createRandomMultivector(int[] indizes) {
         int basisBladesCount = getBasisBladesCount();
         double[] temp = createRandomMultivector(/*basisBladesCount*/);
         double[] result = new double[basisBladesCount];
-        for (int i=0;i<indizes.length;i++){
+        for (int i = 0; i < indizes.length; i++) {
             result[indizes[i]] = temp[indizes[i]];
         }
         return result;
     }
-    
-    //double[] createRandomMultivector();
 
+    //double[] createRandomMultivector();
     double[] createRandomKVector(int grade);
 
-        
     IMultivectorNumeric createRandomMultivectorNumeric();
 
-    
     /**
      * SparseDoubleMatrix to build both numeric and symbolic multivectors.
      */

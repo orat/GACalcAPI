@@ -16,6 +16,10 @@ public interface iConstantsFactory<IMultivector extends iMultivector<IMultivecto
 
     IMultivector cached(Supplier<IMultivector> creator);
 
+    IMultivector getSparseEmptyInstance();
+
+    IMultivector getDenseEmptyInstance();
+
     default IMultivector getBaseVectorOrigin() {
         return cached(() -> newConstant("ε₀", fac().createBaseVectorOrigin(1d)));
     }
