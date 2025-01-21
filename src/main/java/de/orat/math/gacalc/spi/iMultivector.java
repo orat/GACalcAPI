@@ -189,7 +189,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector op(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null; //denseEmptyInstance();
+        IMultivector result = null; //denseEmptyInstance(); TODO structurell null zurück?
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 //System.out.println("op:grade(a)="+String.valueOf(grades_a[i])+
