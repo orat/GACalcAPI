@@ -189,7 +189,8 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector op(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null; //denseEmptyInstance();
+        IMultivector sparseEmptyInstance = constants().getSparseEmptyInstance();
+        IMultivector result = sparseEmptyInstance;
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 //System.out.println("op:grade(a)="+String.valueOf(grades_a[i])+
@@ -207,7 +208,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
                     // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
                     // und den ersten Wert vor dem Vorschleifen in die Variable zu streichen
                     // dann könnte ich das if vermeiden.
-                    if (result == null) {
+                    if (result == sparseEmptyInstance) {
                         result = res;
                     } else {
                         result = result.add(res);
