@@ -52,6 +52,9 @@ public abstract class CGACayleyTable extends CayleyTable {
     public static int[] getBivectorIndizes(){
         return new int[]{6,7,8,9,10,11,12,13,14,15};
     }
+    public static int[] get4VectorIndizes(){
+        return new int[]{26,27,27,29,30};
+    }
     public static int getMikovskiBivectorIndex(){
         return 15;
     }

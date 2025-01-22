@@ -343,7 +343,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     }
 
     IMultivector up();
-    iMultivector down();
+    IMultivector down();
     
     /**
      * The regressive or vee product. (JOIN)
