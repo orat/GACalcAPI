@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Constructors.
  */
-public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorPurelySymbolic extends iMultivectorPurelySymbolic<IMultivectorSymbolic>, IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>> {
+public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVSymbolic>, IMVPurelySymbolic extends iMultivectorPurelySymbolic<IMVSymbolic>, IMVNumeric extends iMultivectorNumeric<IMVNumeric, IMVSymbolic>> {
 
     default void init(Callback callback) {
 
@@ -21,40 +21,40 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     public int getBasisBladesCount();
 
-    iConstantsFactorySymbolic<IMultivectorSymbolic> constantsSymbolic();
+    iConstantsFactorySymbolic<IMVSymbolic> constantsSymbolic();
 
-    iConstantsFactoryNumeric<IMultivectorNumeric, IMultivectorSymbolic> constantsNumeric();
+    iConstantsFactoryNumeric<IMVNumeric, IMVSymbolic> constantsNumeric();
 
-    IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
+    IMVPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
 
-    IMultivectorPurelySymbolic createMultivectorPurelySymbolicDense(String name);
+    IMVPurelySymbolic createMultivectorPurelySymbolicDense(String name);
 
-    IMultivectorPurelySymbolic createMultivectorPurelySymbolicSparse(String name);
+    IMVPurelySymbolic createMultivectorPurelySymbolicSparse(String name);
 
-    IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int grade);
+    IMVPurelySymbolic createMultivectorPurelySymbolic(String name, int grade);
 
-    IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int[] grades);
+    IMVPurelySymbolic createMultivectorPurelySymbolic(String name, int[] grades);
 
-    IMultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
+    IMVSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
 
-    default IMultivectorSymbolic createMultivectorSymbolic(String name, double scalar) {
+    default IMVSymbolic createMultivectorSymbolic(String name, double scalar) {
         return createMultivectorSymbolic(name, createScalar(scalar));
     }
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
      */
-    IMultivectorNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
+    IMVNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
 
-    IMultivectorNumeric createMultivectorNumeric(double[] values);
+    IMVNumeric createMultivectorNumeric(double[] values);
 
-    IMultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
+    IMVNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
-    default IMultivectorNumeric createMultivectorNumeric(double scalar) {
+    default IMVNumeric createMultivectorNumeric(double scalar) {
         return createMultivectorNumeric(createScalar(scalar));
     }
 
-    iFunctionSymbolic<IMultivectorSymbolic, IMultivectorNumeric> createFunctionSymbolic(String name, List<IMultivectorPurelySymbolic> parameters, List<IMultivectorSymbolic> returns);
+    iFunctionSymbolic<IMVSymbolic, IMVNumeric> createFunctionSymbolic(String name, List<IMVPurelySymbolic> parameters, List<IMVSymbolic> returns);
 
     // random multivectors
     default double[] createRandomMultivector(/*int basisBladesCount*/) {
@@ -77,7 +77,7 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
     //double[] createRandomMultivector();
     double[] createRandomKVector(int grade);
 
-    IMultivectorNumeric createRandomMultivectorNumeric();
+    IMVNumeric createRandomMultivectorNumeric();
 
     /**
      * SparseDoubleMatrix to build both numeric and symbolic multivectors.

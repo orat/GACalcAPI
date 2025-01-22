@@ -6,8 +6,8 @@ import de.orat.math.sparsematrix.SparseDoubleMatrix;
 /**
  * Numeric multivector.
  */
-public interface iMultivectorNumeric<IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>, IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>>
-    extends iMultivector<IMultivectorNumeric> {
+public interface iMultivectorNumeric<IMVNumeric extends iMultivectorNumeric<IMVNumeric, IMVSymbolic>, IMVSymbolic extends iMultivectorSymbolic<IMVSymbolic>>
+    extends iMultivector<IMVNumeric> {
 
     void init(Callback callback);
 
@@ -17,5 +17,5 @@ public interface iMultivectorNumeric<IMultivectorNumeric extends iMultivectorNum
     //double[] elements();
     SparseDoubleMatrix elements();
 
-    IMultivectorSymbolic toSymbolic();
+    IMVSymbolic toSymbolic();
 }

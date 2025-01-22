@@ -6,7 +6,7 @@ import util.CayleyTable;
 /**
  * Parent interface. Not intended to be implemented directly.
  */
-public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
+public interface iMultivector<IMV extends iMultivector<IMV>> {
 
     //======================================================
     // Other methods
@@ -44,31 +44,31 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
 
     int[] grades();
 
-    iConstantsFactory<IMultivector> constants();
+    iConstantsFactory<IMV> constants();
 
     //======================================================
     // Operators
     //======================================================
-    default IMultivector commutatorProduct(IMultivector rhs) {
-        return gp(rhs).sub(rhs.gp((IMultivector) this)).gp(constants().half());
+    default IMV commutatorProduct(IMV rhs) {
+        return gp(rhs).sub(rhs.gp((IMV) this)).gp(constants().half());
     }
 
-    default IMultivector projection(IMultivector rhs) {
+    default IMV projection(IMV rhs) {
         if (grade() == -1) {
             throw new IllegalArgumentException("projection only defined for k-vectors!");
         }
         return lc(rhs.generalInverse()).lc(rhs);
     }
 
-    default IMultivector negate() {
+    default IMV negate() {
         return gpWithScalar(-1);
     }
 
-    default IMultivector square() {
-        return gp((IMultivector) this);
+    default IMV square() {
+        return gp((IMV) this);
     }
 
-    IMultivector gradeSelection(int grade);
+    IMV gradeSelection(int grade);
 
     /**
      * Generic GA reverse implementation based on grade selection.
@@ -79,13 +79,13 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      *
      * @return
      */
-    /*public IMultivectorSymbolic reverse_(){
+    /*public IMVSymbolic reverse_(){
         int[] grades = grades();
-        IMultivectorSymbolic result = null; //denseEmptyInstance();
+        IMVSymbolic result = null; //denseEmptyInstance();
         for (int i=0;i<grades.length;i++){
             System.out.println("reverse:grade()="+String.valueOf(grades[i]));
             SX multiplier = SX.pow(new SX(-1d), new SX((new SX(grades[i])),));
-            IMultivectorSymbolic norme2 = gradeSelection(grades[i]).
+            IMVSymbolic norme2 = gradeSelection(grades[i]).
                     gp(new SparseCGASymbolicMultivector(multiplier));
             System.out.println("reverse:norme2 grade()="+String.valueOf(grades[i])+" ="+norme2.toString());
             //TODO
@@ -106,19 +106,19 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     // um scalare Operationen ausführen zu können, daher die ga-allgemeine Implementierung
     // erst einmal in die cga-spezifische Implementierung aufgenommen, soll dann
     // später in eine allg. GA casadi impl verschoben werden
-    IMultivector reverse();
+    IMV reverse();
 
-    IMultivector gp(IMultivector rhs);
+    IMV gp(IMV rhs);
 
-    IMultivector gpWithScalar(double s);
+    IMV gpWithScalar(double s);
 
     // involute (Ak) = (-1) hoch k * Ak
     // ungetested
-    default IMultivector gradeInversion() {
+    default IMV gradeInversion() {
         int[] grades = grades();
-        IMultivector result = constants().getSparseEmptyInstance();
+        IMV result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades.length; i++) {
-            IMultivector res = gradeSelection(grades[i]).gpWithScalar(Math.pow(-1, grades[i]));
+            IMV res = gradeSelection(grades[i]).gpWithScalar(Math.pow(-1, grades[i]));
             result = result.add(res);
             System.out.println("op:res sparsity=" + result.getSparsity().toString());
         }
@@ -136,7 +136,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param a
      * @return !a
      */
-    default IMultivector dual() {
+    default IMV dual() {
         // scheint beides zu funktionieren
         return lc(constants().getInversePseudoscalar());
         //return gp(inversePseudoscalar());
@@ -149,7 +149,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      *
      * @return
      */
-    /*default IMultivectorSymbolic undual(){
+    /*default IMVSymbolic undual(){
         // alternativ könnte das auch via GA generic via gradeselection implementiert werden
         // nur nicht hier im Interface, da sonst Methoden zurm symoblischen Rechnen von scalars
         // benötigt würden.
@@ -158,7 +158,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     //TODO
     // default impl? sollte möglich sein ist dann aber nicht so performant, da das
     // Vorzeichen je nach GA model bestimmt werden muss.
-    IMultivector undual();
+    IMV undual();
 
     /**
      * Conjugate.
@@ -168,20 +168,20 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param a
      * @return a.Conjugate()
      */
-    IMultivector conjugate();
+    IMV conjugate();
 
     // outer product
     // funktioniert noch nicht - da bekommen ich lauter 00-Elemente
     // vermutlich gilt die entsprechende Formel nur für blades und ich muss
     // den multivector in blades zerlegen und dann über die blades iterieren
     //TODO
-    /*default IMultivectorSymbolic op__(IMultivectorSymbolic b){
-        return gp(b).add(b.gradeInversion().gp((IMultivectorSymbolic) this)).gp(0.5d);
+    /*default IMVSymbolic op__(IMVSymbolic b){
+        return gp(b).add(b.gradeInversion().gp((IMVSymbolic) this)).gp(0.5d);
     }*/
-    default IMultivector op(IMultivector b) {
+    default IMV op(IMV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = constants().getSparseEmptyInstance();
+        IMV result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 //System.out.println("op:grade(a)="+String.valueOf(grades_a[i])+
@@ -190,7 +190,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
                 //System.out.println("op:grade(result)="+String.valueOf(grade));
                 if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
                     //System.out.println("op:add(grade == "+String.valueOf(grade)+")");
-                    IMultivector res = gradeSelection(grades_a[i]).
+                    IMV res = gradeSelection(grades_a[i]).
                         gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
                     //System.out.println("op:res grade(a)="+String.valueOf(grades_a[i])+
                     //        ", grade(b)="+String.valueOf(grades_b[j])+", grade(result)="+
@@ -215,15 +215,15 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param b
      * @return a | b
      */
-    default IMultivector lc(IMultivector b) {
+    default IMV lc(IMV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = constants().getSparseEmptyInstance();
+        IMV result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_b[j] - grades_a[i];
                 if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
-                    IMultivector res = gradeSelection(grades_a[i])
+                    IMV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(grade);
                     result = result.add(res);
@@ -241,21 +241,21 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param rhs
      * @return
      */
-    default IMultivector lc_(IMultivector rhs) {
+    default IMV lc_(IMV rhs) {
         return op(rhs.gp(constants().getInversePseudoscalar())).gp(constants().getPseudoscalar());
     }
 
     //TODO
     // könnte auch via reversion implementiert werden auf Basis von lc
-    default IMultivector rc(IMultivector b) {
+    default IMV rc(IMV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = constants().getSparseEmptyInstance();
+        IMV result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_a[i] - grades_b[j];
                 if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
-                    IMultivector res = gradeSelection(grades_a[i])
+                    IMV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(grade);
                     result = result.add(res);
@@ -265,18 +265,18 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
         return result;
     }
 
-    default IMultivector rc_(IMultivector b) {
+    default IMV rc_(IMV b) {
         return reverse().lc(b.reverse()).reverse();
     }
 
-    default IMultivector scp(IMultivector b) {
+    default IMV scp(IMV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = constants().getSparseEmptyInstance();
+        IMV result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 if (grades_a[i] == grades_b[j]) {
-                    IMultivector res = gradeSelection(grades_a[i])
+                    IMV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(0);
                     result = result.add(res);
@@ -294,15 +294,15 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param b
      * @return
      */
-    default IMultivector dot(IMultivector b) {
+    default IMV dot(IMV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = constants().getSparseEmptyInstance();
+        IMV result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
                 if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
-                    IMultivector res = gradeSelection(grades_a[i])
+                    IMV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(grade);
                     result = result.add(res);
@@ -324,15 +324,15 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param b
      * @return
      */
-    default IMultivector ip(IMultivector b) {
+    default IMV ip(IMV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = constants().getSparseEmptyInstance();
+        IMV result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
                 if (grade > 0) {
-                    IMultivector res = gradeSelection(grades_a[i])
+                    IMV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(grade);
                     result = result.add(res);
@@ -342,8 +342,8 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
         return result;
     }
 
-    IMultivector up();
-    IMultivector down();
+    IMV up();
+    IMV down();
     
     /**
      * The regressive or vee product. (JOIN)
@@ -354,7 +354,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param b second multivector
      * @return a & b
      */
-    default IMultivector vee(IMultivector b) {
+    default IMV vee(IMV b) {
         return dual().op(b.dual()).dual();
     }
 
@@ -367,7 +367,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param b
      * @return a + b
      */
-    IMultivector add(IMultivector b);
+    IMV add(IMV b);
 
     /**
      * Multivector subtraction.
@@ -376,29 +376,29 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param b
      * @return a - b
      */
-    default IMultivector sub(IMultivector b) {
+    default IMV sub(IMV b) {
         return add(b.gpWithScalar(-1d));
     }
 
-    IMultivector negate14();
+    IMV negate14();
 
-    IMultivector scalarAbs();
-    IMultivector scalarAtan2(IMultivector y);
-    IMultivector scalarSqrt();
+    IMV scalarAbs();
+    IMV scalarAtan2(IMV y);
+    IMV scalarSqrt();
 
     // neu
-    IMultivector scalarSign();
-    IMultivector scalarSin();
-    IMultivector scalarCos();
-    IMultivector scalarTan();
-    IMultivector scalarAtan();
-    IMultivector scalarAsin();
-    IMultivector scalarAcos();
+    IMV scalarSign();
+    IMV scalarSin();
+    IMV scalarCos();
+    IMV scalarTan();
+    IMV scalarAtan();
+    IMV scalarAsin();
+    IMV scalarAcos();
     
     
     // generische/default Implementierung for multivectors
     // TODO
-    IMultivector exp();
+    IMV exp();
 
     /**
      * https://enki.ws/ganja.js/examples/coffeeshop.html#NSELGA
@@ -407,19 +407,19 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * 
      * @return 
      */
-    IMultivector sqrt();
+    IMV sqrt();
 
     // non linear operators/functions
     // [8] M Roelfs and S De Keninck. 2021.
     // Graded Symmetry Groups: Plane and Simple. arXiv:2107.03771 [math-ph]
     // https://arxiv.org/pdf/2107.03771
     // generische/default Implementierung for multivectors
-    IMultivector log();
+    IMV log();
 
     
-    IMultivector meet(IMultivector b);
+    IMV meet(IMV b);
 
-    IMultivector join(IMultivector b);
+    IMV join(IMV b);
 
     /**
      * Euclidean/reverse norm.
@@ -432,7 +432,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * https://math.stackexchange.com/questions/1128844/about-the-definition-of-norm-in-clifford-algebra?rq=1
      *
      */
-    default IMultivector norm() {
+    default IMV norm() {
         return scp(reverse()).scalarAbs().scalarSqrt();
     }
 
@@ -441,7 +441,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      *
      * Calculate the Ideal norm. (signed)
      */
-    IMultivector inorm();
+    IMV inorm();
 
     /**
      * Normalize a multivector (unit under reverse).
@@ -462,16 +462,16 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      *
      * TODO da fehlt mir noch ein test
      */
-    default IMultivector normalizeByReverseNorm() {
+    default IMV normalizeByReverseNorm() {
         // ist gp(scalar) wirklich das gleiche wie muls? ja
         //TODO sollte ich besser mit Hilfe von reverse/euclidean norm implementieren
         return gp(gp(reverse()).gradeSelection(0).scalarAbs().scalarSqrt().scalarInverse());
     }
 
     //return division(norm());
-    IMultivector normalizeBySquaredNorm(); // oder idealNorm?
+    IMV normalizeBySquaredNorm(); // oder idealNorm?
 
-    IMultivector normalizeRotor();
+    IMV normalizeRotor();
 
     /**
      * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix. Dies ist allerdings nicht
@@ -482,13 +482,13 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * @param rhs
      * @return
      */
-    default IMultivector div(IMultivector rhs) {
+    default IMV div(IMV rhs) {
         return gp(rhs.generalInverse());
     }
 
-    IMultivector generalInverse();
+    IMV generalInverse();
 
-    IMultivector scalarInverse();
+    IMV scalarInverse();
 
     /**
      * Inversion of versors is more efficient than inversion of a generic multivector.
@@ -497,18 +497,18 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
      * argument darauf testet ob ein versor vorliegt und dann die passende Implementierung aufruft.
      *
      * @return inverse of the multivector if the multivector is a versor
-     * @throws IllegalArgumentException if the scalarproduct with the rerverse of (IMultivectorSymbolic) this
+     * @throws IllegalArgumentException if the scalarproduct with the rerverse of (IMVSymbolic) this
      * multivector is no * scalar
      */
-    default IMultivector versorInverse() {
-        //IMultivectorSymbolic rev = reverse();
+    default IMV versorInverse() {
+        //IMVSymbolic rev = reverse();
         // return rev.gp(gp(rev).scalarInverse());
         // wo kommt diese Implementierung her?
         // scheint falsch zu sein
         // vergleich mit generalInverse liefert Vorzeichenfehler
 
-        IMultivector R = reverse();
-        IMultivector s = scp(R);
+        IMV R = reverse();
+        IMV s = scp(R);
         if (!s.isScalar()) {
             throw new IllegalArgumentException("Multiplication with reverse must be a scalar!");
         }

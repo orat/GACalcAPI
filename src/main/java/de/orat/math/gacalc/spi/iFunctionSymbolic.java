@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Function.
  */
-public interface iFunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>, IMultivectorNumeric extends iMultivectorNumeric<IMultivectorNumeric, IMultivectorSymbolic>> {
+public interface iFunctionSymbolic<IMVSymbolic extends iMultivectorSymbolic<IMVSymbolic>, IMVNumeric extends iMultivectorNumeric<IMVNumeric, IMVSymbolic>> {
 
     void init(Callback callback);
 
@@ -19,7 +19,7 @@ public interface iFunctionSymbolic<IMultivectorSymbolic extends iMultivectorSymb
     @Override
     String toString();
 
-    List<? extends IMultivectorSymbolic> callSymbolic(List<? extends IMultivectorSymbolic> arguments);
+    List<? extends IMVSymbolic> callSymbolic(List<? extends IMVSymbolic> arguments);
 
-    List<? extends IMultivectorNumeric> callNumeric(List<? extends IMultivectorNumeric> arguments);
+    List<? extends IMVNumeric> callNumeric(List<? extends IMVNumeric> arguments);
 }

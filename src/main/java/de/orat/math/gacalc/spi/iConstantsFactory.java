@@ -6,87 +6,87 @@ import java.util.function.Supplier;
 /**
  * Parent interface. Not intended to be implemented directly.
  */
-public interface iConstantsFactory<IMultivector extends iMultivector<IMultivector>> {
+public interface iConstantsFactory<IMV extends iMultivector<IMV>> {
 
     iExprGraphFactory<?, ?, ?> fac();
 
-    IMultivector newConstant(String name, SparseDoubleMatrix definition);
+    IMV newConstant(String name, SparseDoubleMatrix definition);
 
-    IMultivector newConstant(String name, IMultivector definition);
+    IMV newConstant(String name, IMV definition);
 
-    IMultivector cached(Supplier<IMultivector> creator);
+    IMV cached(Supplier<IMV> creator);
 
-    IMultivector getSparseEmptyInstance();
+    IMV getSparseEmptyInstance();
 
-    IMultivector getDenseEmptyInstance();
+    IMV getDenseEmptyInstance();
 
-    default IMultivector getBaseVectorOrigin() {
+    default IMV getBaseVectorOrigin() {
         return cached(() -> newConstant("ε₀", fac().createBaseVectorOrigin(1d)));
     }
 
-    default IMultivector getBaseVectorInfinity() {
+    default IMV getBaseVectorInfinity() {
         return cached(() -> newConstant("εᵢ", fac().createBaseVectorInfinity(1d)));
     }
 
-    default IMultivector getBaseVectorX() {
+    default IMV getBaseVectorX() {
         return cached(() -> newConstant("ε₁", fac().createBaseVectorX(1d)));
     }
 
-    default IMultivector getBaseVectorY() {
+    default IMV getBaseVectorY() {
         return cached(() -> newConstant("ε₂", fac().createBaseVectorY(1d)));
     }
 
-    default IMultivector getBaseVectorZ() {
+    default IMV getBaseVectorZ() {
         return cached(() -> newConstant("ε₃", fac().createBaseVectorZ(1d)));
     }
 
-    default IMultivector getEpsilonPlus() {
+    default IMV getEpsilonPlus() {
         return cached(() -> newConstant("ε₊", fac().createEpsilonPlus()));
     }
 
-    default IMultivector getEpsilonMinus() {
+    default IMV getEpsilonMinus() {
         return cached(() -> newConstant("ε₋", fac().createEpsilonMinus()));
     }
 
-    default IMultivector getPi() {
+    default IMV getPi() {
         return cached(() -> newConstant("π", fac().createScalar(Math.PI)));
     }
 
-    default IMultivector getBaseVectorInfinityDorst() {
+    default IMV getBaseVectorInfinityDorst() {
         return cached(() -> newConstant("∞", fac().createBaseVectorInfinityDorst()));
     }
 
-    default IMultivector getBaseVectorOriginDorst() {
+    default IMV getBaseVectorOriginDorst() {
         return cached(() -> newConstant("o", fac().createBaseVectorOriginDorst()));
     }
 
-    default IMultivector getBaseVectorInfinityDoran() {
+    default IMV getBaseVectorInfinityDoran() {
         return cached(() -> newConstant("n", fac().createBaseVectorInfinityDoran()));
     }
 
-    default IMultivector getBaseVectorOriginDoran() {
+    default IMV getBaseVectorOriginDoran() {
         return cached(() -> newConstant("ñ", fac().createBaseVectorOriginDoran()));
     }
 
-    default IMultivector getMinkovskiBiVector() {
+    default IMV getMinkovskiBiVector() {
         return cached(() -> newConstant("E₀", fac().createMinkovskiBiVector()));
     }
 
-    default IMultivector getEuclideanPseudoscalar() {
+    default IMV getEuclideanPseudoscalar() {
         return cached(() -> newConstant("E₃", fac().createEuclideanPseudoscalar()));
     }
 
-    default IMultivector getPseudoscalar() {
+    default IMV getPseudoscalar() {
         return cached(() -> newConstant("E", fac().createPseudoscalar()));
     }
 
-    IMultivector getInversePseudoscalar();
+    IMV getInversePseudoscalar();
 
-    default IMultivector one() {
+    default IMV one() {
         return cached(() -> newConstant("1", fac().createScalar(1d)));
     }
 
-    default IMultivector half() {
+    default IMV half() {
         return cached(() -> newConstant("0.5", fac().createScalar(0.5d)));
     }
 }
