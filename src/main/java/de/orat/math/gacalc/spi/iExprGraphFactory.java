@@ -27,11 +27,9 @@ public interface iExprGraphFactory<IMultivectorSymbolic extends iMultivectorSymb
 
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
 
-    IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name);
+    IMultivectorPurelySymbolic createMultivectorPurelySymbolicDense(String name);
 
-    IMultivectorPurelySymbolic createDenseMultivectorPurelySymbolic();
-
-    IMultivectorPurelySymbolic createSparseMultivectorPurelySymbolic();
+    IMultivectorPurelySymbolic createMultivectorPurelySymbolicSparse(String name);
 
     IMultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int grade);
 

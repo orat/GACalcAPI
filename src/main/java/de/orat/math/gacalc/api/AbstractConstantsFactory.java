@@ -23,6 +23,14 @@ abstract class AbstractConstantsFactory<ACM extends AbstractConstantsFactory<ACM
      */
     protected abstract AMV get_(IMultivector impl);
 
+    public AMV getSparseEmptyInstance() {
+        return get_((IMultivector) this.impl.getSparseEmptyInstance());
+    }
+
+    public AMV getDenseEmptyInstance() {
+        return get_((IMultivector) this.impl.getDenseEmptyInstance());
+    }
+
     public AMV getBaseVectorOrigin() {
         return get_((IMultivector) this.impl.getBaseVectorOrigin());
     }

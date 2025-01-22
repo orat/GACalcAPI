@@ -25,8 +25,8 @@ public class RoundPointIPNS extends EuclideanTypeFunction {
     final static ParametersAndReturns createUpParametersAndReturns() {
         //ColumnVectorSparsity osparsity
         //MultivectorSymbolic o = fac.createMultivectorSymbolic("o", osparsity);
-        MultivectorPurelySymbolic inf = fac.createMultivectorPurelySymbolic("inf");
-        MultivectorPurelySymbolic E = fac.createMultivectorPurelySymbolic("E");
+        MultivectorPurelySymbolic inf = fac.createMultivectorPurelySymbolicDense("inf");
+        MultivectorPurelySymbolic E = fac.createMultivectorPurelySymbolicDense("E");
         List<MultivectorPurelySymbolic> parameters = new ArrayList<>();
         //parameters.add(o);
         parameters.add(inf);
@@ -50,7 +50,7 @@ public class RoundPointIPNS extends EuclideanTypeFunction {
     }
 
     final static ParametersAndReturns createDownParametersAndReturns() {
-        MultivectorSymbolic mv = fac.createMultivectorPurelySymbolic("mv");
+        MultivectorSymbolic mv = fac.createMultivectorPurelySymbolicDense("mv");
         //MultivectorSymbolic mv1 = mv.negate().div(inf.lc(mn));
         // euclidean part rausziehen, scheint zu funktionieren
         //MultivectorSymbolic resultEuclidean = o.op(inf).ip(o.op(inf).op(result));

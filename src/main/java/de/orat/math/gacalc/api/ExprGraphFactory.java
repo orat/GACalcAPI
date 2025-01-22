@@ -58,8 +58,12 @@ public class ExprGraphFactory {
     }
 
     //------- symbolic
-    public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name) {
-        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name));
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolicDense(String name) {
+        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolicDense(name));
+    }
+
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolicSparse(String name) {
+        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolicSparse(name));
     }
 
     public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity) {
