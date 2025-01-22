@@ -116,18 +116,10 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     // ungetested
     default IMultivector gradeInversion() {
         int[] grades = grades();
-        IMultivector result = null; //denseEmptyInstance();
+        IMultivector result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades.length; i++) {
             IMultivector res = gradeSelection(grades[i]).gpWithScalar(Math.pow(-1, grades[i]));
-            //TODO
-            // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
-            // und den ersten Wert vor dem Vorschleifen in die Variable zu streichen
-            // dann könnte ich das if vermeiden.
-            if (result == null) {
-                result = res;
-            } else {
-                result = result.add(res);
-            }
+            result = result.add(res);
             System.out.println("op:res sparsity=" + result.getSparsity().toString());
         }
         return result;
@@ -189,8 +181,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector op(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector sparseEmptyInstance = constants().getSparseEmptyInstance();
-        IMultivector result = sparseEmptyInstance;
+        IMultivector result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 //System.out.println("op:grade(a)="+String.valueOf(grades_a[i])+
@@ -204,15 +195,7 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
                     //System.out.println("op:res grade(a)="+String.valueOf(grades_a[i])+
                     //        ", grade(b)="+String.valueOf(grades_b[j])+", grade(result)="+
                     //        String.valueOf(grade)+" ="+res.toString());
-                    //TODO
-                    // eleganter wäre es die for-Schleifen bei 1 starten zu lassen
-                    // und den ersten Wert vor dem Vorschleifen in die Variable zu streichen
-                    // dann könnte ich das if vermeiden.
-                    if (result == sparseEmptyInstance) {
-                        result = res;
-                    } else {
-                        result = result.add(res);
-                    }
+                    result = result.add(res);
                     //System.out.println("op:res sparsity="+result.getSparsity().toString());
                 }
             }
@@ -235,17 +218,15 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector lc(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null;
+        IMultivector result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_b[j] - grades_a[i];
                 if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
-                    IMultivector res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
-                    if (result == null) {
-                        result = res;
-                    } else {
-                        result = result.add(res);
-                    }
+                    IMultivector res = gradeSelection(grades_a[i])
+                        .gp(b.gradeSelection(grades_b[j]))
+                        .gradeSelection(grade);
+                    result = result.add(res);
                 }
             }
         }
@@ -269,17 +250,15 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector rc(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null;
+        IMultivector result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_a[i] - grades_b[j];
                 if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
-                    IMultivector res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
-                    if (result == null) {
-                        result = res;
-                    } else {
-                        result = result.add(res);
-                    }
+                    IMultivector res = gradeSelection(grades_a[i])
+                        .gp(b.gradeSelection(grades_b[j]))
+                        .gradeSelection(grade);
+                    result = result.add(res);
                 }
             }
         }
@@ -293,16 +272,14 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector scp(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null;
+        IMultivector result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 if (grades_a[i] == grades_b[j]) {
-                    IMultivector res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(0);
-                    if (result == null) {
-                        result = res;
-                    } else {
-                        result = result.add(res);
-                    }
+                    IMultivector res = gradeSelection(grades_a[i])
+                        .gp(b.gradeSelection(grades_b[j]))
+                        .gradeSelection(0);
+                    result = result.add(res);
                 }
             }
         }
@@ -320,17 +297,15 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector dot(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null;
+        IMultivector result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
                 if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
-                    IMultivector res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
-                    if (result == null) {
-                        result = res;
-                    } else {
-                        result = result.add(res);
-                    }
+                    IMultivector res = gradeSelection(grades_a[i])
+                        .gp(b.gradeSelection(grades_b[j]))
+                        .gradeSelection(grade);
+                    result = result.add(res);
                 }
             }
         }
@@ -352,18 +327,15 @@ public interface iMultivector<IMultivector extends iMultivector<IMultivector>> {
     default IMultivector ip(IMultivector b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        IMultivector result = null; // TODO initialisieren mit einem 0-MV, sodass ich späteres if loswerden kann
+        IMultivector result = constants().getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
                 if (grade > 0) {
-                    IMultivector res = gradeSelection(grades_a[i]).gp(b.gradeSelection(grades_b[j])).
-                                            gradeSelection(grade);
-                    if (result == null) {
-                        result = res;
-                    } else {
-                        result = result.add(res);
-                    }
+                    IMultivector res = gradeSelection(grades_a[i])
+                        .gp(b.gradeSelection(grades_b[j]))
+                        .gradeSelection(grade);
+                    result = result.add(res);
                 }
             }
         }
