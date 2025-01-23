@@ -31,6 +31,22 @@ public interface iMultivector<IMV extends iMultivector<IMV>> {
         return rows[0] == 0;
     }
 
+    /**
+     * Is structural euclidian.
+     * 
+     * @return true, if the multivector contains only {e1, e2, e3} or a subspace
+     * 
+     * Unklar, ob ich true liefern sollte, wenn keines der drei Elemente enthalten ist.
+     * FIXME
+     */
+    default boolean isEuclidian(){
+         int[] rows = getSparsity().getrow();
+         if (rows.length > 3) return false;
+         for (int i=0;i<3;i++){
+             if (rows[i]>3 || rows[i] == 0) return false;
+         }
+         return true;
+    }
     public boolean isZero();
 
     /**
