@@ -58,6 +58,10 @@ public class ExprGraphFactory {
     }
 
     //------- symbolic
+    public MultivectorPurelySymbolic createMultivectorPurelySymbolicFrom(String name, MultivectorSymbolic from) {
+        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolicFrom(name, from.getImpl()));
+    }
+
     public MultivectorPurelySymbolic createMultivectorPurelySymbolicDense(String name) {
         return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolicDense(name));
     }

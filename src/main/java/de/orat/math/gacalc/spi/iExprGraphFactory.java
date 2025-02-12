@@ -25,6 +25,8 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     iConstantsFactoryNumeric<IMVNumeric, IMVSymbolic> constantsNumeric();
 
+    IMVPurelySymbolic createMultivectorPurelySymbolicFrom(String name, IMVSymbolic from);
+
     IMVPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
 
     IMVPurelySymbolic createMultivectorPurelySymbolicDense(String name);
