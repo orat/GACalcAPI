@@ -51,7 +51,7 @@ public class FunctionSymbolic {
         return results;
     }
 
-    public List<MultivectorNumeric> callNumeric(List<MultivectorNumeric> arguments) throws Exception {
+    public List<MultivectorNumeric> callNumeric(List<MultivectorNumeric> arguments) {
         var iArguments = arguments.stream().map(ims -> ims.impl).toList();
         List<iMultivectorNumeric> iResults = impl.callNumeric(iArguments);
         var results = iResults.stream().map(imn -> MultivectorNumeric.get(imn)).toList();

@@ -49,6 +49,10 @@ public class ExprGraphFactory {
         return impl.getName();
     }
 
+    public LoopService getLoopService() {
+        return LoopService.get(impl.getLoopService());
+    }
+
     public ConstantsFactorySymbolic constantsSymbolic() {
         return ConstantsFactorySymbolic.get(impl.constantsSymbolic());
     }

@@ -21,6 +21,8 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     public int getBasisBladesCount();
 
+    iLoopService getLoopService();
+
     iConstantsFactorySymbolic<IMVSymbolic> constantsSymbolic();
 
     iConstantsFactoryNumeric<IMVNumeric, IMVSymbolic> constantsNumeric();
