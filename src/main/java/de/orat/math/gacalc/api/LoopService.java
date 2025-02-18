@@ -24,9 +24,8 @@ public class LoopService {
         return res;
     }
 
-    protected static MultivectorSymbolicArray toSymbolicArray(iMultivectorSymbolicArray ifrom) {
-        iMultivectorSymbolicArray<?> ifrom2 = ifrom;
-        var mvList = ifrom2.stream().map(MultivectorSymbolic::get).toList();
+    protected static MultivectorSymbolicArray toSymbolicArray(iMultivectorSymbolicArray<?> ifrom) {
+        var mvList = ifrom.stream().map(MultivectorSymbolic::get).toList();
         var mvArray = new MultivectorSymbolicArray(mvList);
         return mvArray;
     }
