@@ -123,6 +123,8 @@ public interface iMultivector<IMV extends iMultivector<IMV>> {
 
     IMV gp(IMV rhs);
 
+    IMV map(IMV rhs);
+    
     IMV gpWithScalar(double s);
 
     // involute (Ak) = (-1) hoch k * Ak

@@ -166,6 +166,16 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
     }
 
     /**
+     * Linear map (element-wise multiplication).
+     * 
+     * @param rhs
+     * @return 
+     */
+    public AMV mapProduct(AMV rhs) {
+        return get_((IMultivector) impl.map(rhs.impl));
+    }
+    
+    /**
      * Scalar product.
      *
      * It is symmetrical and reversible.<p>

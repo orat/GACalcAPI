@@ -18,4 +18,7 @@ public class SparseCGAColumnVector extends SparseDoubleColumnVector {
         super(sparsity, data);
     }
 
+    public static SparseCGAColumnVector createEuclid(double[] data){
+        return new SparseCGAColumnVector(CGAMultivectorSparsity.euclid(), data);
+    }
 }

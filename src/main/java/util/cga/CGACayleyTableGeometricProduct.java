@@ -670,5 +670,4 @@ public class CGACayleyTableGeometricProduct extends CGACayleyTable {
             "e3", "-e2", "e1", "1"
         }
     };
-
 }

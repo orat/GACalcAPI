@@ -29,6 +29,9 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
         return new CGAMultivectorSparsity(new int[]{0});
     }
 
+    public static CGAMultivectorSparsity euclid(){
+        return new CGAMultivectorSparsity(CGACayleyTableGeometricProduct.getEuclidIndizes());
+    }
 
     // a scalar is also an even element, all subtypes of general even elements
     public boolean isEven() {
