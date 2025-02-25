@@ -44,7 +44,6 @@ public interface iMultivector<IMV extends iMultivector<IMV>> {
          }
          return true;
     }
-    public boolean isZero();
 
     /**
      * Get the Cayley-Table for the geometric product.
