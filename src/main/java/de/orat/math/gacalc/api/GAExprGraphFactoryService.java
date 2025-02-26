@@ -30,10 +30,6 @@ public final class GAExprGraphFactoryService {
     // zu beschaffen, also z.B. 4,1,1 und casadimx oder 4,1,1 und casadisx oder extvahlenmx
     // Es braucht auch einen Mechanismus um mit einer Implementierung umzugehen die
     // mit beliebigen Algebren Rpqr umgehen kann
-    public Optional<ExprGraphFactory> getExprGraphFactory() {
-        return loader.findFirst().map(impl -> ExprGraphFactory.get(impl));
-    }
-
     public Optional<ExprGraphFactory> getExprGraphFactory(String algebra, String implementation) throws NoSuchElementException {
         return loader.stream().map(Provider::get)
             .filter(f -> f.getAlgebra().equals(algebra))
@@ -47,10 +43,6 @@ public final class GAExprGraphFactoryService {
             .filter(f -> f.getAlgebra().equals(algebra))
             .findFirst()
             .map(ExprGraphFactory::get);
-    }
-
-    public static ExprGraphFactory getExprGraphFactoryThrowing() throws NoSuchElementException {
-        return GAExprGraphFactoryService.instance().getExprGraphFactory().orElseThrow();
     }
 
     public static ExprGraphFactory getExprGraphFactoryThrowing(String algebra, String implementation) throws NoSuchElementException {

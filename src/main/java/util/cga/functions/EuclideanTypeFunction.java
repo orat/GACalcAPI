@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class EuclideanTypeFunction {
 
-    final static ExprGraphFactory fac = GAExprGraphFactoryService.instance().getExprGraphFactory().get();
+    final static ExprGraphFactory fac = GAExprGraphFactoryService.getExprGraphFactoryThrowing("cga");
 
     final FunctionSymbolic upFunctionSymbolic;
     final FunctionSymbolic downFunctionSymbolic;

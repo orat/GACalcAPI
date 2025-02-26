@@ -11,7 +11,7 @@ public class TestService {
     ExprGraphFactory exprGraphFactory;
 
     public TestService() {
-        Optional<ExprGraphFactory> service = GAExprGraphFactoryService.instance().getExprGraphFactory();
+        Optional<ExprGraphFactory> service = GAExprGraphFactoryService.instance().getExprGraphFactory("cga");
         if (service.isPresent()) {
             exprGraphFactory = service.get();
         } else {
