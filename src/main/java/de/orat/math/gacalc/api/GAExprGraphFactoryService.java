@@ -42,11 +42,22 @@ public final class GAExprGraphFactoryService {
             .map(ExprGraphFactory::get);
     }
 
+    public Optional<ExprGraphFactory> getExprGraphFactory(String algebra) throws NoSuchElementException {
+        return loader.stream().map(Provider::get)
+            .filter(f -> f.getAlgebra().equals(algebra))
+            .findFirst()
+            .map(ExprGraphFactory::get);
+    }
+
     public static ExprGraphFactory getExprGraphFactoryThrowing() throws NoSuchElementException {
         return GAExprGraphFactoryService.instance().getExprGraphFactory().orElseThrow();
     }
 
     public static ExprGraphFactory getExprGraphFactoryThrowing(String algebra, String implementation) throws NoSuchElementException {
         return GAExprGraphFactoryService.instance().getExprGraphFactory(algebra, implementation).orElseThrow();
+    }
+
+    public static ExprGraphFactory getExprGraphFactoryThrowing(String algebra) throws NoSuchElementException {
+        return GAExprGraphFactoryService.instance().getExprGraphFactory(algebra).orElseThrow();
     }
 }
