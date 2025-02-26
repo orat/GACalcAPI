@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iExprGraphFactory;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ServiceLoader;
@@ -26,19 +27,26 @@ public final class GAExprGraphFactoryService {
     }
 
     //TODO
-    // Erweiterung um für eine spezifische Algebra eine spezifische Implementierung
-    // zu beschaffen, also z.B. 4,1,1 und casadimx oder 4,1,1 und casadisx oder extvahlenmx
+    // Erweiterung um für eine spezifische Algebra anhand der Parametrisierung
+    // zu beschaffen, also 4,1,1 oder 4,1,1.
     // Es braucht auch einen Mechanismus um mit einer Implementierung umzugehen die
     // mit beliebigen Algebren Rpqr umgehen kann
-    public Optional<ExprGraphFactory> getExprGraphFactory(String algebra, String implementation) throws NoSuchElementException {
-        return loader.stream().map(Provider::get)
+    public Optional<ExprGraphFactory> getExprGraphFactory(String algebra, String implementation) {
+        List<iExprGraphFactory> impls = loader.stream().map(Provider::get)
             .filter(f -> f.getAlgebra().equals(algebra))
             .filter(f -> f.getImplementationName().equals(implementation))
-            .findFirst()
-            .map(ExprGraphFactory::get);
+            .toList();
+        if (impls.isEmpty()) {
+            return Optional.empty();
+        }
+        if (impls.size() > 1) {
+            throw new RuntimeException(String.format("Found %s implementations of algebra \"%s\" with name \"%s\".",
+                impls.size(), algebra, implementation));
+        }
+        return Optional.of(ExprGraphFactory.get(impls.get(0)));
     }
 
-    public Optional<ExprGraphFactory> getExprGraphFactory(String algebra) throws NoSuchElementException {
+    public Optional<ExprGraphFactory> getExprGraphFactory(String algebra) {
         return loader.stream().map(Provider::get)
             .filter(f -> f.getAlgebra().equals(algebra))
             .findFirst()
