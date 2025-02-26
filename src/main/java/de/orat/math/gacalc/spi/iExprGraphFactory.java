@@ -17,7 +17,7 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     String getAlgebra();
 
-    String getName();
+    String getImplementationName();
 
     public int getBasisBladesCount();
 

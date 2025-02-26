@@ -45,8 +45,8 @@ public class ExprGraphFactory {
         return impl.getAlgebra();
     }
 
-    public String getName() {
-        return impl.getName();
+    public String getImplementationName() {
+        return impl.getImplementationName();
     }
 
     public LoopService getLoopService() {
