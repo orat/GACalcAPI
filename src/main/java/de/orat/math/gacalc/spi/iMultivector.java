@@ -1,7 +1,7 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.sparsematrix.MatrixSparsity;
-import util.CayleyTable;
+import de.orat.math.gacalc.util.CayleyTable;
 
 /**
  * Parent interface. Not intended to be implemented directly.

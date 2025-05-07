@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import util.CayleyTable;
+import de.orat.math.gacalc.util.CayleyTable;
 
 /**
  * https://discourse.bivector.net/t/matrix-representation/232/4

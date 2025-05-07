@@ -21,4 +21,8 @@ public class SparseCGAColumnVector extends SparseDoubleColumnVector {
     public static SparseCGAColumnVector createEuclid(double[] data){
         return new SparseCGAColumnVector(CGAMultivectorSparsity.euclid(), data);
     }
+    
+    public static SparseCGAColumnVector createScalar(double data){
+        return new SparseCGAColumnVector(CGAMultivectorSparsity.scalar(), new double[]{data});
+    }
 }

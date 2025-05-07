@@ -1,4 +1,4 @@
-package util;
+package de.orat.math.gacalc.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

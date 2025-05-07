@@ -3,8 +3,8 @@ package util.cga;
 //import util.CayleyTable;
 import de.orat.math.sparsematrix.DenseDoubleMatrix;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
-import util.CayleyTable;
-import util.LinearOperators;
+import de.orat.math.gacalc.util.CayleyTable;
+import de.orat.math.gacalc.util.LinearOperators;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)

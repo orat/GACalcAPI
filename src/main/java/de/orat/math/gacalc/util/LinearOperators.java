@@ -1,4 +1,4 @@
-package util;
+package de.orat.math.gacalc.util;
 
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
