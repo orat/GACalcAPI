@@ -52,7 +52,7 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
     public SparseDoubleMatrix elements() {
         return impl.elements();
     }
-
+    
     public MultivectorSymbolic toSymbolic() {
         return MultivectorSymbolic.get(impl.toSymbolic());
     }
