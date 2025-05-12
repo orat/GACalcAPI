@@ -15,6 +15,14 @@ import static de.orat.math.gacalc.util.GeometricObject.Type.REAL;
  * Geomeric objects are visuable and independent of the algebra. But not each object type is 
  * available in every algebra.
  * 
+ * TODO
+ * - add Trasformations (Quaterinions, Matrix4x4 etc.), eventuell in eigener GeometricTrafo class, brauche ich
+ *   vermutlich nicht für die Visualizer
+ * - statt Tuple3d besser die SparseMatrix-Klassen verwenden?
+ * - eventuell an in der impl auch eine Methoden bauen, die aus GeometricObject ein multivektor zusammenbaut
+ *   könnte nützlich sein, wenn im Visualisierer durchgeführte Änderungen ins Programm rückgespiegelt werden
+ *   sollen.
+ * 
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class GeometricObject {
@@ -22,8 +30,8 @@ public class GeometricObject {
     public final GeometricType geometricType;
     private final Type type;
     private final Space space;
-    public final Tuple3d attitude;
-    public final Tuple3d[] location;
+    public final Tuple attitude;
+    public final Tuple[] location;
     public final double squaredSize;
     public final double squaredWeight;
     
@@ -33,10 +41,14 @@ public class GeometricObject {
      */
     public static double eps = 1e-6; // sollte eigentlich e-12 sein
 
-    public GeometricObject(GeometricType type, Space space, Tuple3d attitude, Tuple3d location, 
+    public GeometricObject(GeometricType geometricType, boolean isIPNS, Tuple attitude, Tuple location, 
+                   double squaredSize, double squaredWeight){
+         this(geometricType, space(isIPNS), attitude, location, squaredSize, squaredWeight);
+     }
+    public GeometricObject(GeometricType geometricType, Space space, Tuple attitude, Tuple location, 
                     double squaredSize, double squaredWeight){
         this.attitude = attitude;
-        this.location = new Tuple3d[]{location};
+        this.location = new Tuple[]{location};
         this.squaredSize = squaredSize;
         if (squaredSize < 0) {
             this.type = Type.IMAGINARY;
@@ -47,39 +59,47 @@ public class GeometricObject {
         double pitch = -1;
         //TODO pitch vermutlich via squaredSize übergeben, unklar ist aber auch wie der
         // pitch überhaupt bestimmt werden kann
-        if (type.equals(SPHERE)){
+        if (geometricType.equals(SPHERE)){
             if (squaredSize < eps){
                 this.geometricType = ROUND_POINT;
             } else {
-                this.geometricType = type;
+                this.geometricType = geometricType;
             }
-        } else if (type.equals(SCREW)){
+        } else if (geometricType.equals(SCREW)){
             if (squaredSize < eps){
                 this.geometricType = LINE;
             } else {
-                this.geometricType = type;
+                this.geometricType = geometricType;
             }
-        } else if (type.equals(CIRCLE)){
+        } else if (geometricType.equals(CIRCLE)){
             if (squaredSize < eps){
                 this.geometricType = ORIENTED_POINT;
             } else {
-                this.geometricType = type;
+                this.geometricType = geometricType;
             }
         } else {
-            this.geometricType = type;
+            this.geometricType = geometricType;
         }
         this.squaredWeight = squaredWeight;
     }
     
-    public GeometricObject(Space space, Type type, Tuple3d location1, Tuple3d location2){
+    // create DIPOLE
+    public GeometricObject(boolean isIPNS, Type type, Tuple location1, Tuple location2){
+        this(space(isIPNS), type, location1, location2);
+    }
+    public GeometricObject(Space space, Type type, Tuple location1, Tuple location2){
         this.space = space;
         this.type = type;
-        this.location = new Tuple3d[]{location1, location2};
+        this.location = new Tuple[]{location1, location2};
         this.squaredSize = Double.NaN;
         this.geometricType = GeometricType.DIPOLE;
         this.squaredWeight = Double.NaN;
-        Tuple3d tuple3d = new Tuple3d(location2.x-location1.x, location2.y-location2.y, location2.z-location1.z);
-        this.attitude = tuple3d.normalize();
+        this.attitude = location2.sub(location1).normalize();
+    }
+    
+    private static Space space(boolean isIPNS){
+        if (isIPNS) return Space.IPNS;
+        return Space.OPNS;
     }
     
     public enum Space {IPNS, OPNS}
