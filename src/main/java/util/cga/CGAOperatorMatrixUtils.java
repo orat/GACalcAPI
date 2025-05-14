@@ -22,10 +22,7 @@ public class CGAOperatorMatrixUtils extends LinearOperators {
     }
 
     public SparseDoubleMatrix getScalarMultiplicationOperatorMatrix(double s) {
-        if (scalarMultiplicationOperatorMatrix == null) {
-            scalarMultiplicationOperatorMatrix = createScalarMultiplicationMatrix(cayleyTable, s);
-        }
-        return scalarMultiplicationOperatorMatrix;
+        return createScalarMultiplicationMatrix(cayleyTable, s);
     }
 
     public SparseDoubleMatrix getReversionOperatorMatrix() {

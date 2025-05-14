@@ -12,6 +12,17 @@ public class Tuple {
         this.values = new double[values.length];
         System.arraycopy(values, 0, this.values, 0, values.length);
     }
+    
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (int i=0;i<values.length-1;i++){
+             sb.append(String.valueOf(values[i]));
+             sb.append(", ");
+        }
+        sb.append(String.valueOf(values[values.length-1]));
+        return sb.toString();
+    }
+    
     public Tuple sub(Tuple b){
         double[] newValues = new double[values.length];
         for (int i=0;i<values.length;i++){
@@ -19,12 +30,15 @@ public class Tuple {
         }
         return new Tuple(newValues);
     }
-    public Tuple normalize(){
-        double length = 0d; //Math.sqrt(x*x + y*y + z*z);
+    public double squaredNorm(){
+        double result = 0d; 
         for (int i=0;i<values.length;i++){
-            length += values[i]*values[i];
+            result += values[i]*values[i];
         }
-        length = Math.sqrt(length);
+        return result;
+    }
+    public Tuple normalize(){
+        double length = Math.sqrt(squaredNorm());
         double[] normalizedValues = new double[values.length];
         for (int i=0;i<values.length;i++){
             normalizedValues[i] = values[i]/length;

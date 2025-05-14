@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.gacalc.api.MultivectorNumeric.Callback;
+import de.orat.math.gacalc.util.GeometricObject;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 
 /**
@@ -18,4 +19,6 @@ public interface iMultivectorNumeric<IMVNumeric extends iMultivectorNumeric<IMVN
     SparseDoubleMatrix elements();
 
     IMVSymbolic toSymbolic();
+    
+    GeometricObject decompose(boolean isIPNS);
 }

@@ -1,6 +1,7 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.iMultivectorNumeric;
+import de.orat.math.gacalc.util.GeometricObject;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 
 /**
@@ -57,4 +58,7 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
         return MultivectorSymbolic.get(impl.toSymbolic());
     }
 
+    public GeometricObject decompose(boolean isIPNS){
+        return impl.decompose(isIPNS);
+    }
 }
