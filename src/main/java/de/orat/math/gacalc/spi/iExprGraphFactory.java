@@ -39,24 +39,20 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     IMVPurelySymbolic createMultivectorPurelySymbolic(String name, int[] grades);
 
-    IMVSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector);
-
     default IMVSymbolic createMultivectorSymbolic(String name, double scalar) {
-        return createMultivectorSymbolic(name, createScalar(scalar));
+        return createMultivectorNumeric(scalar).toSymbolic();
     }
+
+    IMVNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
      */
-    IMVNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
-
     IMVNumeric createMultivectorNumeric(double[] values);
 
     IMVNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
 
-    default IMVNumeric createMultivectorNumeric(double scalar) {
-        return createMultivectorNumeric(createScalar(scalar));
-    }
+    IMVNumeric createMultivectorNumeric(double scalar);
 
     iFunctionSymbolic<IMVSymbolic, IMVNumeric> createFunctionSymbolic(String name, List<IMVPurelySymbolic> parameters, List<IMVSymbolic> returns);
 
@@ -83,12 +79,6 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     IMVNumeric createRandomMultivectorNumeric();
 
-    /**
-     * SparseDoubleMatrix to build both numeric and symbolic multivectors.
-     */
-    // Scalar
-    SparseDoubleMatrix createScalar(double scalar);
-
     // Part of public API in ExprGraphFactory
     SparseDoubleMatrix createE(double x, double y, double z);
 
@@ -97,6 +87,8 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
     SparseDoubleMatrix createBaseVectorInfinity(double scalar);
 
     // Used to build constants in iConstantsProvider
+    SparseDoubleMatrix createScalar(double scalar);
+
     SparseDoubleMatrix createBaseVectorX(double scalar);
 
     SparseDoubleMatrix createBaseVectorY(double scalar);

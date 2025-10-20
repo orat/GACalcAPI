@@ -86,10 +86,6 @@ public class ExprGraphFactory {
         return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, grades));
     }
 
-    public MultivectorSymbolic createMultivectorSymbolic(String name, SparseDoubleMatrix sparseVector) {
-        return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, sparseVector));
-    }
-
     //------- numeric
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
@@ -99,7 +95,7 @@ public class ExprGraphFactory {
     }
 
     public MultivectorNumeric createMultivectorNumeric(SparseDoubleMatrix vec) {
-        return MultivectorNumeric.get(impl.createMultivectorNumeric(vec.nonzeros(), vec.getSparsity().getrow()));
+        return MultivectorNumeric.get(impl.createMultivectorNumeric(vec));
     }
 
     public MultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows) {
@@ -129,8 +125,8 @@ public class ExprGraphFactory {
     // functions
     public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorPurelySymbolic> parameters,
         List<MultivectorSymbolic> returns) {
-        var iParameters = parameters.stream().map(mvs -> mvs.getImpl()).toList();
-        var iReturns = returns.stream().map(mvs -> mvs.getImpl()).toList();
+        var iParameters = parameters.stream().map(MultivectorPurelySymbolic::getImpl).toList();
+        var iReturns = returns.stream().map(MultivectorSymbolic::getImpl).toList();
         return FunctionSymbolic.get(impl.createFunctionSymbolic(name, iParameters, iReturns));
     }
 

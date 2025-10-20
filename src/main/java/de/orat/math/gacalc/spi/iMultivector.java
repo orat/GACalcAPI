@@ -14,9 +14,9 @@ public interface iMultivector<IMV extends iMultivector<IMV>> {
     @Override
     String toString();
 
-    String getName();
-
     MatrixSparsity getSparsity();
+
+    String getName();
 
     /**
      * Is structural a scalar.

@@ -16,5 +16,4 @@ public class MultivectorPurelySymbolic extends MultivectorSymbolic {
     protected iMultivectorPurelySymbolic getImpl() {
         return (iMultivectorPurelySymbolic) super.getImpl();
     }
-
 }
