@@ -79,7 +79,9 @@ public interface iConstantsFactory<IMV extends iMultivector<IMV>> {
         return cached("E", () -> fac().createPseudoscalar());
     }
 
-    IMV getInversePseudoscalar();
+    default IMV getInversePseudoscalar() {
+        return cached("E˜", () -> fac().createInversePseudoscalar());
+    }
 
     default IMV one() {
         return cached("1", () -> fac().createScalar(1d));

@@ -113,6 +113,8 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     SparseDoubleMatrix createPseudoscalar();
 
+    SparseDoubleMatrix createInversePseudoscalar();
+
     SparseDoubleMatrix createBaseVectorInfinityDorst();
 
     SparseDoubleMatrix createBaseVectorOriginDorst();
