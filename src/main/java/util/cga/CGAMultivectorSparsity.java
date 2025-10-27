@@ -86,8 +86,8 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
         super(cgaCayleyTable.getBladesCount(), nonzeros);
     }
 
-    public CGAMultivectorSparsity(double[] values) {
-        super(values);
+    public CGAMultivectorSparsity(double[] values, boolean sparsify) {
+        super(values, true);
     }
 
     public CGAMultivectorSparsity(ColumnVectorSparsity sparsity) {
