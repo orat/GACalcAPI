@@ -123,8 +123,8 @@ public class ExprGraphFactory {
     }
     
     // functions
-    public FunctionSymbolic createFunctionSymbolic(String name, List<MultivectorPurelySymbolic> parameters,
-        List<MultivectorSymbolic> returns) {
+    public FunctionSymbolic createFunctionSymbolic(String name, List<? extends MultivectorPurelySymbolic> parameters,
+        List<? extends MultivectorSymbolic> returns) {
         var iParameters = parameters.stream().map(MultivectorPurelySymbolic::getImpl).toList();
         var iReturns = returns.stream().map(MultivectorSymbolic::getImpl).toList();
         return FunctionSymbolic.get(impl.createFunctionSymbolic(name, iParameters, iReturns));

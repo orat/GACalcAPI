@@ -54,7 +54,7 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     IMVNumeric createMultivectorNumeric(double scalar);
 
-    iFunctionSymbolic<IMVSymbolic, IMVNumeric> createFunctionSymbolic(String name, List<IMVPurelySymbolic> parameters, List<IMVSymbolic> returns);
+    iFunctionSymbolic<IMVSymbolic, IMVNumeric> createFunctionSymbolic(String name, List<? extends IMVPurelySymbolic> parameters, List<? extends IMVSymbolic> returns);
 
     // random multivectors
     default double[] createRandomMultivector(/*int basisBladesCount*/) {

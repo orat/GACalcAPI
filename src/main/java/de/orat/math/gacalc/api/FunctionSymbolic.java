@@ -44,14 +44,14 @@ public class FunctionSymbolic {
         return impl.getResultCount();
     }
 
-    public List<MultivectorSymbolic> callSymbolic(List<MultivectorSymbolic> arguments) {
+    public List<MultivectorSymbolic> callSymbolic(List<? extends MultivectorSymbolic> arguments) {
         var iArguments = arguments.stream().map(ims -> ims.getImpl()).toList();
         List<iMultivectorSymbolic> iResults = impl.callSymbolic(iArguments);
         var results = iResults.stream().map(ims -> MultivectorSymbolic.get(ims)).toList();
         return results;
     }
 
-    public List<MultivectorNumeric> callNumeric(List<MultivectorNumeric> arguments) {
+    public List<MultivectorNumeric> callNumeric(List<? extends MultivectorNumeric> arguments) {
         var iArguments = arguments.stream().map(ims -> ims.impl).toList();
         List<iMultivectorNumeric> iResults = impl.callNumeric(iArguments);
         var results = iResults.stream().map(imn -> MultivectorNumeric.get(imn)).toList();
