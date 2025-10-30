@@ -107,19 +107,15 @@ public class GAFactory {
     }
 
     // random multivectors
-    public MultivectorValue createRandomValue() {
-        return MultivectorValue.get(impl.createRandomValue());
+    public MultivectorValue createValueRandom() {
+        return MultivectorValue.get(impl.createValueRandom());
     }
 
-    public double[] createRandomMultivector() {
-        return impl.createRandomMultivector();
+    public MultivectorValue createValueRandom(int grade) {
+        return MultivectorValue.get(impl.createValueRandom(grade));
     }
-
-    public double[] createRandomMultivector(int grade) {
-        return impl.createRandomKVector(grade);
-    }
-    public double[] createRandomMultivector(int[] indizes){
-        return impl.createRandomMultivector(indizes);
+    public MultivectorValue createValueRandom(int[] blades) {
+        return MultivectorValue.get(impl.createValueRandom(blades));
     }
     
     // functions

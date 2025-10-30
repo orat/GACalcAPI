@@ -98,7 +98,7 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
     }
 
     public CGAMultivectorSparsity intersect(CGAMultivectorSparsity sparsity) {
-        return new CGAMultivectorSparsity(super.meet(sparsity));
+        return new CGAMultivectorSparsity(super.intersection(sparsity));
     }
 
     public int[] getGrades() {
@@ -134,5 +134,24 @@ public class CGAMultivectorSparsity extends ColumnVectorSparsity {
 
     public static CGAKVectorSparsity createSparsity(int[] nonzeros) {
         return new CGAKVectorSparsity(nonzeros);
+    }
+
+    public static CGAMultivectorSparsity fromGrades(int[] grades) {
+        if (grades.length < 1) {
+            throw new RuntimeException("At least one grade must be given.");
+        }
+
+        int[] nonzeroBlades = Arrays.stream(CGACayleyTable.getIndizes(grades)).distinct().sorted().toArray();
+        var sparsity = new CGAMultivectorSparsity(nonzeroBlades);
+        return sparsity;
+    }
+
+    public static CGAMultivectorSparsity fromBlades(int[] blades) {
+        if (blades.length < 1) {
+            throw new RuntimeException("At least one blade must be given.");
+        }
+
+        CGAMultivectorSparsity sparsity = new CGAMultivectorSparsity(blades);
+        return sparsity;
     }
 }

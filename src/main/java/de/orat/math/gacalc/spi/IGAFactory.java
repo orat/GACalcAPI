@@ -4,7 +4,6 @@ import de.orat.math.gacalc.api.GAFactory.Callback;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
-import java.util.Random;
 
 public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR extends IMultivectorVariable<EXPR>, VAL extends IMultivectorValue<VAL, EXPR>> {
 
@@ -54,26 +53,11 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
     IGAFunction<EXPR, VAL> createFunction(String name, List<? extends VAR> parameters, List<? extends EXPR> returns);
 
     // random multivectors
-    default double[] createRandomMultivector(/*int basisBladesCount*/) {
+    VAL createValueRandom();
 
-        Random random = new Random();
-        return random.doubles(-1, 1).
-            limit(getBasisBladesCount()).toArray();
-    }
+    VAL createValueRandom(int grade);
 
-    default double[] createRandomMultivector(int[] indizes) {
-        int basisBladesCount = getBasisBladesCount();
-        double[] temp = createRandomMultivector(/*basisBladesCount*/);
-        double[] result = new double[basisBladesCount];
-        for (int i = 0; i < indizes.length; i++) {
-            result[indizes[i]] = temp[indizes[i]];
-        }
-        return result;
-    }
-
-    double[] createRandomKVector(int grade);
-
-    VAL createRandomValue();
+    VAL createValueRandom(int[] blades);
 
     // Part of public API in GAFactory
     SparseDoubleMatrix createE(double x, double y, double z);
