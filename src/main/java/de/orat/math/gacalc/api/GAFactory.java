@@ -87,19 +87,8 @@ public class GAFactory {
     }
 
     //------- numeric
-    /**
-     * Create a numeric multivector. Sparsity is created from zero values.
-     */
-    public MultivectorValue createValue(double[] values) {
-        return MultivectorValue.get(impl.createValue(values));
-    }
-
     public MultivectorValue createValue(SparseDoubleMatrix vec) {
         return MultivectorValue.get(impl.createValue(vec));
-    }
-
-    public MultivectorValue createValue(double[] nonzeros, int[] rows) {
-        return MultivectorValue.get(impl.createValue(nonzeros, rows));
     }
 
     public MultivectorValue createValue(double scalar) {
@@ -111,11 +100,8 @@ public class GAFactory {
         return MultivectorValue.get(impl.createValueRandom());
     }
 
-    public MultivectorValue createValueRandom(int grade) {
-        return MultivectorValue.get(impl.createValueRandom(grade));
-    }
-    public MultivectorValue createValueRandom(int[] blades) {
-        return MultivectorValue.get(impl.createValueRandom(blades));
+    public MultivectorValue createValueRandom(int[] grades) {
+        return MultivectorValue.get(impl.createValueRandom(grades));
     }
     
     // functions

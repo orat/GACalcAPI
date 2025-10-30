@@ -41,13 +41,6 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
 
     VAL createValue(SparseDoubleMatrix vec);
 
-    /**
-     * Create a numeric multivector. Sparsity is created from zero values.
-     */
-    VAL createValue(double[] values);
-
-    VAL createValue(double[] nonzeros, int[] rows);
-
     VAL createValue(double scalar);
 
     IGAFunction<EXPR, VAL> createFunction(String name, List<? extends VAR> parameters, List<? extends EXPR> returns);
@@ -55,9 +48,7 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
     // random multivectors
     VAL createValueRandom();
 
-    VAL createValueRandom(int grade);
-
-    VAL createValueRandom(int[] blades);
+    VAL createValueRandom(int[] grades);
 
     // Part of public API in GAFactory
     SparseDoubleMatrix createE(double x, double y, double z);
