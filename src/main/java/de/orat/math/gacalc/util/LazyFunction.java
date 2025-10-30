@@ -1,23 +1,23 @@
 package de.orat.math.gacalc.util;
 
-import de.orat.math.gacalc.spi.iFunctionSymbolic;
 import java.util.function.Supplier;
+import de.orat.math.gacalc.spi.IGAFunction;
 
 /**
  * @Deprectated
  *
  */
-public class LazyFunction implements Supplier<iFunctionSymbolic> {
+public class LazyFunction implements Supplier<IGAFunction> {
 
-    private Supplier<iFunctionSymbolic> supplier;
-    private iFunctionSymbolic value;
+    private Supplier<IGAFunction> supplier;
+    private IGAFunction value;
 
-    private LazyFunction(Supplier<iFunctionSymbolic> supplier) {
+    private LazyFunction(Supplier<IGAFunction> supplier) {
         this.supplier = supplier;
     }
 
     @Override
-    public iFunctionSymbolic get() {
+    public IGAFunction get() {
         if (supplier == null) {
             return value;
         } else {

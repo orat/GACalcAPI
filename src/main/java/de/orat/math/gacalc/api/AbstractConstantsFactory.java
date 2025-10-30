@@ -1,10 +1,10 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iConstantsFactory;
-import de.orat.math.gacalc.spi.iMultivector;
+import de.orat.math.gacalc.spi.IConstants;
+import de.orat.math.gacalc.spi.IMultivector;
 
 // Package-private
-abstract class AbstractConstantsFactory<ACM extends AbstractConstantsFactory<ACM, IConstantsFactory, AMV, IMultivector>, IConstantsFactory extends iConstantsFactory, AMV extends AbstractMultivector<AMV, IMultivector>, IMultivector extends iMultivector> {
+abstract class AbstractConstantsFactory<ACM extends AbstractConstantsFactory<ACM, IConstantsFactory, AMV, IMV>, IConstantsFactory extends IConstants, AMV extends AbstractMultivector<AMV, IMV>, IMV extends IMultivector> {
 
     /**
      * Only to be used within this class and subclasses.
@@ -21,85 +21,85 @@ abstract class AbstractConstantsFactory<ACM extends AbstractConstantsFactory<ACM
     /**
      * Only to be used within this class and subclasses.
      */
-    protected abstract AMV get_(IMultivector impl);
+    protected abstract AMV get_(IMV impl);
 
     public AMV getSparseEmptyInstance() {
-        return get_((IMultivector) this.impl.getSparseEmptyInstance());
+        return get_((IMV) this.impl.getSparseEmptyInstance());
     }
 
     public AMV getDenseEmptyInstance() {
-        return get_((IMultivector) this.impl.getDenseEmptyInstance());
+        return get_((IMV) this.impl.getDenseEmptyInstance());
     }
 
     public AMV getBaseVectorOrigin() {
-        return get_((IMultivector) this.impl.getBaseVectorOrigin());
+        return get_((IMV) this.impl.getBaseVectorOrigin());
     }
 
     public AMV getBaseVectorInfinity() {
-        return get_((IMultivector) this.impl.getBaseVectorInfinity());
+        return get_((IMV) this.impl.getBaseVectorInfinity());
     }
 
     public AMV getBaseVectorX() {
-        return get_((IMultivector) this.impl.getBaseVectorX());
+        return get_((IMV) this.impl.getBaseVectorX());
     }
 
     public AMV getBaseVectorY() {
-        return get_((IMultivector) this.impl.getBaseVectorY());
+        return get_((IMV) this.impl.getBaseVectorY());
     }
 
     public AMV getBaseVectorZ() {
-        return get_((IMultivector) this.impl.getBaseVectorZ());
+        return get_((IMV) this.impl.getBaseVectorZ());
     }
 
     public AMV getEpsilonPlus() {
-        return get_((IMultivector) this.impl.getEpsilonPlus());
+        return get_((IMV) this.impl.getEpsilonPlus());
     }
 
     public AMV getEpsilonMinus() {
-        return get_((IMultivector) this.impl.getEpsilonMinus());
+        return get_((IMV) this.impl.getEpsilonMinus());
     }
 
     public AMV getPi() {
-        return get_((IMultivector) this.impl.getPi());
+        return get_((IMV) this.impl.getPi());
     }
 
     public AMV getBaseVectorInfinityDorst() {
-        return get_((IMultivector) this.impl.getBaseVectorInfinityDorst());
+        return get_((IMV) this.impl.getBaseVectorInfinityDorst());
     }
 
     public AMV getBaseVectorOriginDorst() {
-        return get_((IMultivector) this.impl.getBaseVectorOriginDorst());
+        return get_((IMV) this.impl.getBaseVectorOriginDorst());
     }
 
     public AMV getBaseVectorInfinityDoran() {
-        return get_((IMultivector) this.impl.getBaseVectorInfinityDoran());
+        return get_((IMV) this.impl.getBaseVectorInfinityDoran());
     }
 
     public AMV getBaseVectorOriginDoran() {
-        return get_((IMultivector) this.impl.getBaseVectorOriginDoran());
+        return get_((IMV) this.impl.getBaseVectorOriginDoran());
     }
 
     public AMV getMinkovskyBiVector() {
-        return get_((IMultivector) this.impl.getMinkovskiBiVector());
+        return get_((IMV) this.impl.getMinkovskiBiVector());
     }
 
     public AMV getEuclideanPseudoscalar() {
-        return get_((IMultivector) this.impl.getEuclideanPseudoscalar());
+        return get_((IMV) this.impl.getEuclideanPseudoscalar());
     }
 
     public AMV getPseudoscalar() {
-        return get_((IMultivector) this.impl.getPseudoscalar());
+        return get_((IMV) this.impl.getPseudoscalar());
     }
 
     public AMV getInversePseudoscalar() {
-        return get_((IMultivector) this.impl.getInversePseudoscalar());
+        return get_((IMV) this.impl.getInversePseudoscalar());
     }
 
     public AMV one() {
-        return get_((IMultivector) this.impl.one());
+        return get_((IMV) this.impl.one());
     }
 
     public AMV half() {
-        return get_((IMultivector) this.impl.half());
+        return get_((IMV) this.impl.half());
     }
 }

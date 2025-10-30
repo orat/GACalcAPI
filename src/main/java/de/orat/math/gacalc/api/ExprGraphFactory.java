@@ -1,25 +1,25 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iExprGraphFactory;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
+import de.orat.math.gacalc.spi.IGAFactory;
 
 public class ExprGraphFactory {
 
     //======================================================
     // SPI boilerplate code
     //======================================================
-    protected final iExprGraphFactory impl;
+    protected final IGAFactory impl;
 
-    protected static ExprGraphFactory get(iExprGraphFactory impl) {
+    protected static ExprGraphFactory get(IGAFactory impl) {
         ExprGraphFactory result = new ExprGraphFactory(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
-    protected ExprGraphFactory(iExprGraphFactory impl) {
+    protected ExprGraphFactory(IGAFactory impl) {
         this.impl = impl;
     }
 
@@ -33,7 +33,7 @@ public class ExprGraphFactory {
 
         //TODO
         // add methods needed by the spi implementation
-        public iExprGraphFactory getImpl() {
+        public IGAFactory getImpl() {
             return api.impl;
         }
     }
@@ -54,36 +54,36 @@ public class ExprGraphFactory {
     }
 
     public ConstantsFactorySymbolic constantsSymbolic() {
-        return ConstantsFactorySymbolic.get(impl.constantsSymbolic());
+        return ConstantsFactorySymbolic.get(impl.constantsExpr());
     }
 
     public ConstantsFactoryNumeric constantsNumeric() {
-        return ConstantsFactoryNumeric.get(impl.constantsNumeric());
+        return ConstantsFactoryNumeric.get(impl.constantsValue());
     }
 
     //------- symbolic
     public MultivectorPurelySymbolic createMultivectorPurelySymbolicFrom(String name, MultivectorSymbolic from) {
-        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolicFrom(name, from.getImpl()));
+        return MultivectorPurelySymbolic.get(impl.createVariable(name, from.getImpl()));
     }
 
     public MultivectorPurelySymbolic createMultivectorPurelySymbolicDense(String name) {
-        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolicDense(name));
+        return MultivectorPurelySymbolic.get(impl.createVariableDense(name));
     }
 
     public MultivectorPurelySymbolic createMultivectorPurelySymbolicSparse(String name) {
-        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolicSparse(name));
+        return MultivectorPurelySymbolic.get(impl.createVariableSparse(name));
     }
 
     public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity) {
-        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, sparsity));
+        return MultivectorPurelySymbolic.get(impl.createVariable(name, sparsity));
     }
 
     public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int grade) {
-        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, grade));
+        return MultivectorPurelySymbolic.get(impl.createVariable(name, grade));
     }
     
     public MultivectorPurelySymbolic createMultivectorPurelySymbolic(String name, int[] grades) {
-        return MultivectorPurelySymbolic.get(impl.createMultivectorPurelySymbolic(name, grades));
+        return MultivectorPurelySymbolic.get(impl.createVariable(name, grades));
     }
 
     //------- numeric
@@ -91,24 +91,24 @@ public class ExprGraphFactory {
      * Create a numeric multivector. Sparsity is created from zero values.
      */
     public MultivectorNumeric createMultivectorNumeric(double[] values) {
-        return MultivectorNumeric.get(impl.createMultivectorNumeric(values));
+        return MultivectorNumeric.get(impl.createValue(values));
     }
 
     public MultivectorNumeric createMultivectorNumeric(SparseDoubleMatrix vec) {
-        return MultivectorNumeric.get(impl.createMultivectorNumeric(vec));
+        return MultivectorNumeric.get(impl.createValue(vec));
     }
 
     public MultivectorNumeric createMultivectorNumeric(double[] nonzeros, int[] rows) {
-        return MultivectorNumeric.get(impl.createMultivectorNumeric(nonzeros, rows));
+        return MultivectorNumeric.get(impl.createValue(nonzeros, rows));
     }
 
     public MultivectorNumeric createMultivectorNumeric(double scalar) {
-        return MultivectorNumeric.get(impl.createMultivectorNumeric(scalar));
+        return MultivectorNumeric.get(impl.createValue(scalar));
     }
 
     // random multivectors
     public MultivectorNumeric createRandomMultivectorNumeric() {
-        return MultivectorNumeric.get(impl.createRandomMultivectorNumeric());
+        return MultivectorNumeric.get(impl.createRandomValue());
     }
 
     public double[] createRandomMultivector() {
@@ -127,14 +127,14 @@ public class ExprGraphFactory {
         List<? extends MultivectorSymbolic> returns) {
         var iParameters = parameters.stream().map(MultivectorPurelySymbolic::getImpl).toList();
         var iReturns = returns.stream().map(MultivectorSymbolic::getImpl).toList();
-        return FunctionSymbolic.get(impl.createFunctionSymbolic(name, iParameters, iReturns));
+        return FunctionSymbolic.get(impl.createFunction(name, iParameters, iReturns));
     }
 
     //======================================================
     // Symbolic scalar
     //======================================================
     public MultivectorSymbolic createScalarLiteral(String name, double scalar) {
-        return MultivectorSymbolic.get(impl.createMultivectorSymbolic(name, scalar));
+        return MultivectorSymbolic.get(impl.createExpr(name, scalar));
     }
 
     //======================================================

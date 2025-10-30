@@ -6,10 +6,7 @@ import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Constructors.
- */
-public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVSymbolic>, IMVPurelySymbolic extends iMultivectorPurelySymbolic<IMVSymbolic>, IMVNumeric extends iMultivectorNumeric<IMVNumeric, IMVSymbolic>> {
+public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR extends IMultivectorVariable<EXPR>, VAL extends IMultivectorValue<VAL, EXPR>> {
 
     default void init(Callback callback) {
 
@@ -21,40 +18,40 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
 
     public int getBasisBladesCount();
 
-    iLoopService getLoopService();
+    ILoopService getLoopService();
 
-    iConstantsFactorySymbolic<IMVSymbolic> constantsSymbolic();
+    IConstantsExpr<EXPR> constantsExpr();
 
-    iConstantsFactoryNumeric<IMVNumeric, IMVSymbolic> constantsNumeric();
+    IConstantsValue<VAL, EXPR> constantsValue();
 
-    IMVPurelySymbolic createMultivectorPurelySymbolicFrom(String name, IMVSymbolic from);
+    VAR createVariable(String name, EXPR from);
 
-    IMVPurelySymbolic createMultivectorPurelySymbolic(String name, MatrixSparsity sparsity);
+    VAR createVariable(String name, MatrixSparsity sparsity);
 
-    IMVPurelySymbolic createMultivectorPurelySymbolicDense(String name);
+    VAR createVariableDense(String name);
 
-    IMVPurelySymbolic createMultivectorPurelySymbolicSparse(String name);
+    VAR createVariableSparse(String name);
 
-    IMVPurelySymbolic createMultivectorPurelySymbolic(String name, int grade);
+    VAR createVariable(String name, int grade);
 
-    IMVPurelySymbolic createMultivectorPurelySymbolic(String name, int[] grades);
+    VAR createVariable(String name, int[] grades);
 
-    default IMVSymbolic createMultivectorSymbolic(String name, double scalar) {
-        return createMultivectorNumeric(scalar).toSymbolic();
+    default EXPR createExpr(String name, double scalar) {
+        return createValue(scalar).toExpr();
     }
 
-    IMVNumeric createMultivectorNumeric(SparseDoubleMatrix vec);
+    VAL createValue(SparseDoubleMatrix vec);
 
     /**
      * Create a numeric multivector. Sparsity is created from zero values.
      */
-    IMVNumeric createMultivectorNumeric(double[] values);
+    VAL createValue(double[] values);
 
-    IMVNumeric createMultivectorNumeric(double[] nonzeros, int[] rows);
+    VAL createValue(double[] nonzeros, int[] rows);
 
-    IMVNumeric createMultivectorNumeric(double scalar);
+    VAL createValue(double scalar);
 
-    iFunctionSymbolic<IMVSymbolic, IMVNumeric> createFunctionSymbolic(String name, List<? extends IMVPurelySymbolic> parameters, List<? extends IMVSymbolic> returns);
+    IGAFunction<EXPR, VAL> createFunction(String name, List<? extends VAR> parameters, List<? extends EXPR> returns);
 
     // random multivectors
     default double[] createRandomMultivector(/*int basisBladesCount*/) {
@@ -74,19 +71,18 @@ public interface iExprGraphFactory<IMVSymbolic extends iMultivectorSymbolic<IMVS
         return result;
     }
 
-    //double[] createRandomMultivector();
     double[] createRandomKVector(int grade);
 
-    IMVNumeric createRandomMultivectorNumeric();
+    VAL createRandomValue();
 
-    // Part of public API in ExprGraphFactory
+    // Part of public API in GAFactory
     SparseDoubleMatrix createE(double x, double y, double z);
 
     SparseDoubleMatrix createBaseVectorOrigin(double scalar);
 
     SparseDoubleMatrix createBaseVectorInfinity(double scalar);
 
-    // Used to build constants in iConstantsProvider
+    // Used to build constants in IConstants
     SparseDoubleMatrix createScalar(double scalar);
 
     SparseDoubleMatrix createBaseVectorX(double scalar);

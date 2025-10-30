@@ -1,11 +1,11 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iExprGraphFactory;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.ServiceLoader.Provider;
+import de.orat.math.gacalc.spi.IGAFactory;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -13,7 +13,7 @@ import java.util.ServiceLoader.Provider;
 public final class GAExprGraphFactoryService {
 
     private static GAExprGraphFactoryService service;
-    private final ServiceLoader<iExprGraphFactory> loader;
+    private final ServiceLoader<IGAFactory> loader;
 
     public static synchronized GAExprGraphFactoryService instance() {
         if (service == null) {
@@ -23,7 +23,7 @@ public final class GAExprGraphFactoryService {
     }
 
     private GAExprGraphFactoryService() {
-        loader = ServiceLoader.load(iExprGraphFactory.class);
+        loader = ServiceLoader.load(IGAFactory.class);
     }
 
     //TODO
@@ -32,7 +32,7 @@ public final class GAExprGraphFactoryService {
     // Es braucht auch einen Mechanismus um mit einer Implementierung umzugehen die
     // mit beliebigen Algebren Rpqr umgehen kann
     public Optional<ExprGraphFactory> getExprGraphFactory(String algebra, String implementation) {
-        List<iExprGraphFactory> impls = loader.stream().map(Provider::get)
+        List<IGAFactory> impls = loader.stream().map(Provider::get)
             .filter(f -> f.getAlgebra().equals(algebra))
             .filter(f -> f.getImplementationName().equals(implementation))
             .toList();

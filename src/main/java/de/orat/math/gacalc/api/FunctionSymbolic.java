@@ -1,22 +1,22 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iFunctionSymbolic;
-import de.orat.math.gacalc.spi.iMultivectorNumeric;
-import de.orat.math.gacalc.spi.iMultivectorSymbolic;
 import java.util.List;
+import de.orat.math.gacalc.spi.IGAFunction;
+import de.orat.math.gacalc.spi.IMultivectorExpression;
+import de.orat.math.gacalc.spi.IMultivectorValue;
 
 public class FunctionSymbolic {
 
-    protected final iFunctionSymbolic impl;
+    protected final IGAFunction impl;
 
-    protected static FunctionSymbolic get(iFunctionSymbolic impl) {
+    protected static FunctionSymbolic get(IGAFunction impl) {
         FunctionSymbolic result = new FunctionSymbolic(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
-    protected FunctionSymbolic(iFunctionSymbolic impl) {
+    protected FunctionSymbolic(IGAFunction impl) {
         this.impl = impl;
     }
 
@@ -46,14 +46,14 @@ public class FunctionSymbolic {
 
     public List<MultivectorSymbolic> callSymbolic(List<? extends MultivectorSymbolic> arguments) {
         var iArguments = arguments.stream().map(ims -> ims.getImpl()).toList();
-        List<iMultivectorSymbolic> iResults = impl.callSymbolic(iArguments);
+        List<IMultivectorExpression> iResults = impl.callExpr(iArguments);
         var results = iResults.stream().map(ims -> MultivectorSymbolic.get(ims)).toList();
         return results;
     }
 
     public List<MultivectorNumeric> callNumeric(List<? extends MultivectorNumeric> arguments) {
         var iArguments = arguments.stream().map(ims -> ims.impl).toList();
-        List<iMultivectorNumeric> iResults = impl.callNumeric(iArguments);
+        List<IMultivectorValue> iResults = impl.callValue(iArguments);
         var results = iResults.stream().map(imn -> MultivectorNumeric.get(imn)).toList();
         return results;
     }

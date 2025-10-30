@@ -3,91 +3,88 @@ package de.orat.math.gacalc.spi;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.function.Supplier;
 
-/**
- * Parent interface. Not intended to be implemented directly.
- */
-public interface iConstantsFactory<IMV extends iMultivector<IMV>> {
+public interface IConstants<MV extends IMultivector<MV>> {
 
-    iExprGraphFactory<?, ?, ?> fac();
+    IGAFactory<?, ?, ?> fac();
 
     /**
      * Supposed to be only used by implementer.
      */
-    IMV cached(String name, Supplier<SparseDoubleMatrix> creator);
+    MV cached(String name, Supplier<SparseDoubleMatrix> creator);
 
-    IMV getSparseEmptyInstance();
+    MV getSparseEmptyInstance();
 
-    IMV getDenseEmptyInstance();
+    MV getDenseEmptyInstance();
 
-    default IMV getBaseVectorOrigin() {
+    default MV getBaseVectorOrigin() {
         return cached("ε₀", () -> fac().createBaseVectorOrigin(1d));
     }
 
-    default IMV getBaseVectorInfinity() {
+    default MV getBaseVectorInfinity() {
         return cached("εᵢ", () -> fac().createBaseVectorInfinity(1d));
     }
 
-    default IMV getBaseVectorX() {
+    default MV getBaseVectorX() {
         return cached("ε₁", () -> fac().createBaseVectorX(1d));
     }
 
-    default IMV getBaseVectorY() {
+    default MV getBaseVectorY() {
         return cached("ε₂", () -> fac().createBaseVectorY(1d));
     }
 
-    default IMV getBaseVectorZ() {
+    default MV getBaseVectorZ() {
         return cached("ε₃", () -> fac().createBaseVectorZ(1d));
     }
 
-    default IMV getEpsilonPlus() {
+    default MV getEpsilonPlus() {
         return cached("ε₊", () -> fac().createEpsilonPlus());
     }
 
-    default IMV getEpsilonMinus() {
+    default MV getEpsilonMinus() {
         return cached("ε₋", () -> fac().createEpsilonMinus());
     }
 
-    default IMV getPi() {
+    default MV getPi() {
         return cached("π", () -> fac().createScalar(Math.PI));
     }
 
-    default IMV getBaseVectorInfinityDorst() {
+    default MV getBaseVectorInfinityDorst() {
         return cached("∞", () -> fac().createBaseVectorInfinityDorst());
     }
 
-    default IMV getBaseVectorOriginDorst() {
+    default MV getBaseVectorOriginDorst() {
         return cached("o", () -> fac().createBaseVectorOriginDorst());
     }
 
-    default IMV getBaseVectorInfinityDoran() {
+    default MV getBaseVectorInfinityDoran() {
         return cached("n", () -> fac().createBaseVectorInfinityDoran());
     }
 
-    default IMV getBaseVectorOriginDoran() {
+    default MV getBaseVectorOriginDoran() {
         return cached("ñ", () -> fac().createBaseVectorOriginDoran());
     }
 
-    default IMV getMinkovskiBiVector() {
+    default MV getMinkovskiBiVector() {
         return cached("E₀", () -> fac().createMinkovskiBiVector());
     }
 
-    default IMV getEuclideanPseudoscalar() {
+    default MV getEuclideanPseudoscalar() {
         return cached("E₃", () -> fac().createEuclideanPseudoscalar());
     }
 
-    default IMV getPseudoscalar() {
+    default MV getPseudoscalar() {
         return cached("E", () -> fac().createPseudoscalar());
     }
 
-    default IMV getInversePseudoscalar() {
+    default MV getInversePseudoscalar() {
         return cached("E˜", () -> fac().createInversePseudoscalar());
     }
 
-    default IMV one() {
+    default MV one() {
         return cached("1", () -> fac().createScalar(1d));
     }
 
-    default IMV half() {
+    default MV half() {
         return cached("0.5", () -> fac().createScalar(0.5d));
     }
 }

@@ -1,17 +1,17 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iMultivectorNumeric;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
+import de.orat.math.gacalc.spi.IMultivectorValue;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, iMultivectorNumeric> {
+public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, IMultivectorValue> {
 
     /**
      * To be used by other classes in the package.
      */
-    protected static MultivectorNumeric get(iMultivectorNumeric impl) {
+    protected static MultivectorNumeric get(IMultivectorValue impl) {
         MultivectorNumeric result = new MultivectorNumeric(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
@@ -19,18 +19,18 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
     }
 
     @Override
-    protected MultivectorNumeric get_(iMultivectorNumeric impl) {
+    protected MultivectorNumeric get_(IMultivectorValue impl) {
         return get(impl);
     }
 
     /**
      * To be used by other classes in the package.
      */
-    protected iMultivectorNumeric getImpl() {
+    protected IMultivectorValue getImpl() {
         return super.impl;
     }
 
-    protected MultivectorNumeric(iMultivectorNumeric impl) {
+    protected MultivectorNumeric(IMultivectorValue impl) {
         super(impl);
     }
 
@@ -54,7 +54,7 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
     }
     
     public MultivectorSymbolic toSymbolic() {
-        return MultivectorSymbolic.get(impl.toSymbolic());
+        return MultivectorSymbolic.get(impl.toExpr());
     }
 
 }

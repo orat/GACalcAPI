@@ -1,13 +1,13 @@
 package util.cga;
 
-import de.orat.math.gacalc.spi.iMultivectorSymbolic;
+import de.orat.math.gacalc.spi.IMultivectorExpression;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class CGAOperations {
 
-    public static <IMultivectorSymbolic extends iMultivectorSymbolic<IMultivectorSymbolic>> IMultivectorSymbolic generalInverse(IMultivectorSymbolic mv) {
+    public static <IMultivectorSymbolic extends IMultivectorExpression<IMultivectorSymbolic>> IMultivectorSymbolic generalInverse(IMultivectorSymbolic mv) {
         IMultivectorSymbolic conjugate = mv.conjugate();
         IMultivectorSymbolic gradeInversion = mv.gradeInversion();
         IMultivectorSymbolic reversion = mv.reverse();

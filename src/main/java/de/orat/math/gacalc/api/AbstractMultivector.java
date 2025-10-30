@@ -1,7 +1,7 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iMultivector;
 import de.orat.math.sparsematrix.MatrixSparsity;
+import de.orat.math.gacalc.spi.IMultivector;
 
 /**
  * Following: - Leo Dorst, "The inner products of geometric algebra", 2002
@@ -17,24 +17,24 @@ Methods here can only be delegates to iMultivector. Don't use this class for def
 - Checks need to be within the implementations to accommodate if they are directly used without the MultivectorSymbolic proxy. In tests for example.
  */
 // Package-private
-abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultivector>, IMultivector extends iMultivector> {
+abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IMV extends IMultivector> {
 
     /**
      * Only to be used within this class and subclasses.
      */
-    protected final IMultivector impl;
+    protected final IMV impl;
 
     /**
      * Only to be used by subclasses.
      */
-    protected AbstractMultivector(IMultivector impl) {
+    protected AbstractMultivector(IMV impl) {
         this.impl = impl;
     }
 
     /**
      * Only to be used within this class and subclasses.
      */
-    protected abstract AMV get_(IMultivector impl);
+    protected abstract AMV get_(IMV impl);
 
     //======================================================
     // Base 2-ary operators
@@ -46,11 +46,11 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this rhs
      */
     public AMV geometricProduct(AMV rhs) {
-        return get_((IMultivector) impl.gp(rhs.impl));
+        return get_((IMV) impl.gp(rhs.impl));
     }
 
     public AMV commutatorProduct(AMV rhs) {
-        return get_((IMultivector) impl.commutatorProduct(rhs.impl));
+        return get_((IMV) impl.commutatorProduct(rhs.impl));
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this ∧ rhs
      */
     public AMV outerProduct(AMV rhs) {
-        return get_((IMultivector) impl.op(rhs.impl));
+        return get_((IMV) impl.op(rhs.impl));
     }
 
     /**
@@ -70,7 +70,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this + rhs
      */
     public AMV addition(AMV rhs)/* throws Exception */ {
-        return get_((IMultivector) impl.add(rhs.impl));
+        return get_((IMV) impl.add(rhs.impl));
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this - rhs
      */
     public AMV subtraction(AMV rhs) {
-        return get_((IMultivector) impl.sub(rhs.impl));
+        return get_((IMV) impl.sub(rhs.impl));
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return projection of this into rhs.
      */
     public AMV projection(AMV rhs) {
-        return get_((IMultivector) impl.projection(rhs.impl));
+        return get_((IMV) impl.projection(rhs.impl));
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this ⌋ rhs
      */
     public AMV leftContraction(AMV rhs) {
-        return get_((IMultivector) impl.lc(rhs.impl));
+        return get_((IMV) impl.lc(rhs.impl));
     }
 
     /**
@@ -118,7 +118,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this ⌊ rhs
      */
     public AMV rightContraction(AMV rhs) {
-        return get_((IMultivector) impl.rc(rhs.impl));
+        return get_((IMV) impl.rc(rhs.impl));
     }
 
     /**
@@ -128,7 +128,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this ∨ rhs
      */
     public AMV regressiveProduct(AMV rhs) {
-        return get_((IMultivector) impl.vee(rhs.impl));
+        return get_((IMV) impl.vee(rhs.impl));
     }
 
     //======================================================
@@ -143,7 +143,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this / rhs
      */
     public AMV division(AMV rhs) {
-        return get_((IMultivector) impl.div(rhs.impl));
+        return get_((IMV) impl.div(rhs.impl));
     }
 
     /**
@@ -158,11 +158,11 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return rhis ⋅ rhs
      */
     public AMV innerProduct(AMV rhs) {
-        return get_((IMultivector) impl.ip(rhs.impl));
+        return get_((IMV) impl.ip(rhs.impl));
     }
 
     public AMV dotProduct(AMV rhs) {
-        return get_((IMultivector) impl.dot(rhs.impl));
+        return get_((IMV) impl.dot(rhs.impl));
     }
 
     /**
@@ -172,7 +172,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return 
      */
     public AMV mapProduct(AMV rhs) {
-        return get_((IMultivector) impl.map(rhs.impl));
+        return get_((IMV) impl.map(rhs.impl));
     }
     
     /**
@@ -188,7 +188,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return
      */
     public AMV scalarProduct(AMV rhs) {
-        return get_((IMultivector) impl.scp(rhs.impl));
+        return get_((IMV) impl.scp(rhs.impl));
     }
 
     // non linear operators
@@ -199,7 +199,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this ∩ rhs
      */
     public AMV meet(AMV rhs) {
-        return get_((IMultivector) impl.meet(rhs.impl));
+        return get_((IMV) impl.meet(rhs.impl));
     }
 
     /**
@@ -210,7 +210,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this ∪ rhs
      */
     public AMV join(AMV rhs) {
-        return get_((IMultivector) impl.join(rhs.impl));
+        return get_((IMV) impl.join(rhs.impl));
     }
 
     /**
@@ -220,22 +220,22 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @throws IllegalArgumentException if this is no bivector
      */
     public AMV exp() {
-        return get_((IMultivector) impl.exp());
+        return get_((IMV) impl.exp());
     }
 
     public AMV sqrt() {
-        return get_((IMultivector) impl.sqrt());
+        return get_((IMV) impl.sqrt());
     }
 
     public AMV log() {
-        return get_((IMultivector) impl.log());
+        return get_((IMV) impl.log());
     }
 
     public AMV up(){
-         return get_((IMultivector) impl.up());
+        return get_((IMV) impl.up());
     }
     public AMV down(){
-         return get_((IMultivector) impl.down());
+        return get_((IMV) impl.down());
     }
     
     /**
@@ -244,31 +244,31 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return scalarSqrt(this)
      */
     public AMV scalarSqrt() {
-        return get_((IMultivector) impl.scalarSqrt());
+        return get_((IMV) impl.scalarSqrt());
     }
 
     // new scalar functions
     
     public AMV scalarSign(){
-        return get_((IMultivector) impl.scalarSign());
+        return get_((IMV) impl.scalarSign());
     }
     public AMV scalarSin(){
-        return get_((IMultivector) impl.scalarSin());
+        return get_((IMV) impl.scalarSin());
     }
     public AMV scalarCos(){
-        return get_((IMultivector) impl.scalarCos());
+        return get_((IMV) impl.scalarCos());
     }
     public AMV scalarTan(){
-        return get_((IMultivector) impl.scalarTan());
+        return get_((IMV) impl.scalarTan());
     }
     public AMV scalarAtan(){
-        return get_((IMultivector) impl.scalarAtan());
+        return get_((IMV) impl.scalarAtan());
     }
     public AMV scalarAsin(){
-        return get_((IMultivector) impl.scalarAsin());
+        return get_((IMV) impl.scalarAsin());
     }
     public AMV scalarAcos(){
-        return get_((IMultivector) impl.scalarAcos());
+        return get_((IMV) impl.scalarAcos());
     }
     /**
      * Arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
@@ -281,7 +281,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @throws IllegalArgumentException if x, y != scalar
      */
     public AMV scalarAtan2(AMV y) {
-        return get_((IMultivector) impl.scalarAtan2(y.impl));
+        return get_((IMV) impl.scalarAtan2(y.impl));
     }
 
     //======================================================
@@ -293,7 +293,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return -this
      */
     public AMV negate() {
-        return get_((IMultivector) impl.negate());
+        return get_((IMV) impl.negate());
     }
 
     /**
@@ -302,7 +302,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this⁻¹
      */
     public AMV generalInverse() {
-        return get_((IMultivector) impl.generalInverse());
+        return get_((IMV) impl.generalInverse());
     }
 
     /**
@@ -310,7 +310,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return
      */
     public AMV scalarInverse() {
-        return get_((IMultivector) impl.scalarInverse());
+        return get_((IMV) impl.scalarInverse());
     }
 
     /**
@@ -321,7 +321,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return
      */
     public AMV versorInverse() {
-        return get_((IMultivector) impl.versorInverse());
+        return get_((IMV) impl.versorInverse());
     }
 
     /**
@@ -330,7 +330,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this*
      */
     public AMV dual() {
-        return get_((IMultivector) impl.dual());
+        return get_((IMV) impl.dual());
     }
 
     /**
@@ -340,7 +340,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this˜
      */
     public AMV reverse() {
-        return get_((IMultivector) impl.reverse());
+        return get_((IMV) impl.reverse());
     }
 
     /**
@@ -349,7 +349,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this † (| in ganja.js?)
      */
     public AMV cliffordConjugate() {
-        return get_((IMultivector) impl.conjugate());
+        return get_((IMV) impl.conjugate());
     }
 
     //======================================================
@@ -361,7 +361,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this⁻*
      */
     public AMV undual() {
-        return get_((IMultivector) impl.undual());
+        return get_((IMV) impl.undual());
     }
 
     /**
@@ -374,7 +374,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this²
      */
     public AMV square() {
-        return get_((IMultivector) impl.square());
+        return get_((IMV) impl.square());
     }
 
     /**
@@ -383,7 +383,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return this^
      */
     public AMV gradeInversion() {
-        return get_((IMultivector) impl.gradeInversion());
+        return get_((IMV) impl.gradeInversion());
     }
 
     //======================================================
@@ -396,7 +396,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return {@code <this>ₚ (with ₚ ∈ {₀, ₁, ₂, ₃, ₄, ₅})}
      */
     public AMV gradeExtraction(int grade) {
-        return get_((IMultivector) impl.gradeSelection(grade));
+        return get_((IMV) impl.gradeSelection(grade));
     }
 
     //======================================================
@@ -409,10 +409,10 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @throws java.lang.IllegalArgumentException if the multivector is 0.
      */
     public AMV normalize() throws IllegalArgumentException {
-        return get_((IMultivector) impl.normalizeBySquaredNorm());
+        return get_((IMV) impl.normalizeBySquaredNorm());
     }
     public AMV normalizeRotor() throws IllegalArgumentException {
-        return get_((IMultivector) impl.normalizeRotor());
+        return get_((IMV) impl.normalizeRotor());
     }
     
     /**
@@ -423,7 +423,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return scalarAbs(this)
      */
     public AMV scalarAbs() {
-        return get_((IMultivector) impl.scalarAbs());
+        return get_((IMV) impl.scalarAbs());
     }
 
     /**
@@ -434,7 +434,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * @return negatate14(this)
      */
     public AMV negate14() {
-        return get_((IMultivector) impl.negate14());
+        return get_((IMV) impl.negate14());
     }
 
     //======================================================
@@ -444,7 +444,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      * Euclidean/reverse norm. (strict positive).
      */
     public AMV norm() {
-        return get_((IMultivector) impl.norm());
+        return get_((IMV) impl.norm());
     }
 
     /**
@@ -452,8 +452,8 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMultive
      *
      * Calculate the Ideal norm. (signed)
      */
-    /*public IMultivectorApi inorm() throws Exception {
-            return get((IMultivector) impl.inorm());
+    /*public IMVApi inorm() throws Exception {
+            return get((IMV) impl.inorm());
     }*/
     //--------------
     public MatrixSparsity getSparsity() {

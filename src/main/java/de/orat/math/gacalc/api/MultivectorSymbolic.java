@@ -1,13 +1,13 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iMultivectorSymbolic;
+import de.orat.math.gacalc.spi.IMultivectorExpression;
 
-public class MultivectorSymbolic extends AbstractMultivector<MultivectorSymbolic, iMultivectorSymbolic> {
+public class MultivectorSymbolic extends AbstractMultivector<MultivectorSymbolic, IMultivectorExpression> {
 
     /**
      * To be used by other classes in the package.
      */
-    protected static MultivectorSymbolic get(iMultivectorSymbolic impl) {
+    protected static MultivectorSymbolic get(IMultivectorExpression impl) {
         MultivectorSymbolic result = new MultivectorSymbolic(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
@@ -15,18 +15,18 @@ public class MultivectorSymbolic extends AbstractMultivector<MultivectorSymbolic
     }
 
     @Override
-    protected MultivectorSymbolic get_(iMultivectorSymbolic impl) {
+    protected MultivectorSymbolic get_(IMultivectorExpression impl) {
         return get(impl);
     }
 
     /**
      * To be used by other classes in the package.
      */
-    protected iMultivectorSymbolic getImpl() {
+    protected IMultivectorExpression getImpl() {
         return super.impl;
     }
 
-    protected MultivectorSymbolic(iMultivectorSymbolic impl) {
+    protected MultivectorSymbolic(IMultivectorExpression impl) {
         super(impl);
     }
 
