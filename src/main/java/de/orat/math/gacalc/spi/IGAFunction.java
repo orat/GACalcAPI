@@ -1,6 +1,6 @@
 package de.orat.math.gacalc.spi;
 
-import de.orat.math.gacalc.api.FunctionSymbolic.Callback;
+import de.orat.math.gacalc.api.GAFunction.Callback;
 import java.util.List;
 
 public interface IGAFunction<EXPR extends IMultivectorExpression<EXPR>, VAL extends IMultivectorValue<VAL, EXPR>> {

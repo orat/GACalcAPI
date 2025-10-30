@@ -1,6 +1,6 @@
 package util.cga;
 
-import de.orat.math.gacalc.api.MultivectorNumeric.Callback;
+import de.orat.math.gacalc.api.MultivectorValue.Callback;
 import de.orat.math.sparsematrix.DenseDoubleColumnVector;
 
 /**

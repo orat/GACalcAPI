@@ -4,7 +4,7 @@ import de.orat.math.gacalc.spi.IConstants;
 import de.orat.math.gacalc.spi.IMultivector;
 
 // Package-private
-abstract class AbstractConstantsFactory<ACM extends AbstractConstantsFactory<ACM, IConstantsFactory, AMV, IMV>, IConstantsFactory extends IConstants, AMV extends AbstractMultivector<AMV, IMV>, IMV extends IMultivector> {
+abstract class AbstractConstants<ACM extends AbstractConstants<ACM, IConstantsFactory, AMV, IMV>, IConstantsFactory extends IConstants, AMV extends AbstractMultivector<AMV, IMV>, IMV extends IMultivector> {
 
     /**
      * Only to be used within this class and subclasses.
@@ -14,7 +14,7 @@ abstract class AbstractConstantsFactory<ACM extends AbstractConstantsFactory<ACM
     /**
      * Only to be used by subclasses.
      */
-    protected AbstractConstantsFactory(IConstantsFactory impl) {
+    protected AbstractConstants(IConstantsFactory impl) {
         this.impl = impl;
     }
 

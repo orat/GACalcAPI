@@ -10,19 +10,19 @@ import de.orat.math.gacalc.spi.IGAFactory;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public final class GAExprGraphFactoryService {
+public final class GAServiceLoader {
 
-    private static GAExprGraphFactoryService service;
+    private static GAServiceLoader instance;
     private final ServiceLoader<IGAFactory> loader;
 
-    public static synchronized GAExprGraphFactoryService instance() {
-        if (service == null) {
-            service = new GAExprGraphFactoryService();
+    public static synchronized GAServiceLoader instance() {
+        if (instance == null) {
+            instance = new GAServiceLoader();
         }
-        return service;
+        return instance;
     }
 
-    private GAExprGraphFactoryService() {
+    private GAServiceLoader() {
         loader = ServiceLoader.load(IGAFactory.class);
     }
 
@@ -31,7 +31,7 @@ public final class GAExprGraphFactoryService {
     // zu beschaffen, also 4,1,1 oder 4,1,1.
     // Es braucht auch einen Mechanismus um mit einer Implementierung umzugehen die
     // mit beliebigen Algebren Rpqr umgehen kann
-    public Optional<ExprGraphFactory> getExprGraphFactory(String algebra, String implementation) {
+    public Optional<GAFactory> getGAFactory(String algebra, String implementation) {
         List<IGAFactory> impls = loader.stream().map(Provider::get)
             .filter(f -> f.getAlgebra().equals(algebra))
             .filter(f -> f.getImplementationName().equals(implementation))
@@ -43,21 +43,21 @@ public final class GAExprGraphFactoryService {
             throw new RuntimeException(String.format("Found %s implementations of algebra \"%s\" with name \"%s\".",
                 impls.size(), algebra, implementation));
         }
-        return Optional.of(ExprGraphFactory.get(impls.get(0)));
+        return Optional.of(GAFactory.get(impls.get(0)));
     }
 
-    public Optional<ExprGraphFactory> getExprGraphFactory(String algebra) {
+    public Optional<GAFactory> getGAFactory(String algebra) {
         return loader.stream().map(Provider::get)
             .filter(f -> f.getAlgebra().equals(algebra))
             .findFirst()
-            .map(ExprGraphFactory::get);
+            .map(GAFactory::get);
     }
 
-    public static ExprGraphFactory getExprGraphFactoryThrowing(String algebra, String implementation) throws NoSuchElementException {
-        return GAExprGraphFactoryService.instance().getExprGraphFactory(algebra, implementation).orElseThrow();
+    public static GAFactory getGAFactoryThrowing(String algebra, String implementation) throws NoSuchElementException {
+        return GAServiceLoader.instance().getGAFactory(algebra, implementation).orElseThrow();
     }
 
-    public static ExprGraphFactory getExprGraphFactoryThrowing(String algebra) throws NoSuchElementException {
-        return GAExprGraphFactoryService.instance().getExprGraphFactory(algebra).orElseThrow();
+    public static GAFactory getGAFactoryThrowing(String algebra) throws NoSuchElementException {
+        return GAServiceLoader.instance().getGAFactory(algebra).orElseThrow();
     }
 }

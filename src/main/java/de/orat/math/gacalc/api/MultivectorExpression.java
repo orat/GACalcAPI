@@ -2,20 +2,20 @@ package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.IMultivectorExpression;
 
-public class MultivectorSymbolic extends AbstractMultivector<MultivectorSymbolic, IMultivectorExpression> {
+public class MultivectorExpression extends AbstractMultivector<MultivectorExpression, IMultivectorExpression> {
 
     /**
      * To be used by other classes in the package.
      */
-    protected static MultivectorSymbolic get(IMultivectorExpression impl) {
-        MultivectorSymbolic result = new MultivectorSymbolic(impl);
+    protected static MultivectorExpression get(IMultivectorExpression impl) {
+        MultivectorExpression result = new MultivectorExpression(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
     @Override
-    protected MultivectorSymbolic get_(IMultivectorExpression impl) {
+    protected MultivectorExpression get_(IMultivectorExpression impl) {
         return get(impl);
     }
 
@@ -26,15 +26,15 @@ public class MultivectorSymbolic extends AbstractMultivector<MultivectorSymbolic
         return super.impl;
     }
 
-    protected MultivectorSymbolic(IMultivectorExpression impl) {
+    protected MultivectorExpression(IMultivectorExpression impl) {
         super(impl);
     }
 
     public static final class Callback {
 
-        private final MultivectorSymbolic api;
+        private final MultivectorExpression api;
 
-        private Callback(MultivectorSymbolic api) {
+        private Callback(MultivectorExpression api) {
             this.api = api;
         }
 

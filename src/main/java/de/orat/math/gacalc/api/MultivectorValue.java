@@ -6,20 +6,20 @@ import de.orat.math.gacalc.spi.IMultivectorValue;
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, IMultivectorValue> {
+public class MultivectorValue extends AbstractMultivector<MultivectorValue, IMultivectorValue> {
 
     /**
      * To be used by other classes in the package.
      */
-    protected static MultivectorNumeric get(IMultivectorValue impl) {
-        MultivectorNumeric result = new MultivectorNumeric(impl);
+    protected static MultivectorValue get(IMultivectorValue impl) {
+        MultivectorValue result = new MultivectorValue(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
     @Override
-    protected MultivectorNumeric get_(IMultivectorValue impl) {
+    protected MultivectorValue get_(IMultivectorValue impl) {
         return get(impl);
     }
 
@@ -30,15 +30,15 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
         return super.impl;
     }
 
-    protected MultivectorNumeric(IMultivectorValue impl) {
+    protected MultivectorValue(IMultivectorValue impl) {
         super(impl);
     }
 
     public static final class Callback {
 
-        private final MultivectorNumeric api;
+        private final MultivectorValue api;
 
-        private Callback(MultivectorNumeric api) {
+        private Callback(MultivectorValue api) {
             this.api = api;
         }
 
@@ -46,15 +46,12 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
         // add methods needed by the spi implementation
     }
 
-    /*public double[] elements() {
-        return impl.elements();
-    }*/
     public SparseDoubleMatrix elements() {
         return impl.elements();
     }
-    
-    public MultivectorSymbolic toSymbolic() {
-        return MultivectorSymbolic.get(impl.toExpr());
+
+    public MultivectorExpression toExpr() {
+        return MultivectorExpression.get(impl.toExpr());
     }
 
 }

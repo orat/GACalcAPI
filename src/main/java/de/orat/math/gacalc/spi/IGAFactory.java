@@ -1,6 +1,6 @@
 package de.orat.math.gacalc.spi;
 
-import de.orat.math.gacalc.api.ExprGraphFactory.Callback;
+import de.orat.math.gacalc.api.GAFactory.Callback;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
@@ -20,7 +20,7 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
 
     ILoopService getLoopService();
 
-    IConstantsExpr<EXPR> constantsExpr();
+    IConstantsExpression<EXPR> constantsExpr();
 
     IConstantsValue<VAL, EXPR> constantsValue();
 
