@@ -115,8 +115,8 @@ public class GAFactory {
     //======================================================
     // Symbolic scalar
     //======================================================
-    public MultivectorExpression createExpr(String name, double scalar) {
-        return MultivectorExpression.get(impl.createExpr(name, scalar));
+    public MultivectorExpression createExpr(double scalar) {
+        return MultivectorExpression.get(impl.createExpr(scalar));
     }
 
     //======================================================

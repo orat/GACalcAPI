@@ -35,7 +35,7 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
 
     VAR createVariable(String name, int[] grades);
 
-    default EXPR createExpr(String name, double scalar) {
+    default EXPR createExpr(double scalar) {
         return createValue(scalar).toExpr();
     }
 

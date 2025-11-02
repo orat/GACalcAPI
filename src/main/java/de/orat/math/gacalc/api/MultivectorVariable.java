@@ -16,4 +16,8 @@ public class MultivectorVariable extends MultivectorExpression {
     protected IMultivectorVariable getImpl() {
         return (IMultivectorVariable) super.getImpl();
     }
+
+    public String getName() {
+        return this.getImpl().getName();
+    }
 }

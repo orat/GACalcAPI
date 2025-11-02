@@ -10,8 +10,6 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     //======================================================
     MatrixSparsity getSparsity();
 
-    String getName();
-
     /**
      * Is structural a scalar.
      *

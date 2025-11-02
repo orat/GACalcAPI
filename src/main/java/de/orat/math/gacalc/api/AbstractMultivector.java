@@ -464,9 +464,4 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
     public String toString() {
         return impl.toString();
     }
-
-    public String getName() {
-        return impl.getName();
-    }
-
 }
