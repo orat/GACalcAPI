@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class MultivectorSymbolicArray extends ArrayList<MultivectorSymbolic> {
+public class MultivectorExpressionArray extends ArrayList<MultivectorExpression> {
 
-    public MultivectorSymbolicArray() {
+    public MultivectorExpressionArray() {
         super();
     }
 
-    public MultivectorSymbolicArray(Collection<? extends MultivectorSymbolic> c) {
+    public MultivectorExpressionArray(Collection<? extends MultivectorExpression> c) {
         super(c);
     }
 
-    public void ensureSize(int newSize, MultivectorSymbolic nullElement) {
+    public void ensureSize(int newSize, MultivectorExpression nullElement) {
         final int oldSize = super.size();
         if (newSize <= oldSize) {
             return;

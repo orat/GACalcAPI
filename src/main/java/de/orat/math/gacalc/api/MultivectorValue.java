@@ -1,64 +1,58 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iMultivectorNumeric;
-import de.orat.math.gacalc.util.GeometricObject;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
+import de.orat.math.gacalc.spi.IMultivectorValue;
+import de.orat.math.gacalc.util.GeometricObject;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
-public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, iMultivectorNumeric> {
+public class MultivectorValue extends AbstractMultivector<MultivectorValue, IMultivectorValue> {
 
     /**
      * To be used by other classes in the package.
      */
-    protected static MultivectorNumeric get(iMultivectorNumeric impl) {
-        MultivectorNumeric result = new MultivectorNumeric(impl);
+    protected static MultivectorValue get(IMultivectorValue impl) {
+        MultivectorValue result = new MultivectorValue(impl);
         Callback callback = new Callback(result);
         impl.init(callback);
         return result;
     }
 
     @Override
-    protected MultivectorNumeric get_(iMultivectorNumeric impl) {
+    protected MultivectorValue get_(IMultivectorValue impl) {
         return get(impl);
     }
 
     /**
      * To be used by other classes in the package.
      */
-    protected iMultivectorNumeric getImpl() {
+    protected IMultivectorValue getImpl() {
         return super.impl;
     }
 
-    protected MultivectorNumeric(iMultivectorNumeric impl) {
+    protected MultivectorValue(IMultivectorValue impl) {
         super(impl);
     }
 
     public static final class Callback {
 
-        private final MultivectorNumeric api;
+        private final MultivectorValue api;
 
-        private Callback(MultivectorNumeric api) {
+        private Callback(MultivectorValue api) {
             this.api = api;
         }
 
         //TODO
         // add methods needed by the spi implementation
-        /*public MultivectorNumeric getAPI(){
-            return api;
-        }*/
     }
 
-    /*public double[] elements() {
-        return impl.elements();
-    }*/
     public SparseDoubleMatrix elements() {
         return impl.elements();
     }
-    
-    public MultivectorSymbolic toSymbolic() {
-        return MultivectorSymbolic.get(impl.toSymbolic());
+
+    public MultivectorExpression toExpr() {
+        return MultivectorExpression.get(impl.toExpr());
     }
 
     public GeometricObject decompose(boolean isIPNS){

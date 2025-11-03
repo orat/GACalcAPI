@@ -8,10 +8,10 @@ import java.util.Optional;
  */
 public class TestService {
 
-    ExprGraphFactory exprGraphFactory;
+    GAFactory exprGraphFactory;
 
     public TestService() {
-        Optional<ExprGraphFactory> service = GAExprGraphFactoryService.instance().getExprGraphFactory("cga");
+        Optional<GAFactory> service = GAServiceLoader.instance().getGAFactory("cga");
         if (service.isPresent()) {
             exprGraphFactory = service.get();
         } else {

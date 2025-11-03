@@ -1,10 +1,9 @@
 package util.cga;
 
 //import util.CayleyTable;
-import de.orat.math.sparsematrix.DenseDoubleMatrix;
-import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import de.orat.math.gacalc.util.CayleyTable;
 import de.orat.math.gacalc.util.LinearOperators;
+import de.orat.math.sparsematrix.SparseDoubleMatrix;
 
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
@@ -12,7 +11,6 @@ import de.orat.math.gacalc.util.LinearOperators;
 public class CGAOperatorMatrixUtils extends LinearOperators {
 
     private final CayleyTable cayleyTable;
-    private static SparseDoubleMatrix scalarMultiplicationOperatorMatrix;
     private static SparseDoubleMatrix reversionOperatorMatrix;
     private static SparseDoubleMatrix involutionOperatorMatrix;
     private static SparseDoubleMatrix conjugationOperatorMatrix;
@@ -22,6 +20,9 @@ public class CGAOperatorMatrixUtils extends LinearOperators {
     }
 
     public SparseDoubleMatrix getScalarMultiplicationOperatorMatrix(double s) {
+        // Caching is wrong here!
+        // The value "s" is written directly into the matrix by the create method.
+        // And thus the returned matrix depends on the actual value of "s".
         return createScalarMultiplicationMatrix(cayleyTable, s);
     }
 

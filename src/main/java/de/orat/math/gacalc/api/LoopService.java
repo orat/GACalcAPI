@@ -1,51 +1,51 @@
 package de.orat.math.gacalc.api;
 
-import de.orat.math.gacalc.spi.iLoopService;
-import de.orat.math.gacalc.spi.iMultivectorSymbolic;
-import de.orat.math.gacalc.spi.iMultivectorSymbolicArray;
 import java.util.List;
+import de.orat.math.gacalc.spi.ILoopService;
+import de.orat.math.gacalc.spi.IMultivectorExpression;
+import de.orat.math.gacalc.spi.IMultivectorExpressionArray;
 
 public class LoopService {
 
-    protected final iLoopService impl;
+    protected final ILoopService impl;
 
-    protected static LoopService get(iLoopService impl) {
+    protected static LoopService get(ILoopService impl) {
         LoopService result = new LoopService(impl);
         return result;
     }
 
-    protected LoopService(iLoopService impl) {
+    protected LoopService(ILoopService impl) {
         this.impl = impl;
     }
 
-    protected iMultivectorSymbolicArray toiSymbolicArray(MultivectorSymbolicArray from) {
-        var ifrom = from.stream().map(MultivectorSymbolic::getImpl).toList();
-        iMultivectorSymbolicArray res = impl.toSymbolicArray(ifrom);
+    protected IMultivectorExpressionArray toIExprArray(MultivectorExpressionArray from) {
+        var ifrom = from.stream().map(MultivectorExpression::getImpl).toList();
+        IMultivectorExpressionArray res = impl.toExprArray(ifrom);
         return res;
     }
 
-    protected static MultivectorSymbolicArray toSymbolicArray(iMultivectorSymbolicArray<?> ifrom) {
-        var mvList = ifrom.stream().map(MultivectorSymbolic::get).toList();
-        var mvArray = new MultivectorSymbolicArray(mvList);
+    protected static MultivectorExpressionArray toExprArray(IMultivectorExpressionArray<?> ifrom) {
+        var mvList = ifrom.stream().map(MultivectorExpression::get).toList();
+        var mvArray = new MultivectorExpressionArray(mvList);
         return mvArray;
     }
 
-    public List<MultivectorSymbolicArray> map(
-        List<MultivectorPurelySymbolic> paramsSimple,
-        List<MultivectorPurelySymbolic> paramsArray,
-        List<MultivectorSymbolic> returnsArray,
-        List<MultivectorSymbolic> argsSimple,
-        List<MultivectorSymbolicArray> argsArray,
+    public List<MultivectorExpressionArray> map(
+        List<MultivectorVariable> paramsSimple,
+        List<MultivectorVariable> paramsArray,
+        List<MultivectorExpression> returnsArray,
+        List<MultivectorExpression> argsSimple,
+        List<MultivectorExpressionArray> argsArray,
         int iterations) {
-        var iparamsSimple = paramsSimple.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var iparamsArray = paramsArray.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var ireturnsArray = returnsArray.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsSimple = argsSimple.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsArray = argsArray.stream().map(arr -> toiSymbolicArray(arr)).toList();
+        var iparamsSimple = paramsSimple.stream().map(MultivectorVariable::getImpl).toList();
+        var iparamsArray = paramsArray.stream().map(MultivectorVariable::getImpl).toList();
+        var ireturnsArray = returnsArray.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsSimple = argsSimple.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsArray = argsArray.stream().map(arr -> toIExprArray(arr)).toList();
 
-        List<iMultivectorSymbolicArray> ires = impl.map(iparamsSimple, iparamsArray, ireturnsArray, iargsSimple, iargsArray, iterations);
+        List<IMultivectorExpressionArray> ires = impl.map(iparamsSimple, iparamsArray, ireturnsArray, iargsSimple, iargsArray, iterations);
 
-        var results = ires.stream().map(LoopService::toSymbolicArray).toList();
+        var results = ires.stream().map(LoopService::toExprArray).toList();
         return results;
     }
 
@@ -53,57 +53,57 @@ public class LoopService {
 
     }
 
-    public AccumArrayListReturn<MultivectorSymbolic, MultivectorSymbolicArray> fold(
-        List<MultivectorPurelySymbolic> paramsAccum,
-        List<MultivectorPurelySymbolic> paramsSimple,
-        List<MultivectorPurelySymbolic> paramsArray,
-        List<MultivectorSymbolic> returnsAccum,
-        List<MultivectorSymbolic> returnsArray,
-        List<MultivectorSymbolic> argsAccumInitial,
-        List<MultivectorSymbolic> argsSimple,
-        List<MultivectorSymbolicArray> argsArray,
+    public AccumArrayListReturn<MultivectorExpression, MultivectorExpressionArray> fold(
+        List<MultivectorVariable> paramsAccum,
+        List<MultivectorVariable> paramsSimple,
+        List<MultivectorVariable> paramsArray,
+        List<MultivectorExpression> returnsAccum,
+        List<MultivectorExpression> returnsArray,
+        List<MultivectorExpression> argsAccumInitial,
+        List<MultivectorExpression> argsSimple,
+        List<MultivectorExpressionArray> argsArray,
         int iterations) {
-        var iparamsAccum = paramsAccum.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var iparamsSimple = paramsSimple.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var iparamsArray = paramsArray.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var ireturnsAccum = returnsAccum.stream().map(MultivectorSymbolic::getImpl).toList();
-        var ireturnsArray = returnsArray.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsAccumInitial = argsAccumInitial.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsSimple = argsSimple.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsArray = argsArray.stream().map(arr -> toiSymbolicArray(arr)).toList();
+        var iparamsAccum = paramsAccum.stream().map(MultivectorVariable::getImpl).toList();
+        var iparamsSimple = paramsSimple.stream().map(MultivectorVariable::getImpl).toList();
+        var iparamsArray = paramsArray.stream().map(MultivectorVariable::getImpl).toList();
+        var ireturnsAccum = returnsAccum.stream().map(MultivectorExpression::getImpl).toList();
+        var ireturnsArray = returnsArray.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsAccumInitial = argsAccumInitial.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsSimple = argsSimple.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsArray = argsArray.stream().map(arr -> toIExprArray(arr)).toList();
 
-        iLoopService.AccumArrayListReturn<iMultivectorSymbolic, iMultivectorSymbolicArray> ires = impl.fold(iparamsAccum, iparamsSimple, iparamsArray, ireturnsAccum, ireturnsArray, iargsAccumInitial, iargsSimple, iargsArray, iterations);
+        ILoopService.AccumArrayListReturn<IMultivectorExpression, IMultivectorExpressionArray> ires = impl.fold(iparamsAccum, iparamsSimple, iparamsArray, ireturnsAccum, ireturnsArray, iargsAccumInitial, iargsSimple, iargsArray, iterations);
 
-        var iresAccum = ires.returnsAccum().stream().map(MultivectorSymbolic::get).toList();
-        var iresArray = ires.returnsArray().stream().map(LoopService::toSymbolicArray).toList();
+        var iresAccum = ires.returnsAccum().stream().map(MultivectorExpression::get).toList();
+        var iresArray = ires.returnsArray().stream().map(LoopService::toExprArray).toList();
 
         var results = new AccumArrayListReturn(iresAccum, iresArray);
         return results;
     }
 
-    public AccumArrayListReturn<MultivectorSymbolicArray, MultivectorSymbolicArray> mapaccum(
-        List<MultivectorPurelySymbolic> paramsAccum,
-        List<MultivectorPurelySymbolic> paramsSimple,
-        List<MultivectorPurelySymbolic> paramsArray,
-        List<MultivectorSymbolic> returnsAccum,
-        List<MultivectorSymbolic> returnsArray,
-        List<MultivectorSymbolic> argsAccumInitial,
-        List<MultivectorSymbolic> argsSimple,
-        List<MultivectorSymbolicArray> argsArray,
+    public AccumArrayListReturn<MultivectorExpressionArray, MultivectorExpressionArray> mapaccum(
+        List<MultivectorVariable> paramsAccum,
+        List<MultivectorVariable> paramsSimple,
+        List<MultivectorVariable> paramsArray,
+        List<MultivectorExpression> returnsAccum,
+        List<MultivectorExpression> returnsArray,
+        List<MultivectorExpression> argsAccumInitial,
+        List<MultivectorExpression> argsSimple,
+        List<MultivectorExpressionArray> argsArray,
         int iterations) {
-        var iparamsAccum = paramsAccum.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var iparamsSimple = paramsSimple.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var iparamsArray = paramsArray.stream().map(MultivectorPurelySymbolic::getImpl).toList();
-        var ireturnsAccum = returnsAccum.stream().map(MultivectorSymbolic::getImpl).toList();
-        var ireturnsArray = returnsArray.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsAccumInitial = argsAccumInitial.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsSimple = argsSimple.stream().map(MultivectorSymbolic::getImpl).toList();
-        var iargsArray = argsArray.stream().map(arr -> toiSymbolicArray(arr)).toList();
+        var iparamsAccum = paramsAccum.stream().map(MultivectorVariable::getImpl).toList();
+        var iparamsSimple = paramsSimple.stream().map(MultivectorVariable::getImpl).toList();
+        var iparamsArray = paramsArray.stream().map(MultivectorVariable::getImpl).toList();
+        var ireturnsAccum = returnsAccum.stream().map(MultivectorExpression::getImpl).toList();
+        var ireturnsArray = returnsArray.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsAccumInitial = argsAccumInitial.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsSimple = argsSimple.stream().map(MultivectorExpression::getImpl).toList();
+        var iargsArray = argsArray.stream().map(arr -> toIExprArray(arr)).toList();
 
-        iLoopService.AccumArrayListReturn<iMultivectorSymbolicArray, iMultivectorSymbolicArray> ires = impl.mapaccum(iparamsAccum, iparamsSimple, iparamsArray, ireturnsAccum, ireturnsArray, iargsAccumInitial, iargsSimple, iargsArray, iterations);
+        ILoopService.AccumArrayListReturn<IMultivectorExpressionArray, IMultivectorExpressionArray> ires = impl.mapaccum(iparamsAccum, iparamsSimple, iparamsArray, ireturnsAccum, ireturnsArray, iargsAccumInitial, iargsSimple, iargsArray, iterations);
 
-        var iresAccum = ires.returnsAccum().stream().map(LoopService::toSymbolicArray).toList();
-        var iresArray = ires.returnsArray().stream().map(LoopService::toSymbolicArray).toList();
+        var iresAccum = ires.returnsAccum().stream().map(LoopService::toExprArray).toList();
+        var iresArray = ires.returnsArray().stream().map(LoopService::toExprArray).toList();
 
         var results = new AccumArrayListReturn(iresAccum, iresArray);
         return results;

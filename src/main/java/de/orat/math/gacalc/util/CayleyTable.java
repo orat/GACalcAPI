@@ -176,7 +176,7 @@ public class CayleyTable extends DenseStringMatrix {
                     }
                 }
             }
-            result[i] = new SparseDoubleMatrix(blade);
+            result[i] = new SparseDoubleMatrix(blade, true);
         }
         return result;
     }
@@ -227,7 +227,7 @@ public class CayleyTable extends DenseStringMatrix {
                 }
             }
         }
-        return new SparseStringMatrix(result);
+        return new SparseStringMatrix(result, true);
     }
 
     public SparseDoubleMatrix sparseDoubleMatrix(SparseDoubleColumnVector vector) {
