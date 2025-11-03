@@ -1,5 +1,10 @@
 package de.orat.math.gacalc.util;
 
+import static de.orat.math.gacalc.util.GeometricObject.eps;
+import java.util.Arrays;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.math3.util.Precision;
+
 /**
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
@@ -30,6 +35,26 @@ public class Tuple {
         }
         return new Tuple(newValues);
     }
+    public Tuple add(Tuple b){
+        double[] newValues = new double[values.length];
+        for (int i=0;i<values.length;i++){
+             newValues[i] = values[i]+b.values[i];
+        }
+        return new Tuple(newValues);
+    }
+    
+    public Tuple muls(double scalar){
+        double[] newValues = new double[values.length];
+        for (int i=0;i<values.length;i++){
+             newValues[i] = values[i]*scalar;
+        }
+        return new Tuple(newValues);
+    }
+    public double squaredDist(Tuple b){
+        Tuple v = b.sub(this);
+        return v.squaredNorm();
+    }
+    
     public double squaredNorm(){
         double result = 0d; 
         for (int i=0;i<values.length;i++){
@@ -45,5 +70,42 @@ public class Tuple {
         }
         //return new Tuple(this.x/length, this.y/length, this.z/length);
         return new Tuple(normalizedValues);
+    }
+    public double ip(Tuple b){
+        double result = 0;
+        for (int i=0;i<values.length;i++){
+             result += values[i]*b.values[i];
+        }
+        return result;
+    }
+
+    
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Arrays.hashCode(this.values);
+        return hash;
+    }
+    
+    public boolean isNull(){
+        if (values.length > 0){
+            for (int i=0;i<values.length;i++){
+                if (!Precision.equals(values[i],0d, eps)) return false;
+            }
+        }
+        return true;
+    }
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        
+        Tuple otherObj = (Tuple) obj;
+        
+        if (values.length > 0){
+            for (int i=0;i<values.length;i++){
+                if (!Precision.equals(values[i], otherObj.values[i], eps)) return false;
+            }
+        }
+        return true;
     }
 }

@@ -37,7 +37,7 @@ public class CayleyTable extends DenseStringMatrix {
 
     private final List<String> names = new ArrayList<>();
 
-    public CayleyTable(String[][] m, String[] names) {
+    protected CayleyTable(String[][] m, String[] names) {
         super(m);
         this.names.addAll(Arrays.asList(names));
     }

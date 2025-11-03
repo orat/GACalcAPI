@@ -25,6 +25,7 @@ public class CGACayleyTableGeometricProduct extends CGACayleyTable {
     // und die Matrix mit dem Zeilenvektor
     // multiplizieren, sodass wieder ein Spaltenvektor entsteht
     // cayley-table des geometrischen Produkts in der nicht-matrix Form
+    //FIXME not used ?
     private final static String[][] cgaTable_nm = new String[][]{
         {
             "1", "e1", "e2", "e3",

@@ -11,6 +11,8 @@ package util.cga;
  *
  * https://gitlab.com/jordibc/geometric-algebra/-/tree/main?ref_type=heads
  *
+ * scheint nicht gebraucht zu werden
+ * 
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class CGACayleyTableOuterProduct extends CGACayleyTable {

@@ -45,6 +45,9 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
 
         //TODO
         // add methods needed by the spi implementation
+        /*public MultivectorNumeric getAPI(){
+            return api;
+        }*/
     }
 
     /*public double[] elements() {
@@ -60,5 +63,11 @@ public class MultivectorNumeric extends AbstractMultivector<MultivectorNumeric, 
 
     public GeometricObject decompose(boolean isIPNS){
         return impl.decompose(isIPNS);
+    }
+    public boolean isNull(){
+        return impl.getSparsity().isNull();
+    }
+    public boolean isNull(double precision){
+        return impl.isNull(precision);
     }
 }

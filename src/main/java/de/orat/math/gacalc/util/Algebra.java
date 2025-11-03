@@ -3,7 +3,8 @@ package de.orat.math.gacalc.util;
 import java.util.List;
 
 /**
- *
+ * unvollständig, nicht in Gebrauch, unklar ob es sich lohnt das fertigzustellen
+ * 
  * @author Oliver Rettig (Oliver.Rettig@orat.de)
  */
 public class Algebra {
