@@ -171,8 +171,8 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
      * @param rhs
      * @return 
      */
-    public AMV mapProduct(AMV rhs) {
-        return get_((IMV) impl.map(rhs.impl));
+    public AMV timesProduct(AMV rhs) {
+        return get_((IMV) impl.times(rhs.impl));
     }
     
     /**

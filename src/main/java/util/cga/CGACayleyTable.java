@@ -80,6 +80,7 @@ public abstract class CGACayleyTable extends CayleyTable {
         }
         return result.stream().mapToInt(i -> i).toArray();
     }
+
     public static int[] getIndizes(int grade) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < CGABasisBladeNames.length; i++) {
