@@ -119,7 +119,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
 
     MV gp(MV rhs);
 
-    MV times(MV rhs);
+    MV hadamard(MV rhs);
 
     MV gpWithScalar(double s);
 
