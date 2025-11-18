@@ -17,6 +17,10 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      */
     default boolean isScalar() {
         int[] rows = getSparsity().getrow();
+        if (rows.length == 0) {
+            // Structural zero
+            return true;
+        }
         if (rows.length != 1) {
             return false;
         }
