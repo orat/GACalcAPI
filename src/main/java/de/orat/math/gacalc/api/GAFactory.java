@@ -4,6 +4,8 @@ import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
 import java.util.List;
 import de.orat.math.gacalc.spi.IGAFactory;
+import java.nio.file.Path;
+import java.util.Optional;
 
 public class GAFactory {
 
@@ -47,6 +49,10 @@ public class GAFactory {
 
     public String getImplementationName() {
         return impl.getImplementationName();
+    }
+
+    public Optional<Path> getAlgebraLibFile() {
+        return impl.getAlgebraLibFile();
     }
 
     public LoopService getLoopService() {

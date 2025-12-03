@@ -3,7 +3,9 @@ package de.orat.math.gacalc.spi;
 import de.orat.math.gacalc.api.GAFactory.Callback;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR extends IMultivectorVariable<EXPR>, VAL extends IMultivectorValue<VAL, EXPR>> {
 
@@ -14,6 +16,10 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
     String getAlgebra();
 
     String getImplementationName();
+
+    default Optional<Path> getAlgebraLibFile() {
+        return Optional.empty();
+    }
 
     public int getBasisBladesCount();
 
