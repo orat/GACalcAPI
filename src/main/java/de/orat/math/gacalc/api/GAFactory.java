@@ -1,11 +1,16 @@
 package de.orat.math.gacalc.api;
 
+import de.orat.math.gacalc.spi.IGAFactory;
+import de.orat.math.gacalc.spi.IMultivectorExpression;
 import de.orat.math.sparsematrix.MatrixSparsity;
 import de.orat.math.sparsematrix.SparseDoubleMatrix;
-import java.util.List;
-import de.orat.math.gacalc.spi.IGAFactory;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class GAFactory {
 
@@ -55,6 +60,50 @@ public class GAFactory {
         return impl.getAlgebraLibFile();
     }
 
+    public Map<String, MultivectorExpression> getConstants() {
+        return ((Map<String, ? extends IMultivectorExpression>) impl.getConstants())
+            .entrySet().stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                e -> MultivectorExpression.get(e.getValue())
+            ));
+    }
+
+    private static UnaryOperator<MultivectorExpression> convertUnaryOperator(UnaryOperator<IMultivectorExpression> operator) {
+        return (MultivectorExpression arg) -> {
+            IMultivectorExpression argImpl = arg.getImpl();
+            IMultivectorExpression retImpl = operator.apply(argImpl);
+            MultivectorExpression ret = MultivectorExpression.get(retImpl);
+            return ret;
+        };
+    }
+
+    private static BinaryOperator<MultivectorExpression> convertBinaryOperator(BinaryOperator<IMultivectorExpression> operator) {
+        return (MultivectorExpression arg1, MultivectorExpression arg2) -> {
+            IMultivectorExpression arg1Impl = arg1.getImpl();
+            IMultivectorExpression arg2Impl = arg2.getImpl();
+            IMultivectorExpression retImpl = operator.apply(arg1Impl, arg2Impl);
+            MultivectorExpression ret = MultivectorExpression.get(retImpl);
+            return ret;
+        };
+    }
+
+    public Map<String, UnaryOperator<MultivectorExpression>> getUnaryBuiltins() {
+        return ((Map<String, UnaryOperator<IMultivectorExpression>>) impl.getUnaryBuiltins())
+            .entrySet().stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, e -> convertUnaryOperator(e.getValue())
+            ));
+    }
+
+    public Map<String, BinaryOperator<MultivectorExpression>> getBinaryBuiltins() {
+        return ((Map<String, BinaryOperator<IMultivectorExpression>>) impl.getUnaryBuiltins())
+            .entrySet().stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, e -> convertBinaryOperator(e.getValue())
+            ));
+    }
+
     public LoopService getLoopService() {
         return LoopService.get(impl.getLoopService());
     }
@@ -87,7 +136,7 @@ public class GAFactory {
     public MultivectorVariable createVariable(String name, int grade) {
         return MultivectorVariable.get(impl.createVariable(name, grade));
     }
-    
+
     public MultivectorVariable createVariable(String name, int[] grades) {
         return MultivectorVariable.get(impl.createVariable(name, grades));
     }
@@ -109,7 +158,7 @@ public class GAFactory {
     public MultivectorValue createValueRandom(int[] grades) {
         return MultivectorValue.get(impl.createValueRandom(grades));
     }
-    
+
     // functions
     public GAFunction createFunction(String name, List<? extends MultivectorVariable> parameters,
         List<? extends MultivectorExpression> returns) {
