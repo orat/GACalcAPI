@@ -2,7 +2,6 @@ package de.orat.math.gacalc.util;
 
 import static de.orat.math.gacalc.util.GeometricObject.eps;
 import java.util.Arrays;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.math3.util.Precision;
 
 /**
