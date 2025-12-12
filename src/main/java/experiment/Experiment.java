@@ -398,7 +398,7 @@ public class Experiment {
     }
 
     public static void main(String[] args) {
-        CombinationIteratorIntArray it = new CombinationIteratorIntArray(20);
+        CombinationIteratorIntArray it = new CombinationIteratorIntArray(2);
 
         while (it.hasNext()) {
             int[] c = it.next();
