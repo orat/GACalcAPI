@@ -108,14 +108,6 @@ public class GAFactory {
         return LoopService.get(impl.getLoopService());
     }
 
-    public ConstantsExpression constantsExpr() {
-        return ConstantsExpression.get(impl.constantsExpr());
-    }
-
-    public ConstantsValue constantsValue() {
-        return ConstantsValue.get(impl.constantsValue());
-    }
-
     //------- symbolic
     public MultivectorVariable createVariable(String name, MultivectorExpression from) {
         return MultivectorVariable.get(impl.createVariable(name, from.getImpl()));
@@ -172,20 +164,5 @@ public class GAFactory {
     //======================================================
     public MultivectorExpression createExpr(double scalar) {
         return MultivectorExpression.get(impl.createExpr(scalar));
-    }
-
-    //======================================================
-    // For up projection from euclidean space
-    //======================================================
-    public SparseDoubleMatrix createE(double x, double y, double z) {
-        return impl.createE(x, y, z);
-    }
-
-    public SparseDoubleMatrix createInf(double scalar) {
-        return impl.createBaseVectorInfinity(scalar);
-    }
-
-    public SparseDoubleMatrix createOrigin(double scalar) {
-        return impl.createBaseVectorOrigin(scalar);
     }
 }

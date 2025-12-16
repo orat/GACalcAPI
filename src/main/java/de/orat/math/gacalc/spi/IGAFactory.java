@@ -62,10 +62,6 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
 
     ILoopService getLoopService();
 
-    IConstantsExpression<EXPR> constantsExpr();
-
-    IConstantsValue<VAL, EXPR> constantsValue();
-
     VAR createVariable(String name, EXPR from);
 
     VAR createVariable(String name, MatrixSparsity sparsity);
@@ -92,40 +88,4 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
     VAL createValueRandom();
 
     VAL createValueRandom(int[] grades);
-
-    // Part of public API in GAFactory
-    SparseDoubleMatrix createE(double x, double y, double z);
-
-    SparseDoubleMatrix createBaseVectorOrigin(double scalar);
-
-    SparseDoubleMatrix createBaseVectorInfinity(double scalar);
-
-    // Used to build constants in IConstants
-    SparseDoubleMatrix createScalar(double scalar);
-
-    SparseDoubleMatrix createBaseVectorX(double scalar);
-
-    SparseDoubleMatrix createBaseVectorY(double scalar);
-
-    SparseDoubleMatrix createBaseVectorZ(double scalar);
-
-    SparseDoubleMatrix createEpsilonPlus();
-
-    SparseDoubleMatrix createEpsilonMinus();
-
-    SparseDoubleMatrix createMinkovskiBiVector();
-
-    SparseDoubleMatrix createEuclideanPseudoscalar();
-
-    SparseDoubleMatrix createPseudoscalar();
-
-    SparseDoubleMatrix createInversePseudoscalar();
-
-    SparseDoubleMatrix createBaseVectorInfinityDorst();
-
-    SparseDoubleMatrix createBaseVectorOriginDorst();
-
-    SparseDoubleMatrix createBaseVectorInfinityDoran();
-
-    SparseDoubleMatrix createBaseVectorOriginDoran();
 }

@@ -57,13 +57,15 @@ public interface IMultivector<MV extends IMultivector<MV>> {
 
     int[] grades();
 
-    IConstants<MV> constants();
+    MV getSparseEmptyInstance();
+
+    MV createScalar(double scalar);
 
     //======================================================
     // Operators
     //======================================================
     default MV commutatorProduct(MV rhs) {
-        return gp(rhs).sub(rhs.gp((MV) this)).gp(constants().half());
+        return gp(rhs).sub(rhs.gp((MV) this)).gp(createScalar(0.5d));
     }
 
     default MV projection(MV rhs) {
@@ -131,7 +133,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     // ungetested
     default MV gradeInversion() {
         int[] grades = grades();
-        MV result = constants().getSparseEmptyInstance();
+        MV result = getSparseEmptyInstance();
         for (int i = 0; i < grades.length; i++) {
             MV res = gradeSelection(grades[i]).gpWithScalar(Math.pow(-1, grades[i]));
             result = result.add(res);
@@ -176,7 +178,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     default MV op(MV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        MV result = constants().getSparseEmptyInstance();
+        MV result = getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 //System.out.println("op:grade(a)="+String.valueOf(grades_a[i])+
@@ -213,7 +215,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     default MV lc(MV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        MV result = constants().getSparseEmptyInstance();
+        MV result = getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_b[j] - grades_a[i];
@@ -236,16 +238,16 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * @param rhs
      * @return
      */
-    default MV lc_(MV rhs) {
-        return op(rhs.gp(constants().getInversePseudoscalar())).gp(constants().getPseudoscalar());
-    }
+    //default MV lc_(MV rhs) {
+    //    return op(rhs.gp(getInversePseudoscalar())).gp(getPseudoscalar());
+    //}
 
     //TODO
     // könnte auch via reversion implementiert werden auf Basis von lc
     default MV rc(MV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        MV result = constants().getSparseEmptyInstance();
+        MV result = getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_a[i] - grades_b[j];
@@ -267,7 +269,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     default MV scp(MV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        MV result = constants().getSparseEmptyInstance();
+        MV result = getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 if (grades_a[i] == grades_b[j]) {
@@ -292,7 +294,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     default MV dot(MV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        MV result = constants().getSparseEmptyInstance();
+        MV result = getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
@@ -323,7 +325,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     default MV ip(MV b) {
         int[] grades_a = grades();
         int[] grades_b = b.grades();
-        MV result = constants().getSparseEmptyInstance();
+        MV result = getSparseEmptyInstance();
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);

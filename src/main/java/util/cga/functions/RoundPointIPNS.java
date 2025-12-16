@@ -36,6 +36,7 @@ public class RoundPointIPNS extends EuclideanTypeFunction {
         return new ParametersAndReturns(parameters, returns);
     }
 
+    /*
     public MultivectorValue up(double x, double y, double z) throws Exception {
         double infValue = 0.5 * (x * x + y * y + z * z);
         MultivectorValue o = fac.createValue(fac.createOrigin(1d));
@@ -48,6 +49,7 @@ public class RoundPointIPNS extends EuclideanTypeFunction {
         arguments.add(E);
         return (MultivectorValue) upFunctionSymbolic.callValue(arguments).get(0);
     }
+     */
 
     final static ParametersAndReturns createDownParametersAndReturns() {
         MultivectorExpression mv = fac.createVariableDense("mv");
