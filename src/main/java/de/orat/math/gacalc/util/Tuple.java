@@ -16,6 +16,12 @@ public class Tuple {
         this.values = new double[values.length];
         System.arraycopy(values, 0, this.values, 0, values.length);
     }
+    public Tuple(Double[] values){
+        this.values = new double[values.length];
+        for (int i=0;i<values.length;i++){
+            this.values[i] = values[i];
+        }
+    }
     
     public String toString(){
         StringBuilder sb = new StringBuilder();
