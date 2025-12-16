@@ -143,36 +143,16 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     /**
      * Dual.
      *
-     * Generic GA poincare duality operator based on geometric product and inverse pseudoscalar.<p>
-     *
-     * This implementation only works for non-degenerate metrics and even for those a more efficient
-     * implementation is possible.<p>
-     *
      * @param a
      * @return !a
      */
-    default MV dual() {
-        // scheint beides zu funktionieren
-        return lc(constants().getInversePseudoscalar());
-        //return gp(inversePseudoscalar());
-    }
+    MV dual();
 
     /**
-     * Generic GA poincare unduality operator based on geometric product and pseudoscalar.
-     *
-     * not tested
+     * Undual.
      *
      * @return
      */
-    /*default IMVSymbolic undual(){
-        // alternativ könnte das auch via GA generic via gradeselection implementiert werden
-        // nur nicht hier im Interface, da sonst Methoden zurm symoblischen Rechnen von scalars
-        // benötigt würden.
-        return gp(pseudoscalar());
-    }*/
-    //TODO
-    // default impl? sollte möglich sein ist dann aber nicht so performant, da das
-    // Vorzeichen je nach GA model bestimmt werden muss.
     MV undual();
 
     /**

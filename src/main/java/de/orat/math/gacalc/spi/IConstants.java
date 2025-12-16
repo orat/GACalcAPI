@@ -12,7 +12,6 @@ public interface IConstants<MV extends IMultivector<MV>> {
      */
     MV cached(String name, Supplier<SparseDoubleMatrix> creator);
 
-    // jede
     MV getSparseEmptyInstance();
 
     MV getDenseEmptyInstance();
