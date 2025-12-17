@@ -2,7 +2,6 @@ package de.orat.math.gacalc.util;
 
 import static de.orat.math.gacalc.util.GeometricObject.eps;
 import java.util.Arrays;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -16,6 +15,12 @@ public class Tuple {
         //this.values = values; //TODO copy array
         this.values = new double[values.length];
         System.arraycopy(values, 0, this.values, 0, values.length);
+    }
+    public Tuple(Double[] values){
+        this.values = new double[values.length];
+        for (int i=0;i<values.length;i++){
+            this.values[i] = values[i];
+        }
     }
     
     public String toString(){

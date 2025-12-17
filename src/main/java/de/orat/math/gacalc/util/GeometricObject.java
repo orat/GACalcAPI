@@ -265,6 +265,7 @@ public class GeometricObject {
             case ORIENTED_POINT:
             case CIRCLE:
             case DIPOLE:
+            case POINT:
                result = false;
         }
         return result;
@@ -277,7 +278,7 @@ public class GeometricObject {
     // was ist mit ATTITUDE_SCALAR und ATTITUDE_TRIVECTOR
     // SCALAR, PSEUDO_SCALAR
     // ATTITUDE, ATTITUDE_BIVECTOR,
-    public enum GeometricType {ROUND_POINT, FLAT_POINT, PLANE, LINE, SCREW, CIRCLE, DIPOLE, SPHERE, 
+    public enum GeometricType {POINT, ROUND_POINT, FLAT_POINT, PLANE, LINE, SCREW, CIRCLE, DIPOLE, SPHERE, 
                       ORIENTED_POINT}
     
                   
@@ -287,6 +288,12 @@ public class GeometricObject {
     public static GeometricObject createRoundPoint(double[] position,  boolean isIPNS, double squaredWeight, 
                                                    Sign signOfWeight, int grade){
         return new GeometricObject(GeometricType.ROUND_POINT, Type.REAL, 
+                        getSpace(isIPNS), null, 
+                       new Tuple(position), 0d, squaredWeight, signOfWeight, grade);
+    }
+    public static GeometricObject createPoint(double[] position,  boolean isIPNS, double squaredWeight, 
+                                                   Sign signOfWeight, int grade){
+        return new GeometricObject(GeometricType.POINT, Type.REAL, 
                         getSpace(isIPNS), null, 
                        new Tuple(position), 0d, squaredWeight, signOfWeight, grade);
     }

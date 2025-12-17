@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 /**
+ * not finished
+ * 
  * Generate Cayley-tables.
  *
  * Compare with https://github.com/wandelbotsgmbh/geometricalgebra/blob/main/geometricalgebra/cayley.py
