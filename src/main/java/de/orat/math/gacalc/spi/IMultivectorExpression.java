@@ -1,9 +1,11 @@
 package de.orat.math.gacalc.spi;
 
-import de.orat.math.gacalc.api.MultivectorExpression;
+import de.orat.math.gacalc.api.MultivectorExpression.Callback;
 
 public interface IMultivectorExpression<EXPR extends IMultivectorExpression<EXPR>>
     extends IMultivector<EXPR> {
 
-    void init(MultivectorExpression.Callback callback);
+    default void init(Callback callback) {
+
+    }
 }

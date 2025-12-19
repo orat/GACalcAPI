@@ -5,7 +5,9 @@ import java.util.List;
 
 public interface IGAFunction<EXPR extends IMultivectorExpression<EXPR>, VAL extends IMultivectorValue<VAL, EXPR>> {
 
-    void init(Callback callback);
+    default void init(Callback callback) {
+
+    }
 
     String getName();
 

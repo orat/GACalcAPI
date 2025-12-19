@@ -7,7 +7,9 @@ import de.orat.math.sparsematrix.SparseDoubleMatrix;
 public interface IMultivectorValue<VAL extends IMultivectorValue<VAL, EXPR>, EXPR extends IMultivectorExpression<EXPR>>
     extends IMultivector<VAL> {
 
-    void init(Callback callback);
+    default void init(Callback callback) {
+
+    }
 
     SparseDoubleMatrix elements();
 
