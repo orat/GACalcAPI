@@ -1,7 +1,6 @@
 package de.orat.math.gacalc.spi;
 
 import de.orat.math.sparsematrix.MatrixSparsity;
-import de.orat.math.gacalc.util.CayleyTable;
 
 public interface IMultivector<MV extends IMultivector<MV>> {
 
@@ -46,16 +45,11 @@ public interface IMultivector<MV extends IMultivector<MV>> {
         return true;
     }
 
-    /**
-     * Get the Cayley-Table for the geometric product.
-     *
-     * @return
-     */
-    CayleyTable getCayleyTable();
-
     int grade();
 
     int[] grades();
+
+    int pseudoscalarGrade();
 
     MV getSparseEmptyInstance();
 
@@ -185,7 +179,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
                 //        " op:grade(b)="+String.valueOf(grades_b[j]));
                 int grade = grades_a[i] + grades_b[j];
                 //System.out.println("op:grade(result)="+String.valueOf(grade));
-                if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
+                if (grade >= 0 && grade <= pseudoscalarGrade()) {
                     //System.out.println("op:add(grade == "+String.valueOf(grade)+")");
                     MV res = gradeSelection(grades_a[i]).
                         gp(b.gradeSelection(grades_b[j])).gradeSelection(grade);
@@ -219,7 +213,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_b[j] - grades_a[i];
-                if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
+                if (grade >= 0 && grade <= pseudoscalarGrade()) {
                     MV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(grade);
@@ -251,7 +245,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = grades_a[i] - grades_b[j];
-                if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
+                if (grade >= 0 && grade <= pseudoscalarGrade()) {
                     MV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(grade);
@@ -298,7 +292,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
         for (int i = 0; i < grades_a.length; i++) {
             for (int j = 0; j < grades_b.length; j++) {
                 int grade = Math.abs(grades_b[j] - grades_a[i]);
-                if (grade >= 0 && grade <= getCayleyTable().getPseudoscalarGrade()) {
+                if (grade >= 0 && grade <= pseudoscalarGrade()) {
                     MV res = gradeSelection(grades_a[i])
                         .gp(b.gradeSelection(grades_b[j]))
                         .gradeSelection(grade);
