@@ -58,8 +58,6 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
         return builtins;
     }
 
-    int getBasisBladesCount();
-
     ILoopService getLoopService();
 
     VAR createVariable(String name, EXPR from);
