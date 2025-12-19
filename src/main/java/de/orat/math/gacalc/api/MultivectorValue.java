@@ -64,4 +64,9 @@ public class MultivectorValue extends AbstractMultivector<MultivectorValue, IMul
     public boolean isNull(double precision){
         return impl.isNull(precision);
     }
+
+    @Override
+    public String toString() {
+        return impl.toString();
+    }
 }

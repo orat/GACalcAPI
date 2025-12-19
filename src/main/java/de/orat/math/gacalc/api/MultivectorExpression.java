@@ -41,4 +41,9 @@ public class MultivectorExpression extends AbstractMultivector<MultivectorExpres
         //TODO
         // add methods needed by the spi implementation
     }
+
+    @Override
+    public String toString() {
+        return impl.toString();
+    }
 }
