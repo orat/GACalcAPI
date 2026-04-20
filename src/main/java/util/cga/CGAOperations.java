@@ -7,7 +7,7 @@ import de.orat.math.gacalc.spi.IMultivectorExpression;
  */
 public class CGAOperations {
 
-    public static <IMultivectorSymbolic extends IMultivectorExpression<IMultivectorSymbolic>> IMultivectorSymbolic generalInverse(IMultivectorSymbolic mv) {
+    public static <IMultivectorSymbolic extends IMultivectorExpression<IMultivectorSymbolic, ?, ?>> IMultivectorSymbolic generalInverse(IMultivectorSymbolic mv) {
         IMultivectorSymbolic conjugate = mv.conjugate();
         IMultivectorSymbolic gradeInversion = mv.gradeInversion();
         IMultivectorSymbolic reversion = mv.reverse();

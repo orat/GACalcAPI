@@ -24,7 +24,7 @@ public class LoopService {
         return res;
     }
 
-    protected static MultivectorExpressionArray toExprArray(IMultivectorExpressionArray<?> ifrom) {
+    protected static MultivectorExpressionArray toExprArray(IMultivectorExpressionArray<?, ?, ?> ifrom) {
         var mvList = ifrom.stream().map(MultivectorExpression::get).toList();
         var mvArray = new MultivectorExpressionArray(mvList);
         return mvArray;

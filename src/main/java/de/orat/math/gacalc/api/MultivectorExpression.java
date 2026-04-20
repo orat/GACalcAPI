@@ -1,6 +1,8 @@
 package de.orat.math.gacalc.api;
 
 import de.orat.math.gacalc.spi.IMultivectorExpression;
+import de.orat.math.gacalc.spi.IMultivectorVariable;
+import java.util.List;
 
 public class MultivectorExpression extends AbstractMultivector<MultivectorExpression, IMultivectorExpression> {
 
@@ -45,5 +47,10 @@ public class MultivectorExpression extends AbstractMultivector<MultivectorExpres
     @Override
     public String toString() {
         return impl.toString();
+    }
+
+    MultivectorExpression simplify(List<MultivectorVariable> variables) {
+        List<IMultivectorVariable> iVariables = variables.stream().map(MultivectorVariable::getImpl).toList();
+        return get_(super.impl.simplify(iVariables));
     }
 }

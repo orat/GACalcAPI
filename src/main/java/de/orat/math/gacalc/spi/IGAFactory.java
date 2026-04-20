@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
-public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR extends IMultivectorVariable<EXPR>, VAL extends IMultivectorValue<VAL, EXPR>> {
+public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR, VAR, VAL>, VAR extends IMultivectorVariable<EXPR, VAR, VAL>, VAL extends IMultivectorValue<EXPR, VAR, VAL>> {
 
     default void init(Callback callback) {
 
@@ -80,7 +80,7 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR>, VAR exten
 
     VAL createValue(double scalar);
 
-    IGAFunction<EXPR, VAL> createFunction(String name, List<? extends VAR> parameters, List<? extends EXPR> returns);
+    IGAFunction<EXPR, VAR, VAL> createFunction(String name, List<? extends VAR> parameters, List<? extends EXPR> returns);
 
     // random multivectors
     VAL createValueRandom();

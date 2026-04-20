@@ -2,11 +2,11 @@ package de.orat.math.gacalc.spi;
 
 import java.util.List;
 
-public interface ILoopService<EXPR extends IMultivectorExpression<EXPR>, VAR extends IMultivectorVariable<EXPR>, EXPR_ARRAY extends IMultivectorExpressionArray<EXPR>> {
+public interface ILoopService<EXPR extends IMultivectorExpression<EXPR, VAR, VAL>, VAR extends IMultivectorVariable<EXPR, VAR, VAL>, VAL extends IMultivectorValue<EXPR, VAR, VAL>, EXPR_ARRAY extends IMultivectorExpressionArray<EXPR, VAR, VAL>> {
 
     // Only to be used in the gacalc implementation. Not part of the gacalc API.
     // Method only needed by LoopService internally.
-    IMultivectorExpressionArray<EXPR> toExprArray(List<EXPR> from);
+    EXPR_ARRAY toExprArray(List<EXPR> from);
 
     List<EXPR_ARRAY> map(
         List<VAR> paramsSimple,
