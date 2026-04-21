@@ -14,6 +14,12 @@ public interface IMultivectorValue<EXPR extends IMultivectorExpression<EXPR, VAR
     SparseDoubleMatrix elements();
 
     EXPR toExpr();
+
+    /**
+     * Downcast. Expected to work always. Only the current subtype should be assigned to the generic
+     * parameter.
+     */
+    VAL asVAL();
     
     GeometricObject decompose(boolean isIPNS);
     
