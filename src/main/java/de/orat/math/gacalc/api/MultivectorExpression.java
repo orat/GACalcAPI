@@ -49,7 +49,7 @@ public class MultivectorExpression extends AbstractMultivector<MultivectorExpres
         return impl.toString();
     }
 
-    MultivectorExpression simplify(List<MultivectorVariable> variables) {
+    public MultivectorExpression simplify(List<MultivectorVariable> variables) {
         List<IMultivectorVariable> iVariables = variables.stream().map(MultivectorVariable::getImpl).toList();
         return get_(super.impl.simplify(iVariables));
     }
