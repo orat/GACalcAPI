@@ -10,11 +10,14 @@ public interface IMultivectorExpression<EXPR extends IMultivectorExpression<EXPR
 
     }
 
-    EXPR simplify(List<? extends VAR> variables);
-
     /**
      * Downcast. Expected to work always. Only the current subtype should be assigned to the generic
      * parameter.
      */
     EXPR asEXPR();
+
+    EXPR simplify(List<? extends VAR> variables);
+
+    String LaTeXify();
+
 }
