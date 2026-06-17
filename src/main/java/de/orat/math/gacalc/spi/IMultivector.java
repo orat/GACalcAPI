@@ -341,7 +341,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     /**
      * The regressive or vee product. (JOIN)
      *
-     * This should be implemented in a more performant way.
+     * Maybe this can be implemented in a more performant way.
      *
      * @param a first multivector
      * @param b second multivector
@@ -381,7 +381,6 @@ public interface IMultivector<MV extends IMultivector<MV>> {
 
     MV scalarSqrt();
 
-    // neu
     MV scalarSign();
 
     MV scalarSin();
@@ -421,7 +420,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     MV join(MV b);
 
     /**
-     * Euclidean/reverse norm.
+     * Euclidean/reverse norm (natural concept of norm).
      *
      * Calculate the euclidean/reverse norm. (strict positive).
      *
@@ -436,9 +435,14 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     }
 
     /**
-     * Ideal norm.
+     * Ideal norm [Dorst2020 PGA4CS, page 33].
      *
-     * Calculate the Ideal norm. (signed)
+     * Calculate the ideal/infinity/vanashing norm. (signed)
+     * 
+     * ToDo
+     * a default implementation should be possible
+     * can also be based on the Hodge-Dual, simply abs(hodge-dual(A)) and more complex if the correct sign
+     * is needed.
      */
     MV inorm();
 
@@ -467,11 +471,29 @@ public interface IMultivector<MV extends IMultivector<MV>> {
         return gp(gp(reverse()).gradeSelection(0).scalarAbs().scalarSqrt().scalarInverse());
     }
 
+    //TODO default implementation?
     //return division(norm());
-    MV normalizeBySquaredNorm(); // oder idealNorm?
+    // return divs(norm());
+    // in cga ist divs als elementwise mit sclar only definiert. Das scheint mir korrekt
+    default MV normalizeBySquaredNorm(){
+        //FIXME norm() berechnet aber doch reverse-norm und nicht squaredNorm?
+        // was ist aber genau dann squaredNorm?
+        // sollte folgende impl nicht normalizeByReverseNorm() ersetzen?
+        // gibt es ein normalize by iNorm?
+        return divs(norm());
+    }
 
     MV normalizeRotor();
 
+    /**
+     * Elementwise division with a scalar.
+     *
+     * @param s scalar
+     * @throws IllegalArgumentException if the argument is no structural scalar
+     * @return a multivector for which each component of the given multivector is divided by the given scalar
+     */
+    public MV divs(MV s);
+    
     /**
      * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix. Dies ist allerdings nicht
      * so performant wie die spezfische cga impl von generalInverse und gp.
