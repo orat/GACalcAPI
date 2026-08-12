@@ -466,14 +466,14 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
     }
 
     /**
-     * Blades containing base elements with metric 1.
+     * Blades containing base elements with metric 1. (without 0-grade scalar)
      */
     public AMV euclid() {
         return get_((IMV) impl.euclid());
     }
 
     /**
-     * Blades containing base elements with metric 0 or -1.
+     * Blades containing base elements with metric 0 or -1. (without 0-grade scalar)
      */
     public AMV idle() {
         return get_((IMV) impl.idle());

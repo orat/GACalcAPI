@@ -542,12 +542,12 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     }
 
     /**
-     * Blades containing base elements with metric 1.
+     * Blades containing base elements with metric 1. (without 0-grade scalar)
      */
     MV euclid();
 
     /**
-     * Blades containing base elements with metric 0 or -1.
+     * Blades containing base elements with metric 0 or -1. (without 0-grade scalar)
      */
     MV idle();
 }
