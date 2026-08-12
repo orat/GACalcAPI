@@ -540,4 +540,14 @@ public interface IMultivector<MV extends IMultivector<MV>> {
         // scheint mir jetzt den gleichen Vorzeichenfehler zu liefern
         // statt gp taucht im test muls(scalar) auf - elementwise Multiplication mit einem scalar
     }
+
+    /**
+     * Blades containing base elements with metric 1.
+     */
+    MV euclid();
+
+    /**
+     * Blades containing base elements with metric 0 or -1.
+     */
+    MV idle();
 }
