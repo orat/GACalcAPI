@@ -525,6 +525,9 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * @return
      */
     default MV div(MV rhs) {
+        if (rhs.isScalar()) {
+            return gp(rhs.scalarInverse());
+        }
         return gp(rhs.generalInverse());
     }
 
