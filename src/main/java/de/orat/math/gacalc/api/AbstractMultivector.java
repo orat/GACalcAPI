@@ -167,14 +167,14 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
 
     /**
      * Linear map (element-wise multiplication).
-     * 
+     *
      * @param rhs
-     * @return 
+     * @return
      */
     public AMV hadamardProduct(AMV rhs) {
         return get_((IMV) impl.hadamard(rhs.impl));
     }
-    
+
     /**
      * Scalar product.
      *
@@ -231,13 +231,14 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
         return get_((IMV) impl.log());
     }
 
-    public AMV up(){
+    public AMV up() {
         return get_((IMV) impl.up());
     }
-    public AMV down(){
+
+    public AMV down() {
         return get_((IMV) impl.down());
     }
-    
+
     /**
      * Square root.
      *
@@ -248,28 +249,34 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
     }
 
     // new scalar functions
-    
-    public AMV scalarSign(){
+    public AMV scalarSign() {
         return get_((IMV) impl.scalarSign());
     }
-    public AMV scalarSin(){
+
+    public AMV scalarSin() {
         return get_((IMV) impl.scalarSin());
     }
-    public AMV scalarCos(){
+
+    public AMV scalarCos() {
         return get_((IMV) impl.scalarCos());
     }
-    public AMV scalarTan(){
+
+    public AMV scalarTan() {
         return get_((IMV) impl.scalarTan());
     }
-    public AMV scalarAtan(){
+
+    public AMV scalarAtan() {
         return get_((IMV) impl.scalarAtan());
     }
-    public AMV scalarAsin(){
+
+    public AMV scalarAsin() {
         return get_((IMV) impl.scalarAsin());
     }
-    public AMV scalarAcos(){
+
+    public AMV scalarAcos() {
         return get_((IMV) impl.scalarAcos());
     }
+
     /**
      * Arcus tansgens 2 (Converts the coordinates (x,y) to coordinates (r, theta) and returns the angle theta
      * as the couterclockwise angle in radians between -pi and pi of the point (x,y) to the positive x-axis.)
@@ -411,10 +418,11 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
     public AMV normalize() throws IllegalArgumentException {
         return get_((IMV) impl.normalizeBySquaredNorm());
     }
+
     public AMV normalizeRotor() throws IllegalArgumentException {
         return get_((IMV) impl.normalizeRotor());
     }
-    
+
     /**
      * Absolute value if this is a scalar.
      *
@@ -456,6 +464,7 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
             return get((IMV) impl.inorm());
     }*/
     //--------------
+    @Deprecated
     public MatrixSparsity getSparsity() {
         return impl.getSparsity();
     }
@@ -477,5 +486,46 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
      */
     public AMV idle() {
         return get_((IMV) impl.idle());
+    }
+
+    public boolean isSparseEmpty() {
+        return impl.isSparseEmpty();
+    }
+
+    /**
+     * Is structural a scalar.
+     *
+     * @return
+     */
+    public boolean isScalar() {
+        return impl.isScalar();
+    }
+
+    /**
+     * isEuclid iff no idle part present.
+     */
+    public boolean isEuclid() {
+        return impl.isEuclid();
+    }
+
+    /**
+     * isIdle iff no euclid part present.
+     */
+    public boolean isIdle() {
+        return impl.isIdle();
+    }
+
+    /**
+     * Is structural euclidian.
+     *
+     * @return true, if the multivector contains only {e1, e2, e3} or a subspace, even no elements are
+     * allowed.
+     */
+    public boolean isOnlyEuclidBasevector() {
+        return impl.isOnlyEuclidBasevector();
+    }
+
+    public boolean isOnlyGrade(int grade) {
+        return impl.isOnlyGrade(grade);
     }
 }

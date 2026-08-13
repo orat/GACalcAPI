@@ -7,7 +7,12 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     //======================================================
     // Other methods
     //======================================================
+    @Deprecated
     MatrixSparsity getSparsity();
+
+    default boolean isSparseEmpty() {
+        return grades().length == 0;
+    }
 
     /**
      * Is structural a scalar.
@@ -15,15 +20,30 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * @return
      */
     default boolean isScalar() {
-        int[] rows = getSparsity().getrow();
-        if (rows.length == 0) {
-            // Structural zero
-            return true;
+        final int[] grades = grades();
+        if (grades.length == 1) {
+            // Regular scalar?
+            return grades[0] == 0;
+        } else {
+            // Structural zero?
+            return grades.length == 0;
         }
-        if (rows.length != 1) {
-            return false;
-        }
-        return rows[0] == 0;
+    }
+
+    /**
+     * isEuclid iff no idle part present.
+     */
+    default boolean isEuclid() {
+        final MV idle = this.idle();
+        return idle.isSparseEmpty();
+    }
+
+    /**
+     * isIdle iff no euclid part present.
+     */
+    default boolean isIdle() {
+        final MV euclid = this.euclid();
+        return euclid.isSparseEmpty();
     }
 
     /**
@@ -32,20 +52,21 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * @return true, if the multivector contains only {e1, e2, e3} or a subspace, even no elements are
      * allowed.
      */
-    default boolean isEuclidian() {
-        int[] rows = getSparsity().getrow();
-        if (rows.length > 3) {
-            return false;
-        }
-        for (int i = 0; i < rows.length; i++) {
-            if (rows[i] > 3 || rows[i] == 0) {
-                return false;
-            }
-        }
-        return true;
+    default boolean isOnlyEuclidBasevector() {
+        boolean isEuclid = this.isEuclid();
+        boolean isOnlyGradeOne = this.isOnlyGrade(1);
+        return isEuclid && isOnlyGradeOne;
     }
 
-    int grade();
+    default boolean isOnlyGrade(int grade) {
+        final int[] grades = grades();
+        if (grades.length == 1) {
+            return grades[0] == grade;
+        }
+        return false;
+    }
+
+    int grade() throws IllegalArgumentException; // Throws, if MV contains multiple grades.
 
     int[] grades();
 
