@@ -256,7 +256,6 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     //default MV lc_(MV rhs) {
     //    return op(rhs.gp(getInversePseudoscalar())).gp(getPseudoscalar());
     //}
-
     //TODO
     // könnte auch via reversion implementiert werden auf Basis von lc
     default MV rc(MV b) {
@@ -459,11 +458,9 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * Ideal norm [Dorst2020 PGA4CS, page 33].
      *
      * Calculate the ideal/infinity/vanashing norm. (signed)
-     * 
-     * ToDo
-     * a default implementation should be possible
-     * can also be based on the Hodge-Dual, simply abs(hodge-dual(A)) and more complex if the correct sign
-     * is needed.
+     *
+     * ToDo a default implementation should be possible can also be based on the Hodge-Dual, simply
+     * abs(hodge-dual(A)) and more complex if the correct sign is needed.
      */
     MV inorm();
 
@@ -496,7 +493,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
     //return division(norm());
     // return divs(norm());
     // in cga ist divs als elementwise mit sclar only definiert. Das scheint mir korrekt
-    default MV normalizeBySquaredNorm(){
+    default MV normalizeBySquaredNorm() {
         //FIXME norm() berechnet aber doch reverse-norm und nicht squaredNorm?
         // was ist aber genau dann squaredNorm?
         // sollte folgende impl nicht normalizeByReverseNorm() ersetzen?
@@ -514,7 +511,7 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * @return a multivector for which each component of the given multivector is divided by the given scalar
      */
     public MV divs(MV s);
-    
+
     /**
      * Das liesse sich in ga-generic implementieren durch Invertieren der gp-Matrix. Dies ist allerdings nicht
      * so performant wie die spezfische cga impl von generalInverse und gp.
@@ -574,4 +571,16 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * Blades containing base elements with metric 0 or -1. (without 0-grade scalar)
      */
     MV idle();
+
+    /**
+     * Extracts the coefficient of the blade contained in coefBladeMV into the scalar part. Throws an
+     * exception, if the argument contains multiple blades.
+     */
+    MV coef1(MV coefBladeMV);
+
+    /**
+     * Extracts the coefficient of the blade contained in coefBladeMV into the scalar part. Throws an
+     * exception, if the blade does not exist.
+     */
+    MV coef2(String... coefBladeOfBasevectors);
 }

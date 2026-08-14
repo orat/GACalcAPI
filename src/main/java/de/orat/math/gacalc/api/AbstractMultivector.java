@@ -528,4 +528,20 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
     public boolean isOnlyGrade(int grade) {
         return impl.isOnlyGrade(grade);
     }
+
+    /**
+     * Extracts the coefficient of the blade contained in coefBladeMV into the scalar part. Throws an
+     * exception, if the argument contains multiple blades.
+     */
+    public AMV coef1(AMV coefBladeMV) {
+        return get_((IMV) impl.coef1(coefBladeMV.impl));
+    }
+
+    /**
+     * Extracts the coefficient of the blade contained in coefBladeMV into the scalar part. Throws an
+     * exception, if the blade does not exist.
+     */
+    public AMV coef2(String... coefBladeOfBasevectors) {
+        return get_((IMV) impl.coef2(coefBladeOfBasevectors));
+    }
 }

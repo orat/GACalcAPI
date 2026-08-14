@@ -62,6 +62,10 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR, VAR, VAL>,
 
     VAR createVariable(String name, EXPR from);
 
+    /**
+     * Algebra implementation specific.
+     */
+    @Deprecated
     VAR createVariable(String name, MatrixSparsity sparsity);
 
     VAR createVariableDense(String name);
@@ -72,13 +76,26 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR, VAR, VAL>,
 
     VAR createVariable(String name, int[] grades);
 
+    /**
+     * use createValue().toExpr() instead.
+     */
+    @Deprecated
     default EXPR createExpr(double scalar) {
         return createValue(scalar).toExpr();
     }
 
+    /**
+     * Algebra implementation specific.
+     */
+    @Deprecated
     VAL createValue(SparseDoubleMatrix vec);
 
+    /**
+     * creates scalar
+     */
     VAL createValue(double scalar);
+
+    VAL createValue(List<String> bladeOfBasevectors, double value);
 
     IGAFunction<EXPR, VAR, VAL> createFunction(String name, List<? extends VAR> parameters, List<? extends EXPR> returns);
 

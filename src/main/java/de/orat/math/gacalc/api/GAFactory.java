@@ -121,6 +121,10 @@ public class GAFactory {
         return MultivectorVariable.get(impl.createVariableSparse(name));
     }
 
+    /**
+     * Algebra implementation specific.
+     */
+    @Deprecated
     public MultivectorVariable createVariable(String name, MatrixSparsity sparsity) {
         return MultivectorVariable.get(impl.createVariable(name, sparsity));
     }
@@ -134,12 +138,20 @@ public class GAFactory {
     }
 
     //------- numeric
+    /**
+     * Algebra implementation specific.
+     */
+    @Deprecated
     public MultivectorValue createValue(SparseDoubleMatrix vec) {
         return MultivectorValue.get(impl.createValue(vec));
     }
 
     public MultivectorValue createValue(double scalar) {
         return MultivectorValue.get(impl.createValue(scalar));
+    }
+
+    public MultivectorValue createValue(List<String> bladeOfBasevectors, double value) {
+        return MultivectorValue.get(impl.createValue(bladeOfBasevectors, value));
     }
 
     // random multivectors
@@ -162,6 +174,10 @@ public class GAFactory {
     //======================================================
     // Symbolic scalar
     //======================================================
+    /**
+     * use createValue().toExpr() instead.
+     */
+    @Deprecated
     public MultivectorExpression createExpr(double scalar) {
         return MultivectorExpression.get(impl.createExpr(scalar));
     }
