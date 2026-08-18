@@ -84,7 +84,7 @@ public class PGAMultivectorSparsity extends ColumnVectorSparsity {
      * @param nonzeros nonzeros indizes of the nonzeros
      */
     public PGAMultivectorSparsity(int[] nonzeros) {
-        super(cgaCayleyTable.getBladesCount(), nonzeros);
+        super(16, nonzeros);
     }
 
     public PGAMultivectorSparsity(double[] values, boolean sparsify) {
