@@ -21,7 +21,7 @@ public interface IMultivectorValue<EXPR extends IMultivectorExpression<EXPR, VAR
      */
     VAL asVAL();
     
-    GeometricObject decompose(boolean isIPNS);
+    GeometricObject decompose(boolean isExtrinsic);
     
     boolean isNull(double precision);
 }
