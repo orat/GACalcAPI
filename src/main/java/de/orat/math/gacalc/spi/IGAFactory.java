@@ -60,8 +60,6 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR, VAR, VAL>,
 
     ILoopService getLoopService();
 
-    VAR createVariable(String name, EXPR from);
-
     /**
      * Algebra implementation specific.
      */

@@ -109,10 +109,6 @@ public class GAFactory {
     }
 
     //------- symbolic
-    public MultivectorVariable createVariable(String name, MultivectorExpression from) {
-        return MultivectorVariable.get(impl.createVariable(name, from.getImpl()));
-    }
-
     public MultivectorVariable createVariableDense(String name) {
         return MultivectorVariable.get(impl.createVariableDense(name));
     }

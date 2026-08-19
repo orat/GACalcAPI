@@ -51,17 +51,23 @@ public class MultivectorValue extends AbstractMultivector<MultivectorValue, IMul
         return impl.elements();
     }
 
+    public double extractScalar() {
+        return impl.extractScalar();
+    }
+
+    public MultivectorVariable toVar(String name) {
+        return MultivectorVariable.get(impl.toVar(name));
+    }
+
     public MultivectorExpression toExpr() {
         return MultivectorExpression.get(impl.toExpr());
     }
 
-    public GeometricObject decompose(boolean isIPNS){
+    public GeometricObject decompose(boolean isIPNS) {
         return impl.decompose(isIPNS);
     }
-    public boolean isNull(){
-        return impl.getSparsity().isNull();
-    }
-    public boolean isNull(double precision){
+
+    public boolean isNull(double precision) {
         return impl.isNull(precision);
     }
 

@@ -10,6 +10,8 @@ public interface IMultivectorExpression<EXPR extends IMultivectorExpression<EXPR
 
     }
 
+    VAR toVar(String name);
+
     /**
      * Downcast. Expected to work always. Only the current subtype should be assigned to the generic
      * parameter.

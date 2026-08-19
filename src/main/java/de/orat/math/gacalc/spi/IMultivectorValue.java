@@ -13,6 +13,10 @@ public interface IMultivectorValue<EXPR extends IMultivectorExpression<EXPR, VAR
 
     SparseDoubleMatrix elements();
 
+    double extractScalar();
+
+    VAR toVar(String name);
+
     EXPR toExpr();
 
     /**
@@ -22,6 +26,10 @@ public interface IMultivectorValue<EXPR extends IMultivectorExpression<EXPR, VAR
     VAL asVAL();
     
     GeometricObject decompose(boolean isIPNS);
-    
+
+    default boolean isNull() {
+        return this.isSparseEmpty();
+    }
+
     boolean isNull(double precision);
 }
