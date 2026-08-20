@@ -21,4 +21,6 @@ public interface IMultivectorExpression<EXPR extends IMultivectorExpression<EXPR
     EXPR simplify(List<? extends VAR> variables);
 
     String LaTeXify();
+
+    EXPR setBlade(EXPR bladeIndexMV, EXPR scalarValue);
 }

@@ -61,4 +61,8 @@ public class MultivectorExpression extends AbstractMultivector<MultivectorExpres
     public String LaTeXify() {
         return super.impl.LaTeXify();
     }
+
+    public MultivectorExpression setBlade(MultivectorExpression bladeIndexMV, MultivectorExpression scalarValue) {
+        return get_(super.impl.setBlade(bladeIndexMV.impl, scalarValue.impl));
+    }
 }
