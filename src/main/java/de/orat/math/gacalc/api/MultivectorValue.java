@@ -63,8 +63,9 @@ public class MultivectorValue extends AbstractMultivector<MultivectorValue, IMul
         return MultivectorExpression.get(impl.toExpr());
     }
 
-    public GeometricObject decompose(boolean isIPNS) {
-        return impl.decompose(isIPNS);
+    // @return null if multivector can not decomposed into a geometric object
+    public GeometricObject decompose(boolean isExtrinsic){
+        return impl.decompose(isExtrinsic);
     }
 
     public boolean isNull(double precision) {

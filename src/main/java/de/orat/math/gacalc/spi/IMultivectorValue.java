@@ -24,8 +24,8 @@ public interface IMultivectorValue<EXPR extends IMultivectorExpression<EXPR, VAR
      * parameter.
      */
     VAL asVAL();
-    
-    GeometricObject decompose(boolean isIPNS);
+
+    GeometricObject decompose(boolean isExtrinsic);
 
     default boolean isNull() {
         return this.isSparseEmpty();

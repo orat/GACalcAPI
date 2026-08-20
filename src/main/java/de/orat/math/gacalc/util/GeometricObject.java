@@ -6,14 +6,14 @@ import static de.orat.math.gacalc.util.GeometricObject.GeometricType.ORIENTED_PO
 import static de.orat.math.gacalc.util.GeometricObject.GeometricType.ROUND_POINT;
 import static de.orat.math.gacalc.util.GeometricObject.GeometricType.SCREW;
 import static de.orat.math.gacalc.util.GeometricObject.GeometricType.SPHERE;
-import static de.orat.math.gacalc.util.GeometricObject.Space.IPNS;
-import static de.orat.math.gacalc.util.GeometricObject.Space.OPNS;
 import static de.orat.math.gacalc.util.GeometricObject.Type.IMAGINARY;
 import static de.orat.math.gacalc.util.GeometricObject.Type.REAL;
 import java.util.Arrays;
 import java.util.Objects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.math3.util.Precision;
+import static de.orat.math.gacalc.util.GeometricObject.Space.EXTRINSIC;
+import static de.orat.math.gacalc.util.GeometricObject.Space.INTRINSIC;
 
 /**
  * Geomeric objects are visuable and independent of the algebra. But not each object type is 
@@ -45,7 +45,7 @@ public class GeometricObject {
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append(geometricType.name());
-        if (isIPNS()){
+        if (isExtrinsic()){
             sb.append("_IPNS");
         } else {
             sb.append("_OPNS");
@@ -88,16 +88,16 @@ public class GeometricObject {
     public static double eps = 1e-6; // sollte eigentlich e-12 sein
 
     // with given type but not squaredSize
-    public GeometricObject(GeometricType geometricType, boolean isIPNS, Tuple attitude, Tuple location, 
+    public GeometricObject(GeometricType geometricType, boolean isExtrinsic, Tuple attitude, Tuple location, 
                    boolean isReal, double squaredWeight, Sign signOfWeight, int grade){
-        this(geometricType, getType(isReal),getSpace(isIPNS), attitude, location, 
+        this(geometricType, getType(isReal),getSpace(isExtrinsic), attitude, location, 
              Double.NaN, squaredWeight, signOfWeight, grade);
     }
     
     // Type determined from squaredSize, ipns given as boolean 
-    public GeometricObject(GeometricType geometricType, boolean isIPNS, Tuple attitude, Tuple location, 
+    public GeometricObject(GeometricType geometricType, boolean isExtrinsic, Tuple attitude, Tuple location, 
                    double squaredSize, double squaredWeight, Sign signOfWeight, int grade){
-         this(geometricType, getSpace(isIPNS), attitude, location, squaredSize, squaredWeight, signOfWeight, grade);
+         this(geometricType, getSpace(isExtrinsic), attitude, location, squaredSize, squaredWeight, signOfWeight, grade);
     }
     // Type determined from squaredSize, ipns given as getSpace
     public GeometricObject(GeometricType geometricType, Space space, Tuple attitude, Tuple location, 
@@ -188,9 +188,9 @@ public class GeometricObject {
     }
     
     // create DIPOLE
-    public GeometricObject(boolean isIPNS, Type type, Tuple location1, Tuple location2, 
+    public GeometricObject(boolean isExtrinsic, Type type, Tuple location1, Tuple location2, 
         double squaredWeight, Sign signOfWeight, int grade){
-        this(getSpace(isIPNS), type, location1, location2, squaredWeight, signOfWeight, grade);
+        this(getSpace(isExtrinsic), type, location1, location2, squaredWeight, signOfWeight, grade);
     }
     public GeometricObject(Space space, Type type, Tuple location1, Tuple location2,
         double squaredWeight, Sign signOfWeight, int grade){
@@ -205,9 +205,9 @@ public class GeometricObject {
         this.attitude = location2.sub(location1).normalize();
     }
     
-    private static Space getSpace(boolean isIPNS){
-        if (isIPNS) return Space.IPNS;
-        return Space.OPNS;
+    private static Space getSpace(boolean isExtrinsic){
+        if (isExtrinsic) return Space.EXTRINSIC;
+        return Space.INTRINSIC;
     }
     private static Type getType(boolean isReal){
         if (isReal) return Type.REAL;
@@ -238,7 +238,7 @@ public class GeometricObject {
         return result;
     }
     
-    public enum Space {IPNS, OPNS}
+    public enum Space {EXTRINSIC, INTRINSIC}
     public enum Type {REAL, IMAGINARY} // ergibt sich vermutlich aus dem Vorzeichen von sizeSquare, d.h. muss nicht in den Konstruktor mit aufgenommen werden
     
     public enum Sign {POSITIVE, NEGATIVE, UNKNOWN}
@@ -251,11 +251,11 @@ public class GeometricObject {
     public boolean isReal(){
         return (type.equals(REAL));
     }
-    public boolean isIPNS(){
-        return (space.equals(IPNS));
+    public boolean isExtrinsic(){ // ipns
+        return (space.equals(EXTRINSIC));
     }
-    public boolean isOPNS(){
-        return (space.equals(OPNS));
+    public boolean isIntrinsic(){ // opns
+        return (space.equals(INTRINSIC));
     }
     public boolean isFlat(){
         boolean result = true;
@@ -285,75 +285,75 @@ public class GeometricObject {
     // compose geometric objects
     
     // round
-    public static GeometricObject createRoundPoint(double[] position,  boolean isIPNS, double squaredWeight, 
+    public static GeometricObject createRoundPoint(double[] position,  boolean isExtrinsic, double squaredWeight, 
                                                    Sign signOfWeight, int grade){
         return new GeometricObject(GeometricType.ROUND_POINT, Type.REAL, 
-                        getSpace(isIPNS), null, 
+                        getSpace(isExtrinsic), null, 
                        new Tuple(position), 0d, squaredWeight, signOfWeight, grade);
     }
-    public static GeometricObject createPoint(double[] position,  boolean isIPNS, double squaredWeight, 
+    public static GeometricObject createPoint(double[] position,  boolean isExtrinsic, double squaredWeight, 
                                                    Sign signOfWeight, int grade){
         return new GeometricObject(GeometricType.POINT, Type.REAL, 
-                        getSpace(isIPNS), null, 
+                        getSpace(isExtrinsic), null, 
                        new Tuple(position), 0d, squaredWeight, signOfWeight, grade);
     }
     // round
-    public static GeometricObject createSphere(double[] position,  boolean isIPNS, double radius, 
+    public static GeometricObject createSphere(double[] position,  boolean isExtrinsic, double radius, 
                                                double squaredWeight, Sign signOfWeight, int grade){
         return new GeometricObject(GeometricType.SPHERE, getTypeFromRadius(radius),
-                        getSpace(isIPNS), null, 
+                        getSpace(isExtrinsic), null, 
                        new Tuple(position), radius*radius, squaredWeight, signOfWeight, grade);
     }
     
     // flat
-    public static GeometricObject createPlane(boolean isIPNS, double[] direction, double[] position, 
+    public static GeometricObject createPlane(boolean isExtrinsic, double[] direction, double[] position, 
                                               double squaredWeight, Sign signOfWeight, int grade){
         return new GeometricObject(GeometricType.PLANE, Type.REAL, 
-                      getSpace(isIPNS), new Tuple(direction), 
+                      getSpace(isExtrinsic), new Tuple(direction), 
                        new Tuple(position), Double.NaN, squaredWeight, signOfWeight, grade);
     }
     
     // flat
-    public static GeometricObject createLine(double[] position, double[] direction, boolean isIPNS,
+    public static GeometricObject createLine(double[] position, double[] direction, boolean isExtrinsic,
         double squaredWeight, Sign signOfWeight, int grade){
         return new GeometricObject(GeometricType.LINE, Type.REAL, 
-                      getSpace(isIPNS), new Tuple(direction), 
+                      getSpace(isExtrinsic), new Tuple(direction), 
                        new Tuple(position), Double.NaN, squaredWeight, signOfWeight, grade);
     }
     // flat
     public static GeometricObject createScrewAxis(double[] position, double[] direction, double pitch, 
-        boolean isIPNS, double squaredWeight, int grade){
+        boolean isExtrinsic, double squaredWeight, int grade){
         //TODO
         throw new RuntimeException("not yet implemented!");
     }
       
     //round
-    public static GeometricObject createDipole(boolean isIPNS, boolean isReal, double[] position1, double[] position2, 
+    public static GeometricObject createDipole(boolean isExtrinsic, boolean isReal, double[] position1, double[] position2, 
                                          double squaredWeight, Sign signOfWeight, int grade){
         Tuple p1 = new Tuple(position1);
         Tuple p2 = new Tuple(position2);
-        return new GeometricObject(getSpace(isIPNS), getType(isReal), 
+        return new GeometricObject(getSpace(isExtrinsic), getType(isReal), 
                        p1, p2,  squaredWeight,  signOfWeight, grade);
     }
     // flat
-    public static GeometricObject createFlatPoint(boolean isIPNS, double[] position, double[] direction, 
+    public static GeometricObject createFlatPoint(boolean isExtrinsic, double[] position, double[] direction, 
                                          double squaredWeight, Sign signOfWeight, int grade){
-        return new GeometricObject(GeometricType.FLAT_POINT, Type.REAL, getSpace(isIPNS), 
+        return new GeometricObject(GeometricType.FLAT_POINT, Type.REAL, getSpace(isExtrinsic), 
                     new Tuple(direction), new Tuple(position), Double.NaN, squaredWeight, signOfWeight, grade);
     }
     
     // round
-    public static GeometricObject createCircle(boolean isIPNS, boolean isReal, double[] position, double[] direction, 
+    public static GeometricObject createCircle(boolean isExtrinsic, boolean isReal, double[] position, double[] direction, 
                                         double squaredRadius, double squaredWeight, Sign signOfWeight, int grade){
-         return new GeometricObject(GeometricType.CIRCLE, getType(isReal), getSpace(isIPNS), 
+         return new GeometricObject(GeometricType.CIRCLE, getType(isReal), getSpace(isExtrinsic), 
                     new Tuple(direction), new Tuple(position), squaredRadius, squaredWeight, 
                                          signOfWeight, grade);
     }
     // round?
-    public static GeometricObject createOrientedPoint(boolean isIPNS, boolean isReal, double[] position, 
+    public static GeometricObject createOrientedPoint(boolean isExtrinsic, boolean isReal, double[] position, 
                                         double[] direction, double squaredWeight, Sign signOfWeight, int grade){
          return new GeometricObject(GeometricType.ORIENTED_POINT, getType(isReal),
-                                    getSpace(isIPNS), 
+                                    getSpace(isExtrinsic), 
                     new Tuple(direction), new Tuple(position), 0d, squaredWeight, signOfWeight, grade);
     }
 
