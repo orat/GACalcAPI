@@ -55,6 +55,7 @@ public class MultivectorValue extends AbstractMultivector<MultivectorValue, IMul
         return MultivectorExpression.get(impl.toExpr());
     }
 
+    // @return null if multivector can not decomposed into a geometric object
     public GeometricObject decompose(boolean isExtrinsic){
         return impl.decompose(isExtrinsic);
     }
