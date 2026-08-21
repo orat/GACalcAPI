@@ -434,17 +434,6 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
         return get_((IMV) impl.scalarAbs());
     }
 
-    /**
-     * Negate the signs of the vector- and 4-vector parts of an multivector.
-     *
-     * Usable to implement gerneral inverse.
-     *
-     * @return negatate14(this)
-     */
-    public AMV negate14() {
-        return get_((IMV) impl.negate14());
-    }
-
     //======================================================
     // Other
     //======================================================

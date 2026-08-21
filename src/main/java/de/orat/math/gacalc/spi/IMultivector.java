@@ -393,8 +393,6 @@ public interface IMultivector<MV extends IMultivector<MV>> {
         return add(b.gpWithScalar(-1d));
     }
 
-    MV negate14();
-
     MV scalarAbs();
 
     MV scalarAtan2(MV y);
