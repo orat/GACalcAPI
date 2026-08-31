@@ -167,6 +167,10 @@ public class GAFactory {
         return GAFunction.get(impl.createFunction(name, iParameters, iReturns));
     }
 
+    public GAFunctionSpecializationCache newCache() {
+        return new GAFunctionSpecializationCache(impl.newCache());
+    }
+
     //======================================================
     // Symbolic scalar
     //======================================================

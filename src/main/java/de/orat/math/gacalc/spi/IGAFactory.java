@@ -97,6 +97,8 @@ public interface IGAFactory<EXPR extends IMultivectorExpression<EXPR, VAR, VAL>,
 
     IGAFunction<EXPR, VAR, VAL> createFunction(String name, List<? extends VAR> parameters, List<? extends EXPR> returns);
 
+    IGAFunctionSpecializationCache<EXPR, VAR, VAL> newCache();
+
     // random multivectors
     VAL createValueRandom();
 
