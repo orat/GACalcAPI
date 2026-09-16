@@ -18,4 +18,8 @@ public interface IGAFunction<EXPR extends IMultivectorExpression<EXPR, VAR, VAL>
     List<EXPR> callExpr(List<? extends EXPR> arguments);
 
     List<VAL> callValue(List<? extends VAL> arguments);
+
+    List<VAR> getParameters();
+
+    void generateC(String path, String fileName);
 }

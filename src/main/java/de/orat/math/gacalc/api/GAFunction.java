@@ -4,6 +4,7 @@ import java.util.List;
 import de.orat.math.gacalc.spi.IGAFunction;
 import de.orat.math.gacalc.spi.IMultivectorExpression;
 import de.orat.math.gacalc.spi.IMultivectorValue;
+import de.orat.math.gacalc.spi.IMultivectorVariable;
 
 public class GAFunction {
 
@@ -61,5 +62,15 @@ public class GAFunction {
     @Override
     public String toString() {
         return this.impl.toString();
+    }
+
+    public List<MultivectorVariable> getParameters() {
+        List<IMultivectorVariable> iParams = this.impl.getParameters();
+        List<MultivectorVariable> params = iParams.stream().map(MultivectorVariable::get).toList();
+        return params;
+    }
+
+    public void generateC(String path, String fileName) {
+        this.impl.generateC(path, fileName);
     }
 }
