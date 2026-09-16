@@ -28,9 +28,6 @@ public class GAFunction {
         Callback(GAFunction api) {
             this.api = api;
         }
-
-        //TODO
-        // add methods needed by the spi implementation
     }
 
     public String getName() {
@@ -68,6 +65,12 @@ public class GAFunction {
         List<IMultivectorVariable> iParams = this.impl.getParameters();
         List<MultivectorVariable> params = iParams.stream().map(MultivectorVariable::get).toList();
         return params;
+    }
+
+    public List<MultivectorExpression> toExprs() {
+        List<IMultivectorVariable> iExprs = this.impl.toExprs();
+        List<MultivectorExpression> exprs = iExprs.stream().map(MultivectorExpression::get).toList();
+        return exprs;
     }
 
     public void generateC(String path, String fileName) {
