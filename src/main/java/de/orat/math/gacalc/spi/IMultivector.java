@@ -581,4 +581,6 @@ public interface IMultivector<MV extends IMultivector<MV>> {
      * exception, if the blade does not exist.
      */
     MV coef2(String... coefBladeOfBasevectors);
+
+    MV filterGrade(int grade);
 }

@@ -533,4 +533,8 @@ abstract class AbstractMultivector<AMV extends AbstractMultivector<AMV, IMV>, IM
     public AMV coef2(String... coefBladeOfBasevectors) {
         return get_((IMV) impl.coef2(coefBladeOfBasevectors));
     }
+
+    public AMV filterGrade(int grade) {
+        return get_((IMV) impl.filterGrade(grade));
+    }
 }
