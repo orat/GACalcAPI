@@ -53,6 +53,15 @@ public final class GAServiceLoader {
             .map(GAFactory::get);
     }
 
+    /**
+     * Caution: Mltiple implementations of the same algebra could be returned!
+     */
+    public List<GAFactory> getGAFactories() {
+        return loader.stream().map(Provider::get)
+            .map(GAFactory::get)
+            .toList();
+    }
+
     public static GAFactory getGAFactoryThrowing(String algebra, String implementation) throws NoSuchElementException {
         return GAServiceLoader.instance().getGAFactory(algebra, implementation).orElseThrow();
     }
