@@ -54,7 +54,7 @@ public final class GAServiceLoader {
     }
 
     /**
-     * Caution: Mltiple implementations of the same algebra could be returned!
+     * Caution: Multiple implementations of the same algebra could be returned!
      */
     public List<GAFactory> getGAFactories() {
         return loader.stream().map(Provider::get)
